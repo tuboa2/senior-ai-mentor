@@ -12,10 +12,10 @@ from typing import Optional
 if __package__ is None or __package__ == "":
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from senior_mentor.orchestrator import Orchestrator, OrchestratorResponse
-    from senior_mentor.config import MentorConfig
+    from senior_mentor.config import MentorConfig, is_antigravity_cli, enforce_antigravity_cli
 else:
     from .orchestrator import Orchestrator, OrchestratorResponse
-    from .config import MentorConfig
+    from .config import MentorConfig, is_antigravity_cli, enforce_antigravity_cli
 
 # ANSI terminal formatting
 BOLD = "\033[1m"
@@ -27,16 +27,63 @@ MAGENTA = "\033[35m"
 BLUE = "\033[34m"
 RESET = "\033[0m"
 
+def print_antigravity_required_error() -> None:
+    error_msg = f"""
+{BOLD}{RED}================================================================================{RESET}
+{BOLD}{RED} 🚫 ACCESS RESTRICTED: STRICTLY ANTIGRAVITY CLI ONLY                           {RESET}
+{BOLD}{RED}================================================================================{RESET}
+
+{BOLD}Senior AI Engineering Mentor is strictly configured to operate within the
+Google Antigravity CLI ('agy') environment. Independent terminal use is disabled.{RESET}
+
+To interact with the Senior AI Mentor & the 14-member Expert Council:
+  1. Open your project repository in your terminal.
+  2. Launch Antigravity CLI:
+     {BOLD}{CYAN}$ agy{RESET}
+
+  3. Pair program directly within your Antigravity CLI chat session!
+     You can chat naturally or use mentor slash commands:
+       {GREEN}/council <topic>{RESET}       Deliberate trade-offs without false compromise
+       {GREEN}/mentor <query>{RESET}        Request L3-L5 Socratic scaffolding
+       {GREEN}/solve <query>{RESET}         Request direct production code & derivations
+       {GREEN}/hint{RESET}                  Get progressive concept clues
+       {GREEN}/challenge <concept>{RESET}   Attempt isomorphic concept transfer exercises
+       {GREEN}/interview [domain]{RESET}    Launch senior mock technical interviews
+       {GREEN}/status{RESET}                View competency ratings & ZPD diagnostics
+
+{YELLOW}Note: To initialize this workspace for Antigravity CLI, run:{RESET}
+  {CYAN}$ ANTIGRAVITY_CLI=1 python3 -m senior_mentor.cli --init{RESET}
+{BOLD}{RED}================================================================================{RESET}
+"""
+    print(error_msg, file=sys.stderr)
+
 class MentorCLI:
     def __init__(self):
         self.orchestrator = Orchestrator()
 
-    def print_banner(self) -> None:
+    def print_antigravity_welcome(self) -> None:
         print(f"\n{BOLD}{CYAN}================================================================={RESET}")
         print(f"{BOLD}{CYAN}       SENIOR AI ENGINEERING MENTOR & EXPERT COUNCIL             {RESET}")
-        print(f"{BOLD}{CYAN}             Adaptive Scaffolding & Engineering Judgment         {RESET}")
+        print(f"{BOLD}{CYAN}              (Strictly Antigravity CLI Environment)             {RESET}")
         print(f"{BOLD}{CYAN}================================================================={RESET}")
-        print(f"{BLUE}Commands: /status, /profile, /council <topic>, /solve <q>, /mentor <q>, /hint, /challenge, /skills, /exit{RESET}\n")
+        print(f"{GREEN}✓ Antigravity CLI Environment Verified.{RESET}")
+        print(f"{CYAN}You do not need a separate terminal REPL. Chat directly in this Antigravity CLI session!{RESET}\n")
+        print(f"{BOLD}Active Mentorship Slash Commands in agy:{RESET}")
+        print(f"  {GREEN}/council <topic>{RESET}      - Deliberate technical trade-offs (14 expert personas)")
+        print(f"  {GREEN}/mentor <query>{RESET}       - Adaptive Socratic scaffolding (L3-L5)")
+        print(f"  {GREEN}/solve <query>{RESET}        - Direct production implementation (L0-L2)")
+        print(f"  {GREEN}/hint{RESET}                 - Progressive clue without spoilers")
+        print(f"  {GREEN}/challenge <concept>{RESET}  - Isomorphic concept challenge")
+        print(f"  {GREEN}/interview [domain]{RESET}   - Senior mock technical interview")
+        print(f"  {GREEN}/status{RESET}               - Learner profile & competency score")
+        print(f"  {GREEN}/refine{RESET}               - View autonomous self-improvement proposals")
+        print(f"\n{BOLD}CLI Helper Flags for Antigravity Agents:{RESET}")
+        print(f"  --status          Display current competency metrics")
+        print(f"  --skills          List installed Tier 0 & Tier 1 skills")
+        print(f"  --audit <path>    Run AST security audit on a skill")
+        print(f"  --discover <task> Search and audit external Tier 2 skills")
+        print(f"  --init [path]     Initialize workspace for Antigravity CLI")
+        print()
 
     def format_response(self, resp: OrchestratorResponse) -> str:
         out = []
@@ -147,70 +194,33 @@ class MentorCLI:
         print()
 
     def run_repl(self) -> None:
-        self.print_banner()
-        while True:
-            try:
-                user_input = input(f"{BOLD}{GREEN}mentor> {RESET}").strip()
-                if not user_input:
-                    continue
-                if user_input.lower() in ("/exit", "/quit", "exit", "quit"):
-                    print("Exiting Senior Mentor session. Keep building!")
-                    break
-                elif user_input.lower() == "/status":
-                    self.print_status()
-                elif user_input.lower() == "/skills":
-                    self.print_skills()
-                elif user_input.lower() == "/refine":
-                    proposals = self.orchestrator.self_improvement.analyze_improvement_opportunities()
-                    print(f"\n{BOLD}{CYAN}--- AUTONOMOUS SELF-IMPROVEMENT PROPOSALS (Phase 7) ---{RESET}")
-                    if not proposals:
-                        print("No pending refinement proposals. System running at target accuracy.")
-                    for p in proposals:
-                        print(f"• {BOLD}{GREEN}{p.target_component}{RESET} ({p.current_version} -> {p.proposed_version})")
-                        print(f"  Rationale: {p.rationale}")
-                        print(f"  Suggested Changes: {p.suggested_changes}\n")
-                elif user_input.startswith("/feedback "):
-                    fb_text = user_input[10:].strip()
-                    self.orchestrator.self_improvement.capture_correction(context="User manual feedback", user_correction=fb_text)
-                    print(f"{GREEN}✓ Feedback captured in self-improvement loop.{RESET}")
-                elif user_input.startswith("/discover "):
-                    task = user_input[10:].strip()
-                    print(f"\n{BOLD}{CYAN}Searching Tier 2 skills catalog for task: '{task}'...{RESET}")
-                    matches = self.orchestrator.skill_manager.discover_skills_for_task(task)
-                    if not matches:
-                        print("No matching candidate skills found.")
-                    for m in matches:
-                        badge = f"{GREEN}[SAFE: {m['risk_level']}]{RESET}" if m['is_safe'] else f"{RED}[BLOCKED: {m['risk_level']}]{RESET}"
-                        print(f"• {BOLD}{m['name']}{RESET} {badge}")
-                        print(f"  Path: {m['path']}")
-                        print(f"  Description: {m['description'][:120]}...\n")
-                elif user_input.startswith("/audit "):
-                    target = user_input[7:].strip()
-                    report = self.orchestrator.skill_manager.audit_skill(target)
-                    print(f"\nAudit Report for '{report.skill_name}':")
-                    print(f"Is Safe: {report.is_safe} | Risk Level: {report.risk_level}")
-                    for f in report.findings:
-                        print(f"  [{f.severity}] {f.category} in {f.file}:{f.line_number} - {f.message}")
-                    print()
-                else:
-                    resp = self.orchestrator.process_query(user_input)
-                    print(self.format_response(resp))
-                    print()
-            except (KeyboardInterrupt, EOFError):
-                print("\nExiting.")
-                break
+        """Disabled: Standalone terminal REPL is not permitted."""
+        raise RuntimeError(
+            "Standalone terminal REPL is disabled. Senior AI Engineering Mentor "
+            "is strictly configured for use within Antigravity CLI ('agy'). "
+            "Launch 'agy' in your terminal and pair program directly within your Antigravity session."
+        )
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Senior AI Engineering Mentor CLI.")
-    parser.add_argument("--version", action="version", version="senior-mentor 1.0.0")
-    parser.add_argument("query", nargs="?", help="One-shot query to ask the mentor")
+    # Check if this is an initialization command
+    is_init = ("--init" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "init"))
+
+    if not is_antigravity_cli() and not is_init:
+        print_antigravity_required_error()
+        sys.exit(1)
+
+    parser = argparse.ArgumentParser(
+        description="Senior AI Engineering Mentor (Strictly Antigravity CLI Only)."
+    )
+    parser.add_argument("--version", action="version", version="senior-mentor 1.0.0 (Antigravity CLI)")
+    parser.add_argument("query", nargs="?", help="One-shot query for Antigravity subagent invocation")
     parser.add_argument("--status", action="store_true", help="Print learner status and competency report")
     parser.add_argument("--skills", action="store_true", help="List installed Tier 0 and Tier 1 skills")
     parser.add_argument("--audit", help="Run security audit on a skill folder or name")
     parser.add_argument("--discover", help="Discover and audit Tier 2 external skills for a specific task")
     parser.add_argument("--refine", action="store_true", help="View autonomous self-improvement proposals")
     parser.add_argument("--interview", nargs="?", const="system_design", help="Launch mock technical interview")
-    parser.add_argument("--init", nargs="?", const=".", help="Initialize a project workspace for Senior Engineering Mentor")
+    parser.add_argument("--init", nargs="?", const=".", help="Initialize a project workspace for Antigravity CLI")
     args = parser.parse_args()
 
     cli = MentorCLI()
@@ -222,14 +232,15 @@ def main() -> None:
         except (ImportError, ValueError):
             from senior_mentor.initializer import initialize_workspace
         res = initialize_workspace(target_path, enable_global=True)
-        print(f"\n{BOLD}{GREEN}✓ Initialized Senior Engineering Mentor in: {target_path}{RESET}")
+        print(f"\n{BOLD}{GREEN}✓ Initialized Senior Engineering Mentor for Antigravity CLI in: {target_path}{RESET}")
         for m in res["messages"]:
             print(f"  • {m}")
         if res["created_files"]:
             print(f"\nCreated/Updated {len(res['created_files'])} configuration files:")
             for f in res["created_files"]:
                 print(f"  + {f}")
-        print(f"\n{CYAN}This project is now configured for both local Antigravity pair programming and global memory persistence.{RESET}\n")
+        print(f"\n{CYAN}This project is now configured for Antigravity CLI pair programming.{RESET}")
+        print(f"{BOLD}Run {GREEN}agy{RESET}{BOLD} to begin!{RESET}\n")
         return
     elif args.status:
         cli.print_status()
@@ -267,7 +278,7 @@ def main() -> None:
         resp = cli.orchestrator.process_query(args.query)
         print(cli.format_response(resp))
     else:
-        cli.run_repl()
+        cli.print_antigravity_welcome()
 
 if __name__ == "__main__":
     main()

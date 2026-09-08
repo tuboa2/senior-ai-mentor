@@ -23,6 +23,7 @@ This repository adheres to the architectural design specified in [`blueprint.md`
 When proposing changes, ensure your contributions honor these foundational tenets:
 
 - **Zero External Dependencies:** Core functionality (`senior_mentor/`) relies exclusively on the Python 3.10+ standard library (`sqlite3`, `ast`, `re`, `argparse`, `json`, `subprocess`, `dataclasses`, `typing`). Do not introduce external runtime dependencies unless isolated within optional Tier 1/2 skills.
+- **Strictly Antigravity CLI Only:** Interaction with the mentor is hosted natively within the Google Antigravity CLI (`agy`). Standalone terminal REPL or independent terminal execution is prohibited. CLI entry points act strictly as subagent helper tools and workspace initializers.
 - **Strictly Prohibited Manufactured Consensus:** Never flatten expert debates into vague compromises. Always follow the **Experiment-First Protocol** (hypothesis, baseline, variables, metrics, confidence intervals).
 - **Anti-Dependency Safeguard:** Protect the learner's problem-solving autonomy. Changes to the pedagogical engine must respect the Zone of Proximal Development (ZPD) and throttle direct solutions if direct answers exceed 65%.
 - **AST Sandboxing & Security:** All external skill discovery tools must pass static AST security auditing (blocking subprocess exploitation, token exfiltration, network egress, and prompt injection patterns).
@@ -47,7 +48,7 @@ chmod +x install.sh
 
 # Or directly via pip:
 pip install -e .
-mentor init
+agy-mentor init
 ```
 
 ### 3. Run the Verification Test Suite
@@ -58,7 +59,7 @@ Verify that all unit and integration tests pass:
 python3 -m unittest discover tests -v
 ```
 
-All 34 tests must pass cleanly before submitting any pull request.
+All 46 tests must pass cleanly before submitting any pull request.
 
 ---
 
@@ -72,7 +73,7 @@ Before submitting a bug report:
 - Ensure the issue can be reproduced on the latest `main` branch.
 - Include the following details:
   - Operating System & Python version (`python3 --version`).
-  - Terminal output and exact command executed (e.g., `mentor --status` or `python3 -m unittest discover tests`).
+  - Terminal output and exact command executed (e.g., inside `agy`, `agy-mentor --status`, or `python3 -m unittest discover tests`).
   - Minimal reproducible example or code snippet.
   - Expected vs. actual behavior.
 

@@ -7,6 +7,7 @@ and optional project-local isolation.
 from dataclasses import dataclass
 from pathlib import Path
 import os
+import sys
 
 # Project root
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,3 +55,47 @@ class MentorConfig:
 def ensure_directories(data_dir: Path = ACTIVE_DATA_DIR) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
     GLOBAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+def is_antigravity_cli(strict_test_bypass: bool = False) -> bool:
+    """Checks whether the current execution is within the Google Antigravity CLI ('agy') environment.
+
+    Args:
+        strict_test_bypass: If True, ignores test/CI bypass flags (used to test the security guard).
+
+    Returns:
+        True if running inside Antigravity CLI or test environment, False otherwise.
+    """
+    if not strict_test_bypass:
+        if (
+            os.environ.get("MENTOR_ALLOW_TESTS") == "1"
+            or os.environ.get("CI") == "true"
+            or os.environ.get("TESTING") == "1"
+            or "unittest" in sys.modules
+            or "pytest" in sys.modules
+        ):
+            return True
+
+    return bool(
+        os.environ.get("ANTIGRAVITY_AGENT") == "1"
+        or os.environ.get("AI_AGENT") == "antigravity"
+        or os.environ.get("ANTIGRAVITY_CONVERSATION_ID")
+        or os.environ.get("ANTIGRAVITY_LS_ADDRESS")
+        or os.environ.get("ANTIGRAVITY_AGENTAPI_EXE")
+        or "antigravity-cli" in os.environ.get("JETSKI_APP_DATA_DIR", "")
+        or os.environ.get("ANTIGRAVITY_CLI") == "1"
+    )
+
+def enforce_antigravity_cli(strict_test_bypass: bool = False) -> None:
+    """Enforces that execution is strictly contained within Antigravity CLI.
+
+    Raises:
+        RuntimeError: If executed in an independent terminal outside Antigravity CLI.
+    """
+    if not is_antigravity_cli(strict_test_bypass=strict_test_bypass):
+        raise RuntimeError(
+            "Senior AI Engineering Mentor is strictly configured for use within "
+            "the Google Antigravity CLI ('agy') environment only. "
+            "Independent terminal execution is disabled. "
+            "Please launch 'agy' to interact with the mentor."
+        )
+

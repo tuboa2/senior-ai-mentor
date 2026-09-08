@@ -7,14 +7,14 @@
 [![CI](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml/badge.svg)](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests: 34 Passed](https://img.shields.io/badge/tests-34%20passed-brightgreen.svg)]()
+[![Tests: 46 Passed](https://img.shields.io/badge/tests-46%20passed-brightgreen.svg)]()
 [![Dependencies: Zero External](https://img.shields.io/badge/dependencies-0%20external-success.svg)]()
 [![Platform: Linux | macOS | Windows](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg)]()
-[![Antigravity AI Compatible](https://img.shields.io/badge/Antigravity%20AI-Compatible-purple.svg)]()
+[![Antigravity CLI: Strictly Required](https://img.shields.io/badge/Antigravity%20CLI-Strictly%20Required-red.svg)]()
 
 *Cultivating independent engineering judgment, first-principles understanding, and mathematical rigor across Machine Learning, Data Science, Software Architecture, and AI Systems.*
 
-[Quick Start (60s)](#-quick-start-in-60-seconds) • [Core Philosophy](#-overview--philosophy) • [Expert Council](#-the-14-member-expert-council) • [Daily Workflows](#-daily-workflows--usage-guide) • [Persistence Modes](#-memory--persistence-modes) • [Installation](#-installation-reference) • [Contributing](CONTRIBUTING.md)
+[Quick Start (60s)](#-quick-start-in-60-seconds) • [Core Philosophy](#-overview--philosophy) • [Antigravity CLI Policy](#-antigravity-cli-exclusive-design-no-independent-terminal-use) • [Expert Council](#-the-14-member-expert-council) • [Daily Workflows](#-daily-workflows--usage-guide) • [Persistence Modes](#-memory--persistence-modes) • [Installation](#-installation-reference) • [Contributing](CONTRIBUTING.md)
 
 ---
 
@@ -22,11 +22,13 @@
 
 ## ⚡ Quick Start in 60 Seconds
 
+Senior AI Engineering Mentor is strictly designed to operate within the **Google Antigravity CLI (`agy`)** environment.
+
 Get up and running in 3 simple steps:
 
 ### Step 1: Install the Mentor System
 
-Run one command in your terminal (no extra dependencies required):
+Run one command in your terminal:
 
 ```bash
 # On Linux & macOS:
@@ -38,29 +40,33 @@ irm https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.ps1 |
 
 ### Step 2: Initialize Your Project Workspace
 
-Navigate to **any** project repository (new or existing) and initialize it:
+Navigate to your target project repository and initialize it for Antigravity CLI:
 
 ```bash
 cd /path/to/my-project
-mentor init
+agy-mentor init
 ```
 
-*This provisions local `.agents/skills/`, configures `.agents/skills.json`, sets up `GEMINI.md` / `AGENTS.md`, and connects to global persistent memory.*
+*This provisions local `.agents/skills/`, sets up `.agents/skills.json`, configures `GEMINI.md` / `AGENTS.md`, and links global persistent memory.*
 
-### Step 3: Start Pair Programming!
+### Step 3: Start Pair Programming in Antigravity CLI!
 
-Use it directly in your terminal or in Antigravity / Gemini Chat:
+Launch Antigravity CLI and chat directly with the 14-member Expert Council:
 
 ```bash
-# In terminal: Ask for an architectural trade-off deliberation
-mentor "Should we use DuckDB or Spark for our 15GB daily log processing pipeline?"
-
-# In terminal: Take a mock technical interview
-mentor --interview ml_theory
-
-# In terminal: Check your engineering competency rating
-mentor --status
+# Launch Antigravity CLI in your workspace
+agy
 ```
+
+Inside your `agy` session, interact directly using natural language or slash commands:
+- `/council DuckDB vs Spark for 15GB daily log processing`
+- `/mentor How should I structure my feature store?`
+- `/solve Implement temporal cross-validation in pure Python`
+- `/interview system_design`
+- `/status`
+
+> [!IMPORTANT]
+> **No Independent Terminal Use:** This system is not a standalone terminal REPL. Independent terminal execution outside Antigravity CLI is intentionally blocked to ensure full agentic pair programming capabilities.
 
 ---
 
@@ -155,13 +161,13 @@ When experts argue opposing positions (e.g., *DuckDB vs. Spark*, *Tree Models vs
 
 ---
 
-## 💻 Daily Workflows & Usage Guide
+## 💻 Daily Workflows & Usage Guide (Antigravity CLI)
 
-You can interact with the Senior AI Engineering Mentor in two primary environments:
+All interactions are hosted natively inside your **Google Antigravity CLI (`agy`)** session.
 
-### 1. In Antigravity / Gemini Chat (Pair Programming)
+### 1. Antigravity CLI Chat & Slash Commands
 
-When working inside your IDE, simply chat naturally or trigger specialized behaviors using slash commands:
+When working inside Antigravity CLI (`agy`), simply chat naturally or invoke specialized commands:
 
 | Slash Command | Mode / Level | Example Query & Behavior |
 |:---|:---|:---|
@@ -177,34 +183,58 @@ When working inside your IDE, simply chat naturally or trigger specialized behav
 
 ---
 
-### 2. Standalone Terminal CLI (`mentor`)
+### 2. Antigravity CLI Helper Subcommands (`agy-mentor`)
 
-The `mentor` CLI gives you terminal access to all mentor functions:
+Inside Antigravity CLI, agents and users have access to the `agy-mentor` helper utility for workspace management, audits, and discovery:
 
 ```bash
-# 1. Interactive REPL session
-mentor
+# 1. Initialize current workspace for Antigravity CLI
+agy-mentor init
 
-# 2. View your learner competency report & anti-dependency ratio
-mentor --status
+# 2. View learner competency report & anti-dependency metrics
+agy-mentor --status
 
-# 3. Deliberate on an architectural trade-off via one-shot query
-mentor "Should we use DuckDB or Spark for our 15GB daily log processing pipeline?"
+# 3. List installed Tier 0 and Tier 1 skills
+agy-mentor --skills
 
-# 4. Request a direct solution with full implementation
-mentor "/solve implement NDCG@k in pure Python"
+# 4. Security-audit an external skill folder or file with static AST analysis
+agy-mentor --audit ~/.gemini/antigravity-cli/skills/my-custom-skill
 
-# 5. Launch a mock technical interview (ml_theory, system_design, statistics, coding)
-mentor --interview ml_theory
+# 5. Discover and audit candidate Tier 2 skills for a task
+agy-mentor --discover "transformer"
 
-# 6. Discover and security-audit Tier 2 external skills for a task
-mentor --discover "transformer"
+# 6. View autonomous self-improvement proposals (Phase 7 feedback)
+agy-mentor --refine
+```
 
-# 7. Security-audit an external skill folder or file
-mentor --audit ~/.gemini/antigravity-cli/skills/my-custom-skill
+---
 
-# 8. List all registered Tier 0 and Tier 1 skills
-mentor --skills
+### 🔒 Antigravity CLI Exclusive Design (No Independent Terminal Use)
+
+This system is **strictly engineered for Antigravity CLI (`agy`)**. It does not provide or permit an independent terminal REPL or standalone terminal chatbot.
+
+#### Why Independent Terminal Use is Prohibited:
+1. **Agentic Tool Capabilities:** The Orchestrator and 14 Expert Council personas rely on Antigravity's active pair-programming toolchain (direct workspace file editing, multi-agent subagent delegation, background task execution, and interactive diffs).
+2. **Context Integrity:** Operating inside `agy` ensures full adherence to `GEMINI.md` directives, `.agents/skills.json` discovery, and real-time AST code verification.
+3. **Guardrail Enforcement:** The runtime actively verifies Antigravity CLI environment markers (`ANTIGRAVITY_AGENT`, `AI_AGENT=antigravity`, `ANTIGRAVITY_CONVERSATION_ID`, `JETSKI_APP_DATA_DIR`).
+
+If invoked in an independent terminal outside Antigravity CLI, execution is strictly blocked with the following error:
+
+```
+================================================================================
+ 🚫 ACCESS RESTRICTED: STRICTLY ANTIGRAVITY CLI ONLY                           
+================================================================================
+
+Senior AI Engineering Mentor is strictly configured to operate within the
+Google Antigravity CLI ('agy') environment. Independent terminal use is disabled.
+
+To interact with the Senior AI Mentor & the 14-member Expert Council:
+  1. Open your project repository in your terminal.
+  2. Launch Antigravity CLI:
+     $ agy
+
+  3. Pair program directly within your Antigravity CLI chat session!
+================================================================================
 ```
 
 ---
@@ -233,14 +263,14 @@ The mentor uses an 8-table SQLite engine to track your long-term competency prog
 ```
 
 ### 1. First-Time Setup on a New Machine (Automatic Zero-State)
-When running `mentor init` on a brand-new machine where no global database exists:
+When running `agy-mentor init` on a brand-new machine where no global database exists:
 - Automatically creates `~/.gemini/antigravity-cli/mentor_data/`.
 - Initializes all 11 database schema tables.
 - Creates a baseline learner profile (5.0/10 rating across all dimensions, 0 misconceptions, 0% dependency ratio).
 - Generates project `.agents/skills/`, `.agents/skills.json`, `GEMINI.md`, and `AGENTS.md`.
 
 ### 2. Multiple Projects on the Same Machine (Shared Memory)
-When you run `mentor init` in subsequent projects:
+When you run `agy-mentor init` in subsequent projects:
 - Local configuration files are provisioned for that repo.
 - The project **automatically connects to your existing global memory**, carrying forward your mastered concepts, past interview performance, and competency score.
 
@@ -250,7 +280,7 @@ If you want a specific project to have its own **isolated, brand-new database** 
 ```bash
 # In your project directory:
 export MENTOR_PERSISTENCE=local
-mentor init
+agy-mentor init
 ```
 
 *This creates a local database in `./.mentor_data/mentor_memory.db` dedicated exclusively to that workspace.*
@@ -301,8 +331,8 @@ cd senior-ai-mentor
 # 2. Install package in editable mode
 pip install -e .
 
-# 3. Initialize global configuration & memory
-mentor init
+# 3. Initialize workspace for Antigravity CLI
+agy-mentor init
 ```
 
 *Note: Ensure `~/.local/bin` is in your `$PATH` (e.g. `export PATH="$HOME/.local/bin:$PATH"` in `~/.bashrc` or `~/.zshrc`).*
@@ -327,8 +357,8 @@ The environment implements a defense-in-depth tiered skill model to prevent mali
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Standalone Tier 0 Audit Scripts
-Located in [`.agents/skills/`](.agents/skills/), these utilities run standalone in any CI/CD pipeline or local terminal:
+### Tier 0 Automated Audit Scripts
+Located in [`.agents/skills/`](.agents/skills/), these utilities are invoked by Antigravity CLI subagents or in CI/CD pipelines:
 
 #### 1. Statistical Metric Validator (`validate_stats.py`)
 Calculates Welch's two-sample t-test, 95% bootstrap confidence intervals, and multiple-testing corrections (Benjamini-Hochberg FDR & Bonferroni):
@@ -363,7 +393,8 @@ The codebase includes a comprehensive test suite covering all modules:
 python3 -m unittest discover tests -v
 ```
 
-### Test Suite Coverage (34 Tests / 100% Pass Rate):
+### Test Suite Coverage (46 Tests / 100% Pass Rate):
+- `tests/test_antigravity_cli_guard.py`: Antigravity CLI environment verification, runtime guard enforcement, and standalone REPL disablement.
 - `tests/test_memory.py`: Profile creation, EMA mastery tracking, misconception lifecycle, ADR logging, anti-dependency ratio calculation.
 - `tests/test_knowledge_graph.py`: Prerequisite graph traversal, gap analysis, fuzzy concept matching.
 - `tests/test_pedagogy.py`: ZPD level assignment, anti-dependency alert triggers, explicit `/solve` and `/mentor` overrides.
@@ -424,10 +455,10 @@ senior-ai-mentor/
 │   │   ├── auditor.py
 │   │   ├── manager.py
 │   │   └── sandbox.py
-│   ├── cli.py                        # Standalone REPL & Terminal CLI
-│   ├── initializer.py                # Cross-Project 'mentor init' Scaffolding
+│   ├── cli.py                        # Antigravity CLI Guard & Subagent Tool Runner
+│   ├── initializer.py                # Workspace 'agy-mentor init' Scaffolding
 │   └── orchestrator.py               # Orchestrator & Multi-Agent Deliberator
-├── tests/                            # Automated Verification Test Suite (34 Tests)
+├── tests/                            # Automated Verification Test Suite (46 Tests)
 ├── AGENTS.md                         # Multi-Agent pairing directives
 ├── blueprint.md                      # Complete architectural specification
 ├── CONTRIBUTING.md                   # Community contribution & PR guidelines

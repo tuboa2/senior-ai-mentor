@@ -4,7 +4,7 @@
 # ==============================================================================
 
 Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "     INSTALLING SENIOR AI ENGINEERING MENTOR ENVIRONMENT         " -ForegroundColor Cyan
+Write-Host "  INSTALLING SENIOR AI ENGINEERING MENTOR FOR ANTIGRAVITY CLI    " -ForegroundColor Cyan
 Write-Host "=================================================================" -ForegroundColor Cyan
 
 # 1. Verify Python version (>= 3.10)
@@ -47,6 +47,7 @@ Write-Host "Installing senior-ai-mentor package from $sourceDir..." -ForegroundC
 
 # 4. Initialize global persistence and Antigravity configuration
 Write-Host "Configuring global Antigravity integration and shared memory..." -ForegroundColor Cyan
+$env:ANTIGRAVITY_CLI = "1"
 $cliPath = Join-Path $sourceDir "senior_mentor\cli.py"
 & $pythonCmd.Source $cliPath init
 
@@ -54,9 +55,14 @@ Write-Host ""
 Write-Host "=================================================================" -ForegroundColor Green
 Write-Host "            INSTALLATION COMPLETED SUCCESSFULLY!                 " -ForegroundColor Green
 Write-Host "=================================================================" -ForegroundColor Green
-Write-Host "How to use:"
-Write-Host "  1. In any project workspace: mentor init" -ForegroundColor Yellow
-Write-Host "  2. Interactive mentor REPL:  mentor" -ForegroundColor Yellow
-Write-Host "  3. Check competency status:  mentor --status" -ForegroundColor Yellow
-Write-Host "  4. Mock interview session:   mentor --interview system_design" -ForegroundColor Yellow
-Write-Host "  5. In Antigravity: Open your workspace and chat with the Council!`n" -ForegroundColor Yellow
+Write-Host "How to use (Strictly Antigravity CLI Environment):"
+Write-Host "  1. Launch Antigravity CLI in your project repository: agy" -ForegroundColor Cyan
+Write-Host "  2. The 14-member Expert Council is active automatically in agy!" -ForegroundColor Cyan
+Write-Host "  3. Use slash commands directly in your agy chat session:" -ForegroundColor Cyan
+Write-Host "     - /council <topic>      : Deliberate technical trade-offs without false compromise" -ForegroundColor Yellow
+Write-Host "     - /mentor <query>       : Adaptive Socratic scaffolding (L3-L5)" -ForegroundColor Yellow
+Write-Host "     - /solve <query>        : Direct production code and derivations (L0-L2)" -ForegroundColor Yellow
+Write-Host "     - /interview [domain]   : Realistic senior/staff mock technical interview" -ForegroundColor Yellow
+Write-Host "     - /status               : View learner profile & competency metrics" -ForegroundColor Yellow
+Write-Host "  4. To configure an existing workspace: agy-mentor init`n" -ForegroundColor Cyan
+Write-Host "Note: Standalone terminal REPL is disabled. Pair programming is hosted strictly inside 'agy'.`n" -ForegroundColor Magenta

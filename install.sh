@@ -18,7 +18,7 @@ REPO_URL="https://github.com/tuboa2/senior-ai-mentor.git"
 INSTALL_DIR="$HOME/.senior-ai-mentor"
 
 echo -e "${BOLD}${CYAN}=================================================================${RESET}"
-echo -e "${BOLD}${CYAN}     INSTALLING SENIOR AI ENGINEERING MENTOR ENVIRONMENT         ${RESET}"
+echo -e "${BOLD}${CYAN}  INSTALLING SENIOR AI ENGINEERING MENTOR FOR ANTIGRAVITY CLI    ${RESET}"
 echo -e "${BOLD}${CYAN}=================================================================${RESET}"
 
 # 1. Verify Python version (>= 3.10)
@@ -101,14 +101,19 @@ fi
 
 # 5. Initialize global persistence and Antigravity configuration
 echo -e "${CYAN}Configuring global Antigravity integration and shared memory...${RESET}"
-PYTHONPATH="$SOURCE_DIR:$PYTHONPATH" python3 -m senior_mentor.cli init
+ANTIGRAVITY_CLI=1 PYTHONPATH="$SOURCE_DIR:$PYTHONPATH" python3 -m senior_mentor.cli init
 
 echo -e "\n${BOLD}${GREEN}=================================================================${RESET}"
 echo -e "${BOLD}${GREEN}            INSTALLATION COMPLETED SUCCESSFULLY!                 ${RESET}"
 echo -e "${BOLD}${GREEN}=================================================================${RESET}"
-echo -e "${BOLD}How to use:${RESET}"
-echo -e "  1. In any project workspace: ${CYAN}mentor init${RESET} (configures local repo & connects to global memory)"
-echo -e "  2. Interactive mentor REPL:  ${CYAN}mentor${RESET}"
-echo -e "  3. Check competency status:  ${CYAN}mentor --status${RESET}"
-echo -e "  4. Mock interview session:   ${CYAN}mentor --interview system_design${RESET}"
-echo -e "  5. In Antigravity IDE/CLI:   Open any project and chat with the 14-member Council!\n"
+echo -e "${BOLD}How to use (Strictly Antigravity CLI Environment):${RESET}"
+echo -e "  1. Launch Antigravity CLI in your project repository: ${CYAN}agy${RESET}"
+echo -e "  2. The 14-member Expert Council and Orchestrator are active automatically in agy!"
+echo -e "  3. Use slash commands directly in your agy chat session:"
+echo -e "     - ${CYAN}/council <topic>${RESET}      : Deliberate technical trade-offs without false compromise"
+echo -e "     - ${CYAN}/mentor <query>${RESET}       : Adaptive Socratic scaffolding (L3-L5)"
+echo -e "     - ${CYAN}/solve <query>${RESET}        : Direct production code and derivations (L0-L2)"
+echo -e "     - ${CYAN}/interview [domain]${RESET}   : Realistic senior/staff mock technical interview"
+echo -e "     - ${CYAN}/status${RESET}               : View learner profile & competency metrics"
+echo -e "  4. To configure an existing workspace: ${CYAN}agy-mentor init${RESET}"
+echo -e "\n${YELLOW}Note: Standalone terminal REPL is disabled. Pair programming is hosted strictly inside 'agy'.${RESET}\n"

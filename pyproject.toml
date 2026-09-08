@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "senior-ai-mentor"
 version = "1.0.0"
-description = "A multi-agent AI senior engineering mentorship environment featuring an Expert Council, adaptive scaffolding, persistent memory, and knowledge graphs."
+description = "A multi-agent AI senior engineering mentorship environment strictly configured for Google Antigravity CLI (agy), featuring an Expert Council, adaptive scaffolding, persistent memory, and knowledge graphs."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -14,7 +14,7 @@ authors = [
 ]
 keywords = [
     "ai", "agents", "mentorship", "machine-learning", "pedagogy",
-    "scaffolding", "expert-council", "antigravity"
+    "scaffolding", "expert-council", "antigravity", "antigravity-cli", "agy"
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
