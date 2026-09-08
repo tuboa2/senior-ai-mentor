@@ -1,0 +1,25 @@
+{
+  "entries": [
+    {
+      "path": ".agents/skills"
+    },
+    {
+      "path": "/home/kazuha/.gemini/antigravity-cli/skills",
+      "include_only": [
+        "ab-testing",
+        "advanced-evaluation",
+        "agent-creator",
+        "ai-agents-architect",
+        "api-security-best-practices",
+        "application-performance-performance-optimization",
+        "architecture-decision-records",
+        "architecture-patterns",
+        "async-python-patterns",
+        "auto-research",
+        "code-reviewer",
+        "active-directory-attacks",
+        "accessibility-compliance-accessibility-audit"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "senior-ai-mentor"
+version = "1.0.0"
+description = "A multi-agent AI senior engineering mentorship environment featuring an Expert Council, adaptive scaffolding, persistent memory, and knowledge graphs."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Senior AI Mentor Organization"}
+]
+keywords = [
+    "ai", "agents", "mentorship", "machine-learning", "pedagogy",
+    "scaffolding", "expert-council", "antigravity"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
+]
+dependencies = []
+
+[project.scripts]
+mentor = "senior_mentor.cli:main"
+agy-mentor = "senior_mentor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["senior_mentor*"]

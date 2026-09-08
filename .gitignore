@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Local databases & testing data
+.mentor_data/
+*.db
+*.sqlite3
+scratch/
+audit_trail.jsonl
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
