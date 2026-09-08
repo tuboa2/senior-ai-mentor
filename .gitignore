@@ -28,3 +28,6 @@ audit_trail.jsonl
 Thumbs.db
 .vscode/
 .idea/
+
+# Local Assets (excluded from GitHub repo)
+assets/

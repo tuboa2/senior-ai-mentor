@@ -115,7 +115,9 @@ class MentorCLI:
 
         print(f"\n{BOLD}Dimension Ratings:{RESET}")
         for ds in status["dimension_scores"]:
-            bar = "█" * int(ds.score) + "░" * (10 - int(ds.score))
+            filled = int(ds.score)
+            empty = 10 - filled
+            bar = f"{GREEN}{'█' * filled}\033[90m{'█' * empty}{RESET}"
             print(f"  - {ds.name:45s} [{bar}] {ds.score:.1f}/10")
 
         if status["unresolved_misconceptions"]:
@@ -215,7 +217,10 @@ def main() -> None:
 
     if args.init or (args.query and args.query.strip().lower() == "init"):
         target_path = Path(args.init if args.init else ".").resolve()
-        from .initializer import initialize_workspace
+        try:
+            from .initializer import initialize_workspace
+        except (ImportError, ValueError):
+            from senior_mentor.initializer import initialize_workspace
         res = initialize_workspace(target_path, enable_global=True)
         print(f"\n{BOLD}{GREEN}✓ Initialized Senior Engineering Mentor in: {target_path}{RESET}")
         for m in res["messages"]:

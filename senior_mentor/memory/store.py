@@ -116,8 +116,9 @@ class ComponentVersionRecord:
 
 class MemoryStore:
     def __init__(self, db_path: Path = DB_PATH):
-        self.db_path = db_path
-        ensure_directories()
+        self.db_path = Path(db_path)
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        ensure_directories(self.db_path.parent)
         self._init_db()
 
     @contextmanager

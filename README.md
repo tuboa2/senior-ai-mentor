@@ -14,17 +14,61 @@
 
 *Cultivating independent engineering judgment, first-principles understanding, and mathematical rigor across Machine Learning, Data Science, Software Architecture, and AI Systems.*
 
-[Architecture](#-system-architecture) • [Expert Council](#-the-14-member-expert-council) • [Setup & Installation](#-installation--setup) • [Cross-Project Workspace Init](#-cross-project-persistence--init) • [CLI & Slash Commands](#-cli--slash-commands-reference) • [Skill Security](#-three-tier-skill-security) • [Verification](#-testing--verification) • [Contributing](CONTRIBUTING.md)
+[Quick Start (60s)](#-quick-start-in-60-seconds) • [Core Philosophy](#-overview--philosophy) • [Expert Council](#-the-14-member-expert-council) • [Daily Workflows](#-daily-workflows--usage-guide) • [Persistence Modes](#-memory--persistence-modes) • [Installation](#-installation-reference) • [Contributing](CONTRIBUTING.md)
 
 ---
 
 </div>
 
+## ⚡ Quick Start in 60 Seconds
+
+Get up and running in 3 simple steps:
+
+### Step 1: Install the Mentor System
+
+Run one command in your terminal (no extra dependencies required):
+
+```bash
+# On Linux & macOS:
+curl -fsSL https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.sh | bash
+
+# On Windows (PowerShell):
+irm https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.ps1 | iex
+```
+
+### Step 2: Initialize Your Project Workspace
+
+Navigate to **any** project repository (new or existing) and initialize it:
+
+```bash
+cd /path/to/my-project
+mentor init
+```
+
+*This provisions local `.agents/skills/`, configures `.agents/skills.json`, sets up `GEMINI.md` / `AGENTS.md`, and connects to global persistent memory.*
+
+### Step 3: Start Pair Programming!
+
+Use it directly in your terminal or in Antigravity / Gemini Chat:
+
+```bash
+# In terminal: Ask for an architectural trade-off deliberation
+mentor "Should we use DuckDB or Spark for our 15GB daily log processing pipeline?"
+
+# In terminal: Take a mock technical interview
+mentor --interview ml_theory
+
+# In terminal: Check your engineering competency rating
+mentor --status
+```
+
+---
+
 ## 🌟 Overview & Philosophy
 
 Most AI coding assistants act as **passive code generators**, delivering raw solutions that foster cognitive atrophy and developer dependency.
 
-**Senior AI Engineering Mentor** is an autonomous engineering organization built on the formal architectural blueprint in [`blueprint.md`](blueprint.md). It pairs you with an **Expert Council of 14 senior engineering personas** orchestrated to challenge assumptions, debate technical trade-offs without false compromise, and adapt pedagogical scaffolding to your real-time **Zone of Proximal Development (ZPD)**.
+**Senior AI Engineering Mentor** is built on the formal architectural blueprint in [`blueprint.md`](blueprint.md). It pairs you with an **Expert Council of 14 senior engineering personas** orchestrated to challenge assumptions, debate technical trade-offs without false compromise, and adapt pedagogical scaffolding to your real-time **Zone of Proximal Development (ZPD)**.
 
 ### Core Tenets
 
@@ -111,42 +155,132 @@ When experts argue opposing positions (e.g., *DuckDB vs. Spark*, *Tree Models vs
 
 ---
 
-## ⚡ Installation & Setup
+## 💻 Daily Workflows & Usage Guide
 
-Install the Senior Engineering Mentor environment across any operating system using one of the following methods:
+You can interact with the Senior AI Engineering Mentor in two primary environments:
+
+### 1. In Antigravity / Gemini Chat (Pair Programming)
+
+When working inside your IDE, simply chat naturally or trigger specialized behaviors using slash commands:
+
+| Slash Command | Mode / Level | Example Query & Behavior |
+|:---|:---|:---|
+| `/solve <query>` | **L0–L2 Direct** | `/solve implement temporal cross-validation in pure Python`<br>*Returns complete production code, first-principles derivation, and pitfall catalog.* |
+| `/mentor <query>` | **L3–L5 Socratic** | `/mentor how should I structure my feature store?`<br>*Nudges with architectural clues, invariant checks, and guiding questions.* |
+| `/hint <query>` | **Progressive Clue** | `/hint`<br>*Provides the next progressive clue without giving away implementation details.* |
+| `/challenge <concept>`| **L6–L7 Challenge** | `/challenge data leakage`<br>*Issues an isomorphic transfer problem or asks you to find vulnerabilities in your own code.* |
+| `/council <query>` | **Council Debate** | `/council DuckDB vs Spark for 15GB log processing`<br>*Explicitly convenes the 14-expert council to expose trade-offs and dissent.* |
+| `/interview [domain]` | **Mock Interview** | `/interview system_design`<br>*Launches a realistic technical interview session (`system_design`, `ml_theory`, `statistics`, `coding`).* |
+| `/status` | **Learner Diagnostics**| `/status`<br>*Displays your competency ratings (0–10), ZPD assessments, and anti-dependency ratio.* |
+| `/refine` | **Self-Improvement** | `/refine`<br>*Reviews autonomous optimization proposals generated by the feedback engine (Phase 7).* |
+| `/feedback <text>` | **Calibration** | `/feedback SVD signs can vary across numpy and scipy`<br>*Submits corrections to calibrate future mentor guidance.* |
+
+---
+
+### 2. Standalone Terminal CLI (`mentor`)
+
+The `mentor` CLI gives you terminal access to all mentor functions:
+
+```bash
+# 1. Interactive REPL session
+mentor
+
+# 2. View your learner competency report & anti-dependency ratio
+mentor --status
+
+# 3. Deliberate on an architectural trade-off via one-shot query
+mentor "Should we use DuckDB or Spark for our 15GB daily log processing pipeline?"
+
+# 4. Request a direct solution with full implementation
+mentor "/solve implement NDCG@k in pure Python"
+
+# 5. Launch a mock technical interview (ml_theory, system_design, statistics, coding)
+mentor --interview ml_theory
+
+# 6. Discover and security-audit Tier 2 external skills for a task
+mentor --discover "transformer"
+
+# 7. Security-audit an external skill folder or file
+mentor --audit ~/.gemini/antigravity-cli/skills/my-custom-skill
+
+# 8. List all registered Tier 0 and Tier 1 skills
+mentor --skills
+```
+
+---
+
+## 🔄 Memory & Persistence Modes
+
+The mentor uses an 8-table SQLite engine to track your long-term competency progress, past misconceptions, and Architecture Decision Records (ADRs).
+
+### How It Works Across Workspaces:
+
+```
+                                ┌──────────────────────────────────────────────┐
+                                │   Global Memory Store (~/.gemini/.../db)     │
+                                │   - Learner Profile & Competency Ratings     │
+                                │   - Knowledge State (EMA Mastery)            │
+                                │   - Tracked Misconceptions & Past ADRs       │
+                                └──────────────────────┬───────────────────────┘
+                                                       │
+                     ┌─────────────────────────────────┴─────────────────────────────────┐
+                     ▼                                                                   ▼
+       ┌───────────────────────────┐                                       ┌───────────────────────────┐
+       │   Project A Workspace     │                                       │   Project B Workspace     │
+       │   - .agents/skills/       │                                       │   - .agents/skills/       │
+       │   - GEMINI.md / AGENTS.md │                                       │   - GEMINI.md / AGENTS.md │
+       └───────────────────────────┘                                       └───────────────────────────┘
+```
+
+### 1. First-Time Setup on a New Machine (Automatic Zero-State)
+When running `mentor init` on a brand-new machine where no global database exists:
+- Automatically creates `~/.gemini/antigravity-cli/mentor_data/`.
+- Initializes all 11 database schema tables.
+- Creates a baseline learner profile (5.0/10 rating across all dimensions, 0 misconceptions, 0% dependency ratio).
+- Generates project `.agents/skills/`, `.agents/skills.json`, `GEMINI.md`, and `AGENTS.md`.
+
+### 2. Multiple Projects on the Same Machine (Shared Memory)
+When you run `mentor init` in subsequent projects:
+- Local configuration files are provisioned for that repo.
+- The project **automatically connects to your existing global memory**, carrying forward your mastered concepts, past interview performance, and competency score.
+
+### 3. Isolated Project-Only Mode (Optional)
+If you want a specific project to have its own **isolated, brand-new database** without touching or sharing the global store:
+
+```bash
+# In your project directory:
+export MENTOR_PERSISTENCE=local
+mentor init
+```
+
+*This creates a local database in `./.mentor_data/mentor_memory.db` dedicated exclusively to that workspace.*
+
+---
+
+## 📦 Installation Reference
 
 ### Method 1: Automated One-Command Remote Installer (Recommended)
 
 #### 🐧 Linux & 🍏 macOS
-Run directly in your terminal:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.sh | bash
 ```
 
 #### 🪟 Windows (PowerShell)
-Run in PowerShell (as Administrator or standard user):
 ```powershell
 irm https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.ps1 | iex
 ```
 
-*What the installer does automatically:*
-1. Verifies Python 3.10+ requirement.
-2. Clones the repository to `~/.senior-ai-mentor` (or updates existing installation).
-3. Installs package and generates global binary commands (`mentor` and `agy-mentor`).
-4. Initializes global Antigravity integration and persistent SQLite storage.
-
 ---
 
 ### Method 2: Git Clone & Local Script Installation
-
-If you prefer to clone the repository manually:
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/tuboa2/senior-ai-mentor.git
 cd senior-ai-mentor
 
-# 2. Run the installer script
+# 2. Run the installer
 # On Linux / macOS:
 chmod +x install.sh
 ./install.sh
@@ -164,7 +298,7 @@ powershell -ExecutionPolicy Bypass -File install.ps1
 git clone https://github.com/tuboa2/senior-ai-mentor.git
 cd senior-ai-mentor
 
-# 2. Install editable package
+# 2. Install package in editable mode
 pip install -e .
 
 # 3. Initialize global configuration & memory
@@ -172,79 +306,6 @@ mentor init
 ```
 
 *Note: Ensure `~/.local/bin` is in your `$PATH` (e.g. `export PATH="$HOME/.local/bin:$PATH"` in `~/.bashrc` or `~/.zshrc`).*
-
----
-
-## 🛠️ Cross-Project Persistence & Init
-
-To equip **any existing or new workspace** on your machine with the Senior AI Engineering Mentor while sharing global memory:
-
-```bash
-# Navigate to your project directory
-cd /path/to/my-project
-
-# Initialize workspace configuration
-mentor init
-```
-
-### What `mentor init` Configures in Your Project:
-1. **Creates `.agents/skills/`** in your project containing all Tier 0 core skills and standalone audit utilities.
-2. **Generates `.agents/skills.json`**, registering core skills with Antigravity and the local agent runtime.
-3. **Installs `GEMINI.md` and `AGENTS.md`**, configuring Antigravity pair programming directives and the 14-member council.
-4. **Connects to Global Persistence (`~/.gemini/antigravity-cli/mentor_data/mentor_memory.db`)**, ensuring your learner profile, tracked misconceptions, architectural decisions, and competency ratings stay unified across all projects.
-
----
-
-## 💻 CLI & Slash Commands Reference
-
-### 1. In Antigravity Chat (Pair Programming)
-
-When working inside Antigravity, the directives are active automatically. Use slash commands to guide the session:
-
-| Slash Command | Mode / Level | Behavior |
-|:---|:---|:---|
-| `/solve <query>` | **L0–L2 Direct** | Immediate production code, first-principles derivation, and pitfall warnings. |
-| `/mentor <query>` | **L3–L5 Socratic** | Guiding questions, architectural clues, and conceptual nudges. |
-| `/hint <query>` | **Progressive Clue** | Step-by-step hints without revealing implementation code. |
-| `/challenge <concept>`| **L6–L7 Challenge** | Issues an isomorphic transfer problem or asks you to critique your own design. |
-| `/council <query>` | **Council Debate** | Convenes the 14-expert council, exposing trade-offs without manufactured consensus. |
-| `/interview [domain]` | **Mock Interview** | Conducts a rigorous technical interview (`system_design`, `ml_theory`, `statistics`, `coding`). |
-| `/status` | **Learner Diagnostics**| Displays competency ratings (0–10), ZPD assessments, and anti-dependency ratio. |
-| `/refine` | **Self-Improvement** | Reviews autonomous optimization proposals generated by the feedback engine (Phase 7). |
-| `/feedback <text>` | **Calibration** | Submits direct feedback or corrections to refine mentor calibration over time. |
-
-### 2. Standalone Terminal CLI (`mentor`)
-
-The `mentor` CLI provides direct access to council deliberation, skills discovery, interviews, and security audits:
-
-```bash
-# Launch interactive REPL session
-mentor
-
-# Display learner competency evaluation & anti-dependency ratio
-mentor --status
-
-# Launch a mock technical interview (system_design, ml_theory, statistics, coding)
-mentor --interview ml_theory
-
-# Deliberate on an architectural trade-off via one-shot query
-mentor "Should we use DuckDB or Spark for our 15GB daily log processing pipeline?"
-
-# Request a direct solution with full implementation
-mentor "/solve implement temporal out-of-fold cross-validation in pure Python"
-
-# Discover and security-audit Tier 2 external skills for a task
-mentor --discover "transformer model training"
-
-# Security-audit an external skill folder or file
-mentor --audit ~/.gemini/antigravity-cli/skills/my-custom-skill
-
-# Inspect Phase 7 autonomous self-improvement proposals
-mentor --refine
-
-# List all installed Tier 0 and Tier 1 skills
-mentor --skills
-```
 
 ---
 
@@ -290,23 +351,6 @@ Lints ML Python files for anti-patterns: `iterrows()`, bare `except:`, missing t
 ```bash
 python3 .agents/skills/python-engineering-standards/scripts/lint_ml_code.py model.py
 ```
-
----
-
-## 🧠 Memory Store & Knowledge Graph
-
-Persistent memory is backed by SQLite with 8 dedicated tables:
-
-1. **`learner_profiles`**: Long-term mastery ratings across 5 engineering dimensions (0.0 to 10.0 scale).
-2. **`knowledge_state`**: Exponential Moving Average (EMA) concept mastery scores.
-3. **`misconceptions`**: Tracked conceptual gaps, active versus resolved states.
-4. **`decisions`**: Architecture Decision Records (ADRs) with rationale and council dissent.
-5. **`experiments`**: Experiment-First logs (hypotheses, metrics, confidence intervals).
-6. **`projects`**: Multi-project tracking linking local directories to global learner history.
-7. **`feedback`**: User feedback records driving autonomous self-refinement.
-8. **`component_versions`**: Component revision history for continuous prompt/system optimization.
-
-The **Technical Knowledge Graph** (`senior_mentor/knowledge/graph.py`) maps machine learning and software engineering concepts with prerequisite relationships, enabling automated gap analysis and Zone of Proximal Development identification.
 
 ---
 
