@@ -4,8 +4,9 @@
 
 **An Elite Multi-Agent Pair Programming & Engineering Mentorship System**
 
+[![CI](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml/badge.svg)](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests: 34 Passed](https://img.shields.io/badge/tests-34%20passed-brightgreen.svg)]()
 [![Dependencies: Zero External](https://img.shields.io/badge/dependencies-0%20external-success.svg)]()
 [![Platform: Linux | macOS | Windows](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg)]()
@@ -13,7 +14,7 @@
 
 *Cultivating independent engineering judgment, first-principles understanding, and mathematical rigor across Machine Learning, Data Science, Software Architecture, and AI Systems.*
 
-[Architecture](#-system-architecture) • [Expert Council](#-the-14-member-expert-council) • [Installation](#-quickstart--installation) • [Workspace Setup](#-cross-project-persistence--init) • [CLI & Slash Commands](#-cli--slash-commands-reference) • [Skill Security](#-three-tier-skill-security) • [Verification](#-testing--verification)
+[Architecture](#-system-architecture) • [Expert Council](#-the-14-member-expert-council) • [Setup & Installation](#-installation--setup) • [Cross-Project Workspace Init](#-cross-project-persistence--init) • [CLI & Slash Commands](#-cli--slash-commands-reference) • [Skill Security](#-three-tier-skill-security) • [Verification](#-testing--verification) • [Contributing](CONTRIBUTING.md)
 
 ---
 
@@ -21,17 +22,17 @@
 
 ## 🌟 Overview & Philosophy
 
-Most AI coding assistants act as **passive code generators**, giving away direct code solutions that foster cognitive atrophy and developer dependency.
+Most AI coding assistants act as **passive code generators**, delivering raw solutions that foster cognitive atrophy and developer dependency.
 
-**Senior AI Engineering Mentor** is built on the formal architectural blueprint in [`blueprint.md`](blueprint.md). It transforms your development environment into an elite engineering organization guided by an **Expert Council of 14 senior engineering personas** and an adaptive pedagogical mentor.
+**Senior AI Engineering Mentor** is an autonomous engineering organization built on the formal architectural blueprint in [`blueprint.md`](blueprint.md). It pairs you with an **Expert Council of 14 senior engineering personas** orchestrated to challenge assumptions, debate technical trade-offs without false compromise, and adapt pedagogical scaffolding to your real-time **Zone of Proximal Development (ZPD)**.
 
 ### Core Tenets
 
-1. **Anti-Dependency Safeguard:** The system tracks the ratio of direct code requests versus conceptual exploration. If direct solutions exceed **65%**, the mentor actively intervenes with Socratic scaffolding to protect your long-term problem-solving autonomy.
-2. **Strictly Prohibited Manufactured Consensus:** When engineering trade-offs or incomplete empirical data arise, the council **never** averages opinions into vague compromises. It triggers an **Experiment-First Protocol** detailing precise hypotheses, baselines, variables, and evaluation metrics, escalating unresolved trade-offs to you.
-3. **Adaptive Scaffolding Engine (L0 to L7):** Dynamically adjusts hints and guidance to your real-time **Zone of Proximal Development (ZPD)**—from production code (`L0`) to first-principles derivations (`L1`), pitfall warnings (`L2`), high-level conceptual nudges (`L3`), structural clues (`L4`), guided Socratic questions (`L5`), isomorphic transfer challenges (`L6`), and adversarial self-critique (`L7`).
+1. **Anti-Dependency Safeguard:** The system monitors the ratio of direct code requests (`L0`) versus conceptual exploration. If direct solutions exceed **65%**, the mentor actively intervenes with Socratic scaffolding to protect your independent problem-solving capability.
+2. **Strictly Prohibited Manufactured Consensus:** When engineering trade-offs or incomplete empirical data arise, the council **never** averages opinions into vague compromises. It triggers an **Experiment-First Protocol** detailing precise hypotheses, baselines, variables, and evaluation metrics with confidence intervals, escalating unresolved trade-offs to you.
+3. **Adaptive Scaffolding Engine (L0 to L7):** Dynamically adjusts hints to your assessed competency—from production code (`L0`) to first-principles derivations (`L1`), pitfall warnings (`L2`), high-level conceptual nudges (`L3`), structural clues (`L4`), guided Socratic questions (`L5`), isomorphic transfer challenges (`L6`), and adversarial self-critique (`L7`).
 4. **Cross-Project Persistent Memory:** Long-term learner state, tracked misconceptions, architectural decisions, and experiment outcomes persist across projects in a unified SQLite database stored in `~/.gemini/antigravity-cli/mentor_data/mentor_memory.db`.
-5. **Zero External Dependencies:** Built 100% on the Python standard library (`sqlite3`, `ast`, `re`, `argparse`, `json`, `subprocess`, `dataclasses`, `typing`). Installs anywhere in seconds without dependency hell.
+5. **Zero External Dependencies:** Built 100% on the Python standard library (`sqlite3`, `ast`, `re`, `argparse`, `json`, `subprocess`, `dataclasses`, `typing`). Installs anywhere in seconds without dependency conflicts.
 
 ---
 
@@ -62,7 +63,7 @@ Most AI coding assistants act as **passive code generators**, giving away direct
 
 ## 👥 The 14-Member Expert Council
 
-Every query is analyzed to dynamically assemble the most relevant specialist panel from 14 permanent roles, plus dynamically spawned domain experts:
+Every query is evaluated to dynamically assemble the most relevant specialist panel from 14 permanent roles, plus dynamically spawned domain experts:
 
 | # | Expert Persona | Title | Core Focus |
 |:-:|:---|:---|:---|
@@ -83,7 +84,7 @@ Every query is analyzed to dynamically assemble the most relevant specialist pan
 | ⚡ | **Dynamic Specialists** | *On-Demand Specialist* | Dynamically spawned for niche domains: Graph ML, Causal Inference, Speech/Audio, RL, Robotics |
 
 ### The Orchestrator's Disagreement Protocol
-When experts argue opposing positions (e.g., *DuckDB vs. Spark*, *Tree Models vs. Neural Networks*, *Normality Violations vs. Pragmatic Delivery*), the response formats an explicit 5-part structure:
+When experts argue opposing positions (e.g., *DuckDB vs. Spark*, *Tree Models vs. Deep Learning*, *Strict Significance vs. Rapid Prototyping*), the response formats an explicit 5-part structure:
 - **Positions:** Detailed arguments and theoretical rationale from each participating expert.
 - **The Conflict:** Pinpoints the exact trade-off boundary.
 - **The Uncertainty:** Identifies missing empirical data or traffic distribution metrics.
@@ -105,61 +106,88 @@ When experts argue opposing positions (e.g., *DuckDB vs. Spark*, *Tree Models vs
 [L0] Direct Production Solution ──► Full production code and implementation
 ```
 
-- **Default Behavior:** Operates in **L3–L5 (Socratic Scaffolding)** to build independent mastery.
-- **Anti-Dependency Safeguard:** If direct solutions (`L0`) exceed 65% of your recent interactions, an anti-dependency alert triggers, forcing conceptual hints until problem-solving autonomy is restored.
+- **Default Behavior:** Operates in **L3–L5 (Socratic Scaffolding)** to foster self-sufficiency.
+- **Anti-Dependency Safeguard:** If direct solutions (`L0`) exceed 65% of your recent interactions, an anti-dependency alert triggers, providing conceptual nudges until problem-solving autonomy is restored.
 
 ---
 
-## ⚡ Quickstart & Installation
+## ⚡ Installation & Setup
 
-Install the Senior Engineering Mentor environment across any operating system with a single command:
+Install the Senior Engineering Mentor environment across any operating system using one of the following methods:
 
-### 🐧 Linux & 🍏 macOS (One-Command Installer)
+### Method 1: Automated One-Command Remote Installer (Recommended)
 
+#### 🐧 Linux & 🍏 macOS
+Run directly in your terminal:
 ```bash
-# Via cURL
-curl -fsSL https://raw.githubusercontent.com/ianjamesmabbic/ai-agents/main/install.sh | bash
-
-# Or if you have cloned the repository:
-chmod +x install.sh
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.sh | bash
 ```
 
-### 🪟 Windows (PowerShell One-Command Installer)
-
+#### 🪟 Windows (PowerShell)
+Run in PowerShell (as Administrator or standard user):
 ```powershell
-# Via PowerShell
-irm https://raw.githubusercontent.com/ianjamesmabbic/ai-agents/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.ps1 | iex
+```
 
-# Or if you have cloned the repository:
+*What the installer does automatically:*
+1. Verifies Python 3.10+ requirement.
+2. Clones the repository to `~/.senior-ai-mentor` (or updates existing installation).
+3. Installs package and generates global binary commands (`mentor` and `agy-mentor`).
+4. Initializes global Antigravity integration and persistent SQLite storage.
+
+---
+
+### Method 2: Git Clone & Local Script Installation
+
+If you prefer to clone the repository manually:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/tuboa2/senior-ai-mentor.git
+cd senior-ai-mentor
+
+# 2. Run the installer script
+# On Linux / macOS:
+chmod +x install.sh
+./install.sh
+
+# On Windows (PowerShell):
 powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
-### 🐍 Standard Python / Pip Installation
+---
+
+### Method 3: Standard Python / Pip Installation
 
 ```bash
-git clone https://github.com/ianjamesmabbic/ai-agents.git
-cd ai-agents
+# 1. Clone and enter the repository
+git clone https://github.com/tuboa2/senior-ai-mentor.git
+cd senior-ai-mentor
+
+# 2. Install editable package
 pip install -e .
+
+# 3. Initialize global configuration & memory
+mentor init
 ```
 
-*Note: Automatically creates global wrapper binaries `mentor` and `agy-mentor` in `~/.local/bin` (or Windows Scripts directory).*
+*Note: Ensure `~/.local/bin` is in your `$PATH` (e.g. `export PATH="$HOME/.local/bin:$PATH"` in `~/.bashrc` or `~/.zshrc`).*
 
 ---
 
 ## 🛠️ Cross-Project Persistence & Init
 
-To equip **any existing or new repository** on your machine with the Senior AI Engineering Mentor while sharing global memory:
+To equip **any existing or new workspace** on your machine with the Senior AI Engineering Mentor while sharing global memory:
 
 ```bash
-# Navigate to any project workspace
-cd /path/to/my-new-project
+# Navigate to your project directory
+cd /path/to/my-project
 
 # Initialize workspace configuration
-mentor --init
+mentor init
 ```
 
-### What `mentor --init` Does:
+### What `mentor init` Configures in Your Project:
 1. **Creates `.agents/skills/`** in your project containing all Tier 0 core skills and standalone audit utilities.
 2. **Generates `.agents/skills.json`**, registering core skills with Antigravity and the local agent runtime.
 3. **Installs `GEMINI.md` and `AGENTS.md`**, configuring Antigravity pair programming directives and the 14-member council.
@@ -284,7 +312,7 @@ The **Technical Knowledge Graph** (`senior_mentor/knowledge/graph.py`) maps mach
 
 ## 🧪 Testing & Verification
 
-The codebase comes with a comprehensive test suite covering all modules:
+The codebase includes a comprehensive test suite covering all modules:
 
 ```bash
 # Run the complete test suite
@@ -302,10 +330,21 @@ python3 -m unittest discover tests -v
 
 ---
 
+## 🤝 Community & Contributing
+
+Contributions are welcome! Please review the following resources before contributing:
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)**: Architectural guidelines, coding standards, and branch policies.
+- **[Issue Templates](.github/ISSUE_TEMPLATE/)**: Templates for [bug reports](.github/ISSUE_TEMPLATE/bug_report.md) and [feature requests](.github/ISSUE_TEMPLATE/feature_request.md).
+- **[Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)**: Standard checklist for proposing code changes.
+- **[GitHub Actions CI](.github/workflows/ci.yml)**: Continuous integration matrix across Linux, macOS, Windows on Python 3.10–3.12.
+
+---
+
 ## 📁 Repository Structure
 
 ```
-ai-agents/
+senior-ai-mentor/
 ├── .agents/                          # Agent workspace configuration
 │   ├── skills/                       # Tier 0 Core Skills
 │   │   ├── adaptive-scaffolding/
@@ -316,6 +355,13 @@ ai-agents/
 │   │   ├── python-engineering-standards/ # + scripts/lint_ml_code.py
 │   │   └── statistical-validation/   # + scripts/validate_stats.py
 │   └── skills.json                   # Registered skills catalog
+├── .github/                          # GitHub community & CI configuration
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── workflows/
+│       └── ci.yml
 ├── senior_mentor/                    # Core Python Package
 │   ├── council/                      # 14 Expert Personas, Debate, Mock Interview
 │   │   ├── debate.py
@@ -340,9 +386,11 @@ ai-agents/
 ├── tests/                            # Automated Verification Test Suite (34 Tests)
 ├── AGENTS.md                         # Multi-Agent pairing directives
 ├── blueprint.md                      # Complete architectural specification
+├── CONTRIBUTING.md                   # Community contribution & PR guidelines
 ├── GEMINI.md                         # Antigravity Orchestrator directives
 ├── install.sh                        # Linux & macOS 1-command installer
 ├── install.ps1                       # Windows PowerShell 1-command installer
+├── LICENSE                           # MIT License
 ├── pyproject.toml                    # Modern PEP 518/621 package metadata
 ├── setup.py                          # Setuptools entry point
 └── README.md                         # Documentation & Getting Started Guide
