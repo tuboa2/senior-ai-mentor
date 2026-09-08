@@ -14,7 +14,10 @@ class TestSkillsSecurity(unittest.TestCase):
         self.sandbox = ExecutionSandbox()
 
     def tearDown(self):
-        self.temp_dir.cleanup()
+        try:
+            self.temp_dir.cleanup()
+        except Exception:
+            pass
 
     def test_audit_clean_skill(self):
         skill_dir = self.base_path / "clean_skill"

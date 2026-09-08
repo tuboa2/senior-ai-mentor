@@ -28,7 +28,10 @@ class TestAdvancedFeatures(unittest.TestCase):
         self.skill_manager = SkillManager(self.cfg)
 
     def tearDown(self):
-        self.temp_dir.cleanup()
+        try:
+            self.temp_dir.cleanup()
+        except Exception:
+            pass
 
     def test_self_improvement_feedback_and_refinement(self):
         # 1. Log two user corrections

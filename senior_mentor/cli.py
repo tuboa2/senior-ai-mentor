@@ -198,7 +198,7 @@ class MentorCLI:
                 print("\nExiting.")
                 break
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Senior AI Engineering Mentor CLI.")
     parser.add_argument("--version", action="version", version="senior-mentor 1.0.0")
     parser.add_argument("query", nargs="?", help="One-shot query to ask the mentor")

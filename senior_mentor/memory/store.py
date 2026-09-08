@@ -11,12 +11,13 @@ Implements all 8 required stores:
 8. Technical Preferences
 """
 
+from contextlib import contextmanager
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
 import json
 from pathlib import Path
 import sqlite3
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Generator, List, Optional
 from ..config import DB_PATH, ensure_directories
 
 def now_iso() -> str:
@@ -119,10 +120,15 @@ class MemoryStore:
         ensure_directories()
         self._init_db()
 
-    def _get_conn(self) -> sqlite3.Connection:
+    @contextmanager
+    def _get_conn(self) -> Generator[sqlite3.Connection, None, None]:
         conn = sqlite3.connect(str(self.db_path))
         conn.row_factory = sqlite3.Row
-        return conn
+        try:
+            yield conn
+            conn.commit()
+        finally:
+            conn.close()
 
     def _init_db(self) -> None:
         with self._get_conn() as conn:

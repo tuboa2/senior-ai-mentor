@@ -15,7 +15,10 @@ class TestOrchestrator(unittest.TestCase):
         self.orchestrator = Orchestrator(self.cfg)
 
     def tearDown(self):
-        self.temp_dir.cleanup()
+        try:
+            self.temp_dir.cleanup()
+        except Exception:
+            pass
 
     def test_parse_slash_commands(self):
         cmd, clean = self.orchestrator.parse_command("/solve implement flash attention")

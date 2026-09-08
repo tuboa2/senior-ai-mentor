@@ -12,7 +12,10 @@ class TestMemoryStore(unittest.TestCase):
         self.store = MemoryStore(self.db_path)
 
     def tearDown(self):
-        self.temp_dir.cleanup()
+        try:
+            self.temp_dir.cleanup()
+        except Exception:
+            pass
 
     def test_profile_creation_and_update(self):
         prof = self.store.get_or_create_profile("user1", "Alice")

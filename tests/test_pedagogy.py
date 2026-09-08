@@ -18,7 +18,10 @@ class TestPedagogy(unittest.TestCase):
         self.engine = ScaffoldingEngine(self.model, self.graph)
 
     def tearDown(self):
-        self.temp_dir.cleanup()
+        try:
+            self.temp_dir.cleanup()
+        except Exception:
+            pass
 
     def test_zpd_assessment_unmet_prerequisites(self):
         # Concept with prerequisites where user has no history
