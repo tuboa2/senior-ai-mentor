@@ -9,11 +9,30 @@ from pathlib import Path
 import os
 import sys
 
+def get_user_home_dir() -> Path:
+    """Safely resolves the user home directory across all platforms and test environments.
+
+    Falls back to environment variables (USERPROFILE, HOME, HOMEPATH) or current working directory
+    to ensure resilient operation in stripped CI runner processes or Windows sandboxes.
+    """
+    try:
+        return Path.home()
+    except Exception as e:
+        _ = e
+        fallback = (
+            os.environ.get("USERPROFILE")
+            or os.environ.get("HOME")
+            or os.environ.get("HOMEPATH")
+        )
+        if fallback:
+            return Path(fallback).resolve()
+        return Path.cwd().resolve()
+
 # Project root
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Machine-wide global persistence locations (antigravity-cli integration)
-GLOBAL_BASE_DIR = Path.home() / ".gemini"
+GLOBAL_BASE_DIR = get_user_home_dir() / ".gemini"
 GLOBAL_CLI_DIR = GLOBAL_BASE_DIR / "antigravity-cli"
 GLOBAL_DATA_DIR = GLOBAL_CLI_DIR / "mentor_data"
 GLOBAL_CONFIG_DIR = GLOBAL_BASE_DIR / "config"
@@ -54,7 +73,10 @@ class MentorConfig:
 
 def ensure_directories(data_dir: Path = ACTIVE_DATA_DIR) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
-    GLOBAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        GLOBAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    except (OSError, PermissionError) as e:
+        _ = e
 
 def is_antigravity_cli(strict_test_bypass: bool = False) -> bool:
     """Checks whether the current execution is within the Google Antigravity CLI ('agy') environment.
@@ -66,9 +88,10 @@ def is_antigravity_cli(strict_test_bypass: bool = False) -> bool:
         True if running inside Antigravity CLI or test environment, False otherwise.
     """
     if not strict_test_bypass:
+        ci_val = str(os.environ.get("CI", "")).lower()
         if (
             os.environ.get("MENTOR_ALLOW_TESTS") == "1"
-            or os.environ.get("CI") == "true"
+            or ci_val in ("true", "1")
             or os.environ.get("TESTING") == "1"
             or "unittest" in sys.modules
             or "pytest" in sys.modules

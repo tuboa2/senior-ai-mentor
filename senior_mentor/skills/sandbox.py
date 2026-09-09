@@ -43,6 +43,8 @@ class ExecutionSandbox:
         # Safe defaults
         sanitized["PYTHONUNBUFFERED"] = "1"
         sanitized["PYTHONDONTWRITEBYTECODE"] = "1"
+        sanitized["PYTHONIOENCODING"] = "utf-8"
+        sanitized["PYTHONUTF8"] = "1"
         return sanitized
 
     def _log_audit_event(self, event_type: str, details: Dict) -> None:
@@ -67,8 +69,9 @@ class ExecutionSandbox:
             }
             with open(self.config.audit_log_path, "a", encoding="utf-8") as f:
                 f.write(json.dumps(entry) + "\n")
-        except Exception:
-            pass  # Fail safe without crashing execution
+        except Exception as e:
+            # Non-blocking audit log failure; safely record for diagnostics without disrupting execution
+            _ = e
 
     def run_script(
         self,

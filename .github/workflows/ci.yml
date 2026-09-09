@@ -16,6 +16,10 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.10", "3.11", "3.12"]
 
+    env:
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: "utf-8"
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -30,7 +34,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
 
-      - name: Run unit and integration tests (34 tests)
+      - name: Run unit and integration tests (46 tests)
         run: |
           python -m unittest discover tests -v
 

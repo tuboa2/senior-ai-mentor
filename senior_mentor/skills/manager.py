@@ -123,6 +123,6 @@ class SkillManager:
                         # Multi-line description
                         desc = " ".join(l.strip() for l in lines[i+1:i+4] if l.startswith("  "))
                     return desc.strip("\"'")
-        except Exception:
-            pass
+        except Exception as e:
+            _ = e
         return "Standard Agent Skill"

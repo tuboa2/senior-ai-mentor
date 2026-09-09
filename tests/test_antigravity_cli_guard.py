@@ -56,11 +56,31 @@ class TestAntigravityCLIGuard(unittest.TestCase):
         self.assertIn("Standalone terminal REPL is disabled", str(ctx.exception))
         self.assertIn("strictly configured for use within Antigravity CLI", str(ctx.exception))
 
+    def _get_isolated_env(self) -> dict:
+        """Preserves essential OS environment variables while stripping Antigravity & test bypass keys."""
+        env = dict(os.environ)
+        # Strip all test/CI bypass flags and Antigravity detection keys
+        for var in [
+            "ANTIGRAVITY_AGENT",
+            "AI_AGENT",
+            "ANTIGRAVITY_CONVERSATION_ID",
+            "ANTIGRAVITY_LS_ADDRESS",
+            "ANTIGRAVITY_AGENTAPI_EXE",
+            "JETSKI_APP_DATA_DIR",
+            "ANTIGRAVITY_CLI",
+            "MENTOR_ALLOW_TESTS",
+            "CI",
+            "TESTING",
+        ]:
+            env.pop(var, None)
+
+        env["PYTHONPATH"] = str(Path(__file__).resolve().parent.parent)
+        env["PYTHONIOENCODING"] = "utf-8"
+        env["PYTHONUTF8"] = "1"
+        return env
+
     def test_subprocess_independent_terminal_blocked(self):
-        env = {
-            "PATH": os.environ.get("PATH", ""),
-            "PYTHONPATH": str(Path(__file__).resolve().parent.parent)
-        }
+        env = self._get_isolated_env()
         res = subprocess.run(
             [sys.executable, "-m", "senior_mentor.cli"],
             env=env,
@@ -72,11 +92,8 @@ class TestAntigravityCLIGuard(unittest.TestCase):
         self.assertIn("Independent terminal use is disabled", res.stderr)
 
     def test_subprocess_inside_antigravity_succeeds(self):
-        env = {
-            "PATH": os.environ.get("PATH", ""),
-            "PYTHONPATH": str(Path(__file__).resolve().parent.parent),
-            "ANTIGRAVITY_AGENT": "1"
-        }
+        env = self._get_isolated_env()
+        env["ANTIGRAVITY_AGENT"] = "1"
         res = subprocess.run(
             [sys.executable, "-m", "senior_mentor.cli", "--version"],
             env=env,
@@ -87,11 +104,8 @@ class TestAntigravityCLIGuard(unittest.TestCase):
         self.assertIn("senior-mentor 1.0.0 (Antigravity CLI)", res.stdout)
 
     def test_subprocess_welcome_in_antigravity_without_args(self):
-        env = {
-            "PATH": os.environ.get("PATH", ""),
-            "PYTHONPATH": str(Path(__file__).resolve().parent.parent),
-            "ANTIGRAVITY_AGENT": "1"
-        }
+        env = self._get_isolated_env()
+        env["ANTIGRAVITY_AGENT"] = "1"
         res = subprocess.run(
             [sys.executable, "-m", "senior_mentor.cli"],
             env=env,

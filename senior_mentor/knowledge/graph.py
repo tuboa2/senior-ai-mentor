@@ -5,7 +5,7 @@ and gap-identification algorithms for adaptive learning.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set
 
 @dataclass
 class ConceptNode:
@@ -65,7 +65,7 @@ class KnowledgeGraph:
                 results.append(node)
         return results
 
-    def get_concept_context(self, concept_name: str, memory_store) -> Dict:
+    def get_concept_context(self, concept_name: str, memory_store: Any) -> Dict[str, Any]:
         """Links the concept node to project memory, past misconceptions, and prerequisites."""
         node = self.get_concept(concept_name)
         if not node:

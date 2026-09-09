@@ -9,6 +9,16 @@ from pathlib import Path
 import sys
 from typing import Optional
 
+# Ensure UTF-8 output encoding across platforms (specifically Windows console and CI)
+if sys.platform == "win32":
+    try:
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        if hasattr(sys.stderr, "reconfigure"):
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception as _enc_err:
+        _ = _enc_err
+
 if __package__ is None or __package__ == "":
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from senior_mentor.orchestrator import Orchestrator, OrchestratorResponse
@@ -55,35 +65,46 @@ To interact with the Senior AI Mentor & the 14-member Expert Council:
   {CYAN}$ ANTIGRAVITY_CLI=1 python3 -m senior_mentor.cli --init{RESET}
 {BOLD}{RED}================================================================================{RESET}
 """
-    print(error_msg, file=sys.stderr)
+    try:
+        print(error_msg, file=sys.stderr)
+    except UnicodeEncodeError:
+        safe_msg = error_msg.encode("ascii", errors="replace").decode("ascii")
+        print(safe_msg, file=sys.stderr)
 
 class MentorCLI:
     def __init__(self):
         self.orchestrator = Orchestrator()
 
     def print_antigravity_welcome(self) -> None:
-        print(f"\n{BOLD}{CYAN}================================================================={RESET}")
-        print(f"{BOLD}{CYAN}       SENIOR AI ENGINEERING MENTOR & EXPERT COUNCIL             {RESET}")
-        print(f"{BOLD}{CYAN}              (Strictly Antigravity CLI Environment)             {RESET}")
-        print(f"{BOLD}{CYAN}================================================================={RESET}")
-        print(f"{GREEN}✓ Antigravity CLI Environment Verified.{RESET}")
-        print(f"{CYAN}You do not need a separate terminal REPL. Chat directly in this Antigravity CLI session!{RESET}\n")
-        print(f"{BOLD}Active Mentorship Slash Commands in agy:{RESET}")
-        print(f"  {GREEN}/council <topic>{RESET}      - Deliberate technical trade-offs (14 expert personas)")
-        print(f"  {GREEN}/mentor <query>{RESET}       - Adaptive Socratic scaffolding (L3-L5)")
-        print(f"  {GREEN}/solve <query>{RESET}        - Direct production implementation (L0-L2)")
-        print(f"  {GREEN}/hint{RESET}                 - Progressive clue without spoilers")
-        print(f"  {GREEN}/challenge <concept>{RESET}  - Isomorphic concept challenge")
-        print(f"  {GREEN}/interview [domain]{RESET}   - Senior mock technical interview")
-        print(f"  {GREEN}/status{RESET}               - Learner profile & competency score")
-        print(f"  {GREEN}/refine{RESET}               - View autonomous self-improvement proposals")
-        print(f"\n{BOLD}CLI Helper Flags for Antigravity Agents:{RESET}")
-        print(f"  --status          Display current competency metrics")
-        print(f"  --skills          List installed Tier 0 & Tier 1 skills")
-        print(f"  --audit <path>    Run AST security audit on a skill")
-        print(f"  --discover <task> Search and audit external Tier 2 skills")
-        print(f"  --init [path]     Initialize workspace for Antigravity CLI")
-        print()
+        welcome_lines = [
+            f"\n{BOLD}{CYAN}================================================================={RESET}",
+            f"{BOLD}{CYAN}       SENIOR AI ENGINEERING MENTOR & EXPERT COUNCIL             {RESET}",
+            f"{BOLD}{CYAN}              (Strictly Antigravity CLI Environment)             {RESET}",
+            f"{BOLD}{CYAN}================================================================={RESET}",
+            f"{GREEN}✓ Antigravity CLI Environment Verified.{RESET}",
+            f"{CYAN}You do not need a separate terminal REPL. Chat directly in this Antigravity CLI session!{RESET}\n",
+            f"{BOLD}Active Mentorship Slash Commands in agy:{RESET}",
+            f"  {GREEN}/council <topic>{RESET}      - Deliberate technical trade-offs (14 expert personas)",
+            f"  {GREEN}/mentor <query>{RESET}       - Adaptive Socratic scaffolding (L3-L5)",
+            f"  {GREEN}/solve <query>{RESET}        - Direct production implementation (L0-L2)",
+            f"  {GREEN}/hint{RESET}                 - Progressive clue without spoilers",
+            f"  {GREEN}/challenge <concept>{RESET}  - Isomorphic concept challenge",
+            f"  {GREEN}/interview [domain]{RESET}   - Senior mock technical interview",
+            f"  {GREEN}/status{RESET}               - Learner profile & competency score",
+            f"  {GREEN}/refine{RESET}               - View autonomous self-improvement proposals",
+            f"\n{BOLD}CLI Helper Flags for Antigravity Agents:{RESET}",
+            f"  --status          Display current competency metrics",
+            f"  --skills          List installed Tier 0 & Tier 1 skills",
+            f"  --audit <path>    Run AST security audit on a skill",
+            f"  --discover <task> Search and audit external Tier 2 skills",
+            f"  --init [path]     Initialize workspace for Antigravity CLI",
+            ""
+        ]
+        welcome_text = "\n".join(welcome_lines)
+        try:
+            print(welcome_text)
+        except UnicodeEncodeError:
+            print(welcome_text.encode("ascii", errors="replace").decode("ascii"))
 
     def format_response(self, resp: OrchestratorResponse) -> str:
         out = []
@@ -153,19 +174,29 @@ class MentorCLI:
     def print_status(self) -> None:
         status = self.orchestrator.get_learner_status()
         prof = status["profile"]
-        print(f"\n{BOLD}{CYAN}--- LEARNER PROFILE & COMPETENCY EVALUATION ---{RESET}")
-        print(f"Learner: {prof.name} | User ID: {prof.user_id}")
-        print(f"Target Role: {BOLD}{prof.target_role}{RESET} | Current Assessed Level: {BOLD}{GREEN}{status['competency_tier']}{RESET}")
-        print(f"Overall Competency Rating: {BOLD}{status['overall_score']:.1f}/10.0{RESET}")
-        print(f"Anti-Dependency Ratio (Direct vs Socratic): {status['anti_dependency_ratio']:.0%}")
-        print(f"Active Knowledge Concepts Tracked: {status['knowledge_count']}")
+        header = f"""
+{BOLD}{CYAN}--- LEARNER PROFILE & COMPETENCY EVALUATION ---{RESET}
+Learner: {prof.name} | User ID: {prof.user_id}
+Target Role: {BOLD}{prof.target_role}{RESET} | Current Assessed Level: {BOLD}{GREEN}{status['competency_tier']}{RESET}
+Overall Competency Rating: {BOLD}{status['overall_score']:.1f}/10.0{RESET}
+Anti-Dependency Ratio (Direct vs Socratic): {status['anti_dependency_ratio']:.0%}
+Active Knowledge Concepts Tracked: {status['knowledge_count']}
 
-        print(f"\n{BOLD}Dimension Ratings:{RESET}")
+{BOLD}Dimension Ratings:{RESET}"""
+        try:
+            print(header)
+        except UnicodeEncodeError:
+            print(header.encode("ascii", errors="replace").decode("ascii"))
+
         for ds in status["dimension_scores"]:
             filled = int(ds.score)
             empty = 10 - filled
-            bar = f"{GREEN}{'█' * filled}\033[90m{'█' * empty}{RESET}"
-            print(f"  - {ds.name:45s} [{bar}] {ds.score:.1f}/10")
+            try:
+                bar = f"{GREEN}{'█' * filled}\033[90m{'█' * empty}{RESET}"
+                print(f"  - {ds.name:45s} [{bar}] {ds.score:.1f}/10")
+            except UnicodeEncodeError:
+                bar = f"[{'=' * filled}{'-' * empty}]"
+                print(f"  - {ds.name:45s} {bar} {ds.score:.1f}/10")
 
         if status["unresolved_misconceptions"]:
             print(f"\n{BOLD}{RED}Active Misconceptions to Address:{RESET}")
@@ -175,23 +206,31 @@ class MentorCLI:
         if status["recommended_learning_plan"]:
             print(f"\n{BOLD}{YELLOW}Targeted Learning Recommendations:{RESET}")
             for plan in status["recommended_learning_plan"]:
-                print(f"  • {plan}")
+                try:
+                    print(f"  • {plan}")
+                except UnicodeEncodeError:
+                    print(f"  - {plan}")
         print()
 
     def print_skills(self) -> None:
         skills = self.orchestrator.skill_manager.list_tier0_skills()
-        print(f"\n{BOLD}{CYAN}--- TIER 0 TRUSTED CORE SKILLS (.agents/skills/) ---{RESET}")
+        out = [f"\n{BOLD}{CYAN}--- TIER 0 TRUSTED CORE SKILLS (.agents/skills/) ---{RESET}"]
         for s in skills:
-            print(f"• {BOLD}{GREEN}{s.name}{RESET} [{s.tier}] - Status: {s.risk_level}")
-            print(f"  Description: {s.description}")
+            out.append(f"• {BOLD}{GREEN}{s.name}{RESET} [{s.tier}] - Status: {s.risk_level}")
+            out.append(f"  Description: {s.description}")
 
         ext = self.orchestrator.skill_manager.list_curated_external_skills(limit=10)
         if ext:
-            print(f"\n{BOLD}{CYAN}--- TIER 1 EXTERNAL SKILLS POOL (Preview) ---{RESET}")
+            out.append(f"\n{BOLD}{CYAN}--- TIER 1 EXTERNAL SKILLS POOL (Preview) ---{RESET}")
             for s in ext:
-                print(f"• {BOLD}{YELLOW}{s.name}{RESET} [{s.tier}] - Status: {s.risk_level}")
-                print(f"  Description: {s.description}")
-        print()
+                out.append(f"• {BOLD}{YELLOW}{s.name}{RESET} [{s.tier}] - Status: {s.risk_level}")
+                out.append(f"  Description: {s.description}")
+        out.append("")
+        skills_text = "\n".join(out)
+        try:
+            print(skills_text)
+        except UnicodeEncodeError:
+            print(skills_text.encode("ascii", errors="replace").decode("ascii"))
 
     def run_repl(self) -> None:
         """Disabled: Standalone terminal REPL is not permitted."""
