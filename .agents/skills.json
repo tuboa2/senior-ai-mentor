@@ -6,6 +6,14 @@
     {
       "path": "/home/kazuha/.gemini/antigravity-cli/skills",
       "include_only": [
+        "council",
+        "mentor",
+        "solve",
+        "interview",
+        "status",
+        "hint",
+        "challenge",
+        "refine",
         "ab-testing",
         "advanced-evaluation",
         "agent-creator",

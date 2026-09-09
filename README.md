@@ -7,7 +7,7 @@
 [![CI](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml/badge.svg)](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests: 46 Passed](https://img.shields.io/badge/tests-46%20passed-brightgreen.svg)]()
+[![Tests: 48 Passed](https://img.shields.io/badge/tests-48%20passed-brightgreen.svg)]()
 [![Dependencies: Zero External](https://img.shields.io/badge/dependencies-0%20external-success.svg)]()
 [![Platform: Linux | macOS | Windows](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg)]()
 [![Antigravity CLI: Strictly Required](https://img.shields.io/badge/Antigravity%20CLI-Strictly%20Required-red.svg)]()
@@ -22,11 +22,9 @@
 
 ## ⚡ Quick Start in 60 Seconds
 
-Senior AI Engineering Mentor is strictly designed to operate within the **Google Antigravity CLI (`agy`)** environment.
+Senior AI Engineering Mentor integrates directly with your **Google Antigravity CLI (`agy`)** workflow.
 
-Get up and running in 3 simple steps:
-
-### Step 1: Install the Mentor System
+### Step 1: Install the System (One-Time Setup)
 
 Run one command in your terminal:
 
@@ -38,35 +36,37 @@ curl -fsSL https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/instal
 irm https://raw.githubusercontent.com/tuboa2/senior-ai-mentor/main/install.ps1 | iex
 ```
 
-### Step 2: Initialize Your Project Workspace
+### Step 2: Initialize Any Project Workspace
 
-Navigate to your target project repository and initialize it for Antigravity CLI:
+Navigate to any existing or new project repository and run:
 
 ```bash
 cd /path/to/my-project
 agy-mentor init
 ```
 
-*This provisions local `.agents/skills/`, sets up `.agents/skills.json`, configures `GEMINI.md` / `AGENTS.md`, and links global persistent memory.*
+*This automatically provisions local `.agents/skills/` with all 15 core and slash skills, creates `GEMINI.md` / `AGENTS.md`, and connects your project to shared cross-project memory.*
 
-### Step 3: Start Pair Programming in Antigravity CLI!
+### Step 3: Launch Antigravity CLI & Start Pair Programming
 
-Launch Antigravity CLI and chat directly with the 14-member Expert Council:
+Launch Antigravity CLI in your project repository:
 
 ```bash
-# Launch Antigravity CLI in your workspace
 agy
 ```
 
-Inside your `agy` session, interact directly using natural language or slash commands:
+Inside your `agy` session, interact directly using natural language or slash commands (which autocomplete when you type `/`):
 - `/council DuckDB vs Spark for 15GB daily log processing`
 - `/mentor How should I structure my feature store?`
 - `/solve Implement temporal cross-validation in pure Python`
 - `/interview system_design`
 - `/status`
+- `/hint`
+- `/challenge attention mechanism`
+- `/refine`
 
-> [!IMPORTANT]
-> **No Independent Terminal Use:** This system is not a standalone terminal REPL. Independent terminal execution outside Antigravity CLI is intentionally blocked to ensure full agentic pair programming capabilities.
+> [!TIP]
+> **Terminal Companion Commands:** You can also inspect your learner state or audit skills from your regular terminal shell at any time using `agy-mentor --status` or `agy-mentor --skills`.
 
 ---
 
@@ -163,47 +163,51 @@ When experts argue opposing positions (e.g., *DuckDB vs. Spark*, *Tree Models vs
 
 ## 💻 Daily Workflows & Usage Guide (Antigravity CLI)
 
-All interactions are hosted natively inside your **Google Antigravity CLI (`agy`)** session.
+All pair programming interactions are hosted natively inside your **Google Antigravity CLI (`agy`)** session, with companion utilities managed via `agy-mentor`.
 
 ### 1. Antigravity CLI Chat & Slash Commands
 
-When working inside Antigravity CLI (`agy`), simply chat naturally or invoke specialized commands:
+When working inside Antigravity CLI (`agy`), simply chat naturally or invoke specialized commands. All slash commands are registered as **Agent Skills** in `.agents/skills/` and autocomplete interactively when you type `/`:
 
 | Slash Command | Mode / Level | Example Query & Behavior |
 |:---|:---|:---|
+| `/council <topic>` | **Council Debate** | `/council DuckDB vs Spark for 15GB log processing`<br>*Convenes the 14-expert council to expose trade-offs and dissent without false compromise.* |
+| `/mentor <query>` | **L3–L5 Socratic** | `/mentor how should I structure my feature store?`<br>*Provides architectural clues, invariant checks, and guiding questions without revealing raw code.* |
 | `/solve <query>` | **L0–L2 Direct** | `/solve implement temporal cross-validation in pure Python`<br>*Returns complete production code, first-principles derivation, and pitfall catalog.* |
-| `/mentor <query>` | **L3–L5 Socratic** | `/mentor how should I structure my feature store?`<br>*Nudges with architectural clues, invariant checks, and guiding questions.* |
-| `/hint <query>` | **Progressive Clue** | `/hint`<br>*Provides the next progressive clue without giving away implementation details.* |
-| `/challenge <concept>`| **L6–L7 Challenge** | `/challenge data leakage`<br>*Issues an isomorphic transfer problem or asks you to find vulnerabilities in your own code.* |
-| `/council <query>` | **Council Debate** | `/council DuckDB vs Spark for 15GB log processing`<br>*Explicitly convenes the 14-expert council to expose trade-offs and dissent.* |
-| `/interview [domain]` | **Mock Interview** | `/interview system_design`<br>*Launches a realistic technical interview session (`system_design`, `ml_theory`, `statistics`, `coding`).* |
-| `/status` | **Learner Diagnostics**| `/status`<br>*Displays your competency ratings (0–10), ZPD assessments, and anti-dependency ratio.* |
-| `/refine` | **Self-Improvement** | `/refine`<br>*Reviews autonomous optimization proposals generated by the feedback engine (Phase 7).* |
-| `/feedback <text>` | **Calibration** | `/feedback SVD signs can vary across numpy and scipy`<br>*Submits corrections to calibrate future mentor guidance.* |
+| `/interview [domain]` | **Mock Interview** | `/interview system_design`<br>*Launches a realistic technical interview session (`system_design`, `ml_theory`, `statistics`, `coding`) and scores your answer.* |
+| `/status` | **Learner Diagnostics**| `/status`<br>*Displays your competency ratings (0–10), dimension breakdown, active misconceptions, and learning roadmap.* |
+| `/hint [query]` | **Progressive Clue** | `/hint`<br>*Provides the next progressive clue (L3 Conceptual $\rightarrow$ L4 Architectural $\rightarrow$ L5 Guided Question) without spoilers.* |
+| `/challenge <concept>`| **L6–L7 Challenge** | `/challenge data leakage`<br>*Issues an isomorphic transfer problem or asks you to red-team/find vulnerabilities in code.* |
+| `/refine` | **Self-Improvement** | `/refine`<br>*Reviews autonomous optimization proposals generated from past feedback and misconceptions (Phase 7).* |
 
 ---
 
-### 2. Antigravity CLI Helper Subcommands (`agy-mentor`)
+### 2. Terminal Companion Utility (`agy-mentor`)
 
-Inside Antigravity CLI, agents and users have access to the `agy-mentor` helper utility for workspace management, audits, and discovery:
+From your regular terminal shell (Bash, Zsh, or PowerShell), you can use the `agy-mentor` command-line utility for workspace management, metrics inspection, and skill audits:
 
 ```bash
-# 1. Initialize current workspace for Antigravity CLI
+# 1. Initialize any project repository for Antigravity CLI
 agy-mentor init
+# Or initialize a specific path:
+agy-mentor init /path/to/my-project
 
-# 2. View learner competency report & anti-dependency metrics
+# 2. View your learner competency evaluation & dimension scores
 agy-mentor --status
 
-# 3. List installed Tier 0 and Tier 1 skills
+# 3. List all installed Tier 0 Core and Tier 1 External skills
 agy-mentor --skills
 
-# 4. Security-audit an external skill folder or file with static AST analysis
-agy-mentor --audit ~/.gemini/antigravity-cli/skills/my-custom-skill
+# 4. Launch a quick mock technical interview question from the terminal
+agy-mentor --interview system_design
 
-# 5. Discover and audit candidate Tier 2 skills for a task
-agy-mentor --discover "transformer"
+# 5. Security-audit any skill folder or file with static AST analysis
+agy-mentor --audit .agents/skills/council
 
-# 6. View autonomous self-improvement proposals (Phase 7 feedback)
+# 6. Discover and audit candidate Tier 2 external skills for a task
+agy-mentor --discover "transformer attention"
+
+# 7. View autonomous self-improvement proposals (Phase 7 feedback)
 agy-mentor --refine
 ```
 

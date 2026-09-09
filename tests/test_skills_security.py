@@ -71,5 +71,45 @@ class TestSkillsSecurity(unittest.TestCase):
         self.assertFalse(result.success)
         self.assertTrue(result.timed_out)
 
+    def test_all_tier0_slash_skills_audited_and_trusted(self):
+        """Verifies that all 8 Antigravity CLI mentorship slash skills exist and pass AST audit."""
+        from senior_mentor.config import SKILLS_TIER0_DIR
+        required_slash_skills = [
+            "council",
+            "mentor",
+            "solve",
+            "interview",
+            "status",
+            "hint",
+            "challenge",
+            "refine"
+        ]
+        for skill_name in required_slash_skills:
+            skill_dir = SKILLS_TIER0_DIR / skill_name
+            self.assertTrue(skill_dir.is_dir(), f"Skill directory missing: {skill_dir}")
+            skill_md = skill_dir / "SKILL.md"
+            self.assertTrue(skill_md.exists(), f"SKILL.md missing in: {skill_dir}")
+            rep = self.auditor.audit_skill_directory(skill_dir)
+            self.assertTrue(rep.is_safe, f"Skill {skill_name} failed safety audit: {rep.findings}")
+            self.assertEqual(rep.risk_level, "TRUSTED")
+
+    def test_initializer_provisions_all_slash_skills(self):
+        """Verifies that initialize_workspace copies all 15 skills into a target workspace."""
+        from senior_mentor.initializer import initialize_workspace
+        target_dir = self.base_path / "test_init_repo"
+        target_dir.mkdir()
+        res = initialize_workspace(target_dir, enable_global=False, copy_core_skills=True)
+        target_skills = target_dir / ".agents" / "skills"
+        self.assertTrue(target_skills.is_dir())
+        
+        expected_skills = [
+            "council", "mentor", "solve", "interview", "status", "hint", "challenge", "refine",
+            "adaptive-scaffolding", "expert-council-deliberation", "data-leakage-detection",
+            "statistical-validation", "code-review-protocols", "dynamic-specialist-spawner",
+            "python-engineering-standards"
+        ]
+        for s in expected_skills:
+            self.assertTrue((target_skills / s / "SKILL.md").exists(), f"Skill {s} not provisioned in target repo")
+
 if __name__ == "__main__":
     unittest.main()

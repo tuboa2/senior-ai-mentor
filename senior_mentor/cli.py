@@ -248,6 +248,24 @@ def main() -> None:
         print_antigravity_required_error()
         sys.exit(1)
 
+    if len(sys.argv) > 1 and sys.argv[1].lower() == "init":
+        target_path = Path(sys.argv[2] if len(sys.argv) > 2 else ".").resolve()
+        try:
+            from .initializer import initialize_workspace
+        except (ImportError, ValueError):
+            from senior_mentor.initializer import initialize_workspace
+        res = initialize_workspace(target_path, enable_global=True)
+        print(f"\n{BOLD}{GREEN}✓ Initialized Senior Engineering Mentor for Antigravity CLI in: {target_path}{RESET}")
+        for m in res["messages"]:
+            print(f"  • {m}")
+        if res["created_files"]:
+            print(f"\nCreated/Updated {len(res['created_files'])} configuration files:")
+            for f in res["created_files"]:
+                print(f"  + {f}")
+        print(f"\n{CYAN}This project is now configured for Antigravity CLI pair programming.{RESET}")
+        print(f"{BOLD}Run {GREEN}agy{RESET}{BOLD} to begin!{RESET}\n")
+        return
+
     parser = argparse.ArgumentParser(
         description="Senior AI Engineering Mentor (Strictly Antigravity CLI Only)."
     )
@@ -264,8 +282,8 @@ def main() -> None:
 
     cli = MentorCLI()
 
-    if args.init or (args.query and args.query.strip().lower() == "init"):
-        target_path = Path(args.init if args.init else ".").resolve()
+    if args.init:
+        target_path = Path(args.init).resolve()
         try:
             from .initializer import initialize_workspace
         except (ImportError, ValueError):

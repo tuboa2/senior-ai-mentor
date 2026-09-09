@@ -64,5 +64,9 @@ Write-Host "     - /mentor <query>       : Adaptive Socratic scaffolding (L3-L5)
 Write-Host "     - /solve <query>        : Direct production code and derivations (L0-L2)" -ForegroundColor Yellow
 Write-Host "     - /interview [domain]   : Realistic senior/staff mock technical interview" -ForegroundColor Yellow
 Write-Host "     - /status               : View learner profile & competency metrics" -ForegroundColor Yellow
-Write-Host "  4. To configure an existing workspace: agy-mentor init`n" -ForegroundColor Cyan
+Write-Host "     - /hint                 : Progressive concept clues" -ForegroundColor Yellow
+Write-Host "     - /challenge <concept>  : Isomorphic concept challenge" -ForegroundColor Yellow
+Write-Host "     - /refine               : Autonomous self-improvement proposals" -ForegroundColor Yellow
+Write-Host "  4. To configure an existing workspace: agy-mentor init" -ForegroundColor Cyan
+Write-Host "  5. CLI helper flags: agy-mentor --status or agy-mentor --skills`n" -ForegroundColor Cyan
 Write-Host "Note: Standalone terminal REPL is disabled. Pair programming is hosted strictly inside 'agy'.`n" -ForegroundColor Magenta

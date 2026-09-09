@@ -72,6 +72,7 @@ mkdir -p "$HOME/.local/bin"
 
 cat << 'INNER_EOF' > "$HOME/.local/bin/mentor"
 #!/usr/bin/env bash
+export ANTIGRAVITY_CLI=1
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -d "$HOME/.senior-ai-mentor" ]; then
     export PYTHONPATH="$HOME/.senior-ai-mentor:$PYTHONPATH"
@@ -81,6 +82,7 @@ INNER_EOF
 
 cat << 'INNER_EOF' > "$HOME/.local/bin/agy-mentor"
 #!/usr/bin/env bash
+export ANTIGRAVITY_CLI=1
 if [ -d "$HOME/.senior-ai-mentor" ]; then
     export PYTHONPATH="$HOME/.senior-ai-mentor:$PYTHONPATH"
 fi
@@ -115,5 +117,9 @@ echo -e "     - ${CYAN}/mentor <query>${RESET}       : Adaptive Socratic scaffol
 echo -e "     - ${CYAN}/solve <query>${RESET}        : Direct production code and derivations (L0-L2)"
 echo -e "     - ${CYAN}/interview [domain]${RESET}   : Realistic senior/staff mock technical interview"
 echo -e "     - ${CYAN}/status${RESET}               : View learner profile & competency metrics"
+echo -e "     - ${CYAN}/hint${RESET}                 : Progressive concept clues"
+echo -e "     - ${CYAN}/challenge <concept>${RESET}  : Isomorphic concept challenge"
+echo -e "     - ${CYAN}/refine${RESET}               : Autonomous self-improvement proposals"
 echo -e "  4. To configure an existing workspace: ${CYAN}agy-mentor init${RESET}"
+echo -e "  5. CLI helper flags for inspection: ${CYAN}agy-mentor --status${RESET} or ${CYAN}agy-mentor --skills${RESET}"
 echo -e "\n${YELLOW}Note: Standalone terminal REPL is disabled. Pair programming is hosted strictly inside 'agy'.${RESET}\n"
