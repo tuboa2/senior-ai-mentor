@@ -10,6 +10,7 @@ from dataclasses import dataclass
 import hashlib
 from typing import Dict, List, Optional
 from ..memory.store import MemoryStore, FeedbackRecord, ComponentVersionRecord
+from ..pedagogy.scope_guard import ScopeGuard
 
 @dataclass
 class RefinementProposal:
@@ -24,10 +25,20 @@ class RefinementProposal:
 class AutonomousSelfImprovementEngine:
     def __init__(self, memory_store: MemoryStore):
         self.store = memory_store
+        self.scope_guard = ScopeGuard()
 
-    def capture_correction(self, context: str, user_correction: str, target: str = "prompt") -> None:
-        """Captures user corrections when model output was flawed or uncalibrated."""
+    def capture_correction(self, context: str, user_correction: str, target: str = "prompt") -> bool:
+        """Captures user corrections when model output was flawed or uncalibrated.
+        
+        Rejects out-of-scope feedback to prevent non-engineering corruption of the feedback log.
+        """
+        context_check = self.scope_guard.check_scope(context)
+        correction_check = self.scope_guard.check_scope(user_correction)
+        if not context_check.is_in_scope and not correction_check.is_in_scope:
+            return False
+
         self.store.log_feedback(context=context, user_feedback=user_correction, system_target=target)
+        return True
 
     def analyze_improvement_opportunities(self) -> List[RefinementProposal]:
         """Analyzes feedback logs and misconception patterns to generate concrete refinement proposals."""

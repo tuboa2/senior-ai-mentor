@@ -11,6 +11,7 @@ from .memory.store import MemoryStore, UserProfile
 from .knowledge.graph import KnowledgeGraph, ConceptNode
 from .pedagogy.learner_model import LearnerModel, ZPDStatus
 from .pedagogy.scaffolding import ScaffoldingEngine, ScaffoldedResponse
+from .pedagogy.scope_guard import ScopeGuard, ScopeCheckResult
 from .council.experts import PERMANENT_EXPERTS, spawn_dynamic_specialist
 from .council.debate import DebateEngine, DebateSynthesis
 from .council.interview import InterviewSimulator, InterviewQuestion
@@ -29,6 +30,8 @@ class OrchestratorResponse:
     anti_dependency_warning: Optional[str]
     interview_question: Optional[InterviewQuestion] = None
     interview_feedback: Optional[Dict] = None
+    is_rejected: bool = False
+    rejection_reason: Optional[str] = None
 
 class Orchestrator:
     def __init__(self, config: Optional[MentorConfig] = None):
@@ -42,6 +45,7 @@ class Orchestrator:
         self.skill_manager = SkillManager(self.config)
         self.tracker = CompetencyTracker(self.store)
         self.self_improvement = AutonomousSelfImprovementEngine(self.store)
+        self.scope_guard = ScopeGuard()
 
     def parse_command(self, raw_text: str) -> Tuple[Optional[str], str]:
         """Extracts slash commands like /solve, /mentor, /hint, /challenge, /council, /interview."""
@@ -64,6 +68,29 @@ class Orchestrator:
     def process_query(self, user_input: str) -> OrchestratorResponse:
         cmd, clean_query = self.parse_command(user_input)
         active_query = clean_query if clean_query else user_input
+
+        # Scope Guard: Reject queries outside AI engineering scope and guarantee zero memory mutation
+        scope_result = self.scope_guard.check_scope(user_input)
+        if not scope_result.is_in_scope:
+            return OrchestratorResponse(
+                query=user_input,
+                command_mode=cmd,
+                scaffold=ScaffoldedResponse(
+                    level=-1,
+                    level_name="Rejected (Out of Scope)",
+                    tier="Scope Guard",
+                    content=scope_result.rejection_message,
+                    anti_dependency_alert=None,
+                    next_action_prompt="Submit a technical query in Machine Learning, Systems, Software Architecture, or Data Science."
+                ),
+                debate_synthesis=None,
+                matched_concept=None,
+                zpd_status=None,
+                anti_dependency_warning=None,
+                interview_question=None,
+                is_rejected=True,
+                rejection_reason=scope_result.reason
+            )
 
         # Handle interview command
         interview_q = None
@@ -106,6 +133,16 @@ class Orchestrator:
 
     def record_user_decision(self, context: str, options: List[str], chosen: str, rationale: str) -> Dict:
         """Evaluates and persists the user's decision rationale when resolving an escalated trade-off."""
+        scope_check = self.scope_guard.check_scope(context)
+        if not scope_check.is_in_scope:
+            return {
+                "judgment_score": 0.0,
+                "mentor_verdict": f"Rejected: context '{context}' is outside technical scope.",
+                "strengths": [],
+                "blind_spots": [scope_check.reason],
+                "calibrated_guidance": "Decisions can only be recorded for in-scope technical engineering trade-offs."
+            }
+
         if not hasattr(self, "_last_debate") or not self._last_debate:
             dummy_synth = self.debate_engine.deliberate(context, force_disagreement=True)
         else:

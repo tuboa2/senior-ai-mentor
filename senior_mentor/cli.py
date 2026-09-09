@@ -109,6 +109,16 @@ class MentorCLI:
     def format_response(self, resp: OrchestratorResponse) -> str:
         out = []
 
+        if getattr(resp, "is_rejected", False):
+            out.append(f"\n{BOLD}{RED}================================================================{RESET}")
+            out.append(f"{BOLD}{RED} 🚫 QUERY REJECTED: OUTSIDE SENIOR AI MENTOR SCOPE               {RESET}")
+            out.append(f"{BOLD}{RED}================================================================{RESET}")
+            out.append(f"\n{YELLOW}{resp.scaffold.content}{RESET}")
+            if resp.scaffold.next_action_prompt:
+                out.append(f"\n{BOLD}{CYAN}Actionable Prompt:{RESET} {resp.scaffold.next_action_prompt}")
+            out.append(f"\n{BOLD}{RED}================================================================{RESET}")
+            return "\n".join(out)
+
         if resp.anti_dependency_warning:
             out.append(f"\n{YELLOW}{resp.anti_dependency_warning}{RESET}")
 
