@@ -14,6 +14,8 @@
         "hint",
         "challenge",
         "refine",
+        "update",
+        "changelog",
         "ab-testing",
         "advanced-evaluation",
         "agent-creator",

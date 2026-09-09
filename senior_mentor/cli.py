@@ -92,12 +92,16 @@ class MentorCLI:
             f"  {GREEN}/interview [domain]{RESET}   - Senior mock technical interview",
             f"  {GREEN}/status{RESET}               - Learner profile & competency score",
             f"  {GREEN}/refine{RESET}               - View autonomous self-improvement proposals",
+            f"  {GREEN}/update{RESET}               - Dynamically update workspace to latest release",
+            f"  {GREEN}/changelog [ver]{RESET}      - View version history & release notes",
             f"\n{BOLD}CLI Helper Flags for Antigravity Agents:{RESET}",
             f"  --status          Display current competency metrics",
             f"  --skills          List installed Tier 0 & Tier 1 skills",
             f"  --audit <path>    Run AST security audit on a skill",
             f"  --discover <task> Search and audit external Tier 2 skills",
             f"  --init [path]     Initialize workspace for Antigravity CLI",
+            f"  --update [path]   Dynamically update project scope to latest release",
+            f"  --changelog [ver] View release notes and version history in terminal",
             ""
         ]
         welcome_text = "\n".join(welcome_lines)
@@ -251,10 +255,12 @@ Active Knowledge Concepts Tracked: {status['knowledge_count']}
         )
 
 def main() -> None:
-    # Check if this is an initialization command
+    # Check if this is an initialization, update, or changelog command
     is_init = ("--init" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "init"))
+    is_update = ("--update" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "update"))
+    is_changelog = ("--changelog" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "changelog"))
 
-    if not is_antigravity_cli() and not is_init:
+    if not is_antigravity_cli() and not (is_init or is_update or is_changelog):
         print_antigravity_required_error()
         sys.exit(1)
 
@@ -276,10 +282,47 @@ def main() -> None:
         print(f"{BOLD}Run {GREEN}agy{RESET}{BOLD} to begin!{RESET}\n")
         return
 
+    if len(sys.argv) > 1 and sys.argv[1].lower() == "update":
+        target_path = Path(sys.argv[2] if len(sys.argv) > 2 else ".").resolve()
+        try:
+            from .initializer import update_workspace
+        except (ImportError, ValueError):
+            from senior_mentor.initializer import update_workspace
+        res = update_workspace(target_path, force=True, enable_global=True)
+        print(f"\n{BOLD}{GREEN}✓ Dynamic Workspace Update Complete [v{res['version']}]{RESET}")
+        print(f"Target Directory: {target_path}")
+        if res.get("new_skills"):
+            print(f"\n{BOLD}Newly Installed Core Skills:{RESET}")
+            for s in res["new_skills"]:
+                print(f"  + /{s}")
+        if res.get("updated_skills"):
+            print(f"\n{BOLD}Refreshed Core Skills:{RESET}")
+            for s in res["updated_skills"]:
+                print(f"  * /{s}")
+        if res.get("updated_files"):
+            print(f"\nUpdated {len(res['updated_files'])} Configuration & Directive Files:")
+            for f in res["updated_files"]:
+                print(f"  ~ {f}")
+        for m in res.get("messages", []):
+            print(f"  • {m}")
+        print(f"\n{CYAN}Your project scope is now fully updated to v{res['version']}!{RESET}")
+        print(f"{BOLD}Run {GREEN}agy{RESET}{BOLD} to begin!{RESET}\n")
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1].lower() == "changelog":
+        target_ver = sys.argv[2] if len(sys.argv) > 2 else None
+        try:
+            from .changelog import ChangelogManager
+        except (ImportError, ValueError):
+            from senior_mentor.changelog import ChangelogManager
+        cm = ChangelogManager()
+        print(cm.format_terminal_output(target_ver, use_color=True))
+        return
+
     parser = argparse.ArgumentParser(
         description="Senior AI Engineering Mentor (Strictly Antigravity CLI Only)."
     )
-    parser.add_argument("--version", action="version", version="senior-mentor 1.0.0 (Antigravity CLI)")
+    parser.add_argument("--version", action="version", version="senior-mentor 1.1.0 (Antigravity CLI)")
     parser.add_argument("query", nargs="?", help="One-shot query for Antigravity subagent invocation")
     parser.add_argument("--status", action="store_true", help="Print learner status and competency report")
     parser.add_argument("--skills", action="store_true", help="List installed Tier 0 and Tier 1 skills")
@@ -288,6 +331,8 @@ def main() -> None:
     parser.add_argument("--refine", action="store_true", help="View autonomous self-improvement proposals")
     parser.add_argument("--interview", nargs="?", const="system_design", help="Launch mock technical interview")
     parser.add_argument("--init", nargs="?", const=".", help="Initialize a project workspace for Antigravity CLI")
+    parser.add_argument("--update", nargs="?", const=".", help="Dynamically update workspace skills, directives, and manifests to latest release")
+    parser.add_argument("--changelog", nargs="?", const="", help="View version history and release notes in terminal")
     args = parser.parse_args()
 
     cli = MentorCLI()
@@ -308,6 +353,41 @@ def main() -> None:
                 print(f"  + {f}")
         print(f"\n{CYAN}This project is now configured for Antigravity CLI pair programming.{RESET}")
         print(f"{BOLD}Run {GREEN}agy{RESET}{BOLD} to begin!{RESET}\n")
+        return
+    elif args.update is not None:
+        target_path = Path(args.update).resolve()
+        try:
+            from .initializer import update_workspace
+        except (ImportError, ValueError):
+            from senior_mentor.initializer import update_workspace
+        res = update_workspace(target_path, force=True, enable_global=True)
+        print(f"\n{BOLD}{GREEN}✓ Dynamic Workspace Update Complete [v{res['version']}]{RESET}")
+        print(f"Target Directory: {target_path}")
+        if res.get("new_skills"):
+            print(f"\n{BOLD}Newly Installed Core Skills:{RESET}")
+            for s in res["new_skills"]:
+                print(f"  + /{s}")
+        if res.get("updated_skills"):
+            print(f"\n{BOLD}Refreshed Core Skills:{RESET}")
+            for s in res["updated_skills"]:
+                print(f"  * /{s}")
+        if res.get("updated_files"):
+            print(f"\nUpdated {len(res['updated_files'])} Configuration & Directive Files:")
+            for f in res["updated_files"]:
+                print(f"  ~ {f}")
+        for m in res.get("messages", []):
+            print(f"  • {m}")
+        print(f"\n{CYAN}Your project scope is now fully updated to v{res['version']}!{RESET}")
+        print(f"{BOLD}Run {GREEN}agy{RESET}{BOLD} to begin!{RESET}\n")
+        return
+    elif args.changelog is not None:
+        target_ver = args.changelog if args.changelog else None
+        try:
+            from .changelog import ChangelogManager
+        except (ImportError, ValueError):
+            from senior_mentor.changelog import ChangelogManager
+        cm = ChangelogManager()
+        print(cm.format_terminal_output(target_ver, use_color=True))
         return
     elif args.status:
         cli.print_status()

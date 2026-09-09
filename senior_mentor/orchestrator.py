@@ -5,6 +5,7 @@ Coordinates the Expert Council, Learner Model, Knowledge Graph, and Scaffolding 
 """
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from .config import MentorConfig
 from .memory.store import MemoryStore, UserProfile
@@ -54,7 +55,7 @@ class Orchestrator:
             parts = text[1:].split(maxsplit=1)
             cmd = parts[0].lower()
             remainder = parts[1].strip() if len(parts) > 1 else ""
-            if cmd in ("solve", "mentor", "hint", "challenge", "council", "interview", "status", "profile", "eval", "skills", "feedback", "refine"):
+            if cmd in ("solve", "mentor", "hint", "challenge", "council", "interview", "status", "profile", "eval", "skills", "feedback", "refine", "update", "changelog"):
                 return cmd, remainder
         return None, text
 
@@ -90,6 +91,73 @@ class Orchestrator:
                 interview_question=None,
                 is_rejected=True,
                 rejection_reason=scope_result.reason
+            )
+
+        # Handle changelog command
+        if cmd == "changelog":
+            from .changelog import ChangelogManager
+            cm = ChangelogManager()
+            target_ver = clean_query if clean_query else None
+            text_out = cm.format_terminal_output(target_ver, use_color=False)
+            return OrchestratorResponse(
+                query=user_input,
+                command_mode="changelog",
+                scaffold=ScaffoldedResponse(
+                    level=3,
+                    level_name="Changelog & Release Notes",
+                    tier="System Release Notes",
+                    content=text_out,
+                    anti_dependency_alert=None,
+                    next_action_prompt="Use /status to inspect your current profile or /update to sync the latest framework features."
+                ),
+                debate_synthesis=None,
+                matched_concept=None,
+                zpd_status=None,
+                anti_dependency_warning=None
+            )
+
+        # Handle update command
+        if cmd == "update":
+            from .initializer import update_workspace
+            target_path = Path(clean_query).resolve() if clean_query else Path.cwd()
+            res = update_workspace(target_path)
+            report_lines = [
+                f"### [Senior AI Engineering Mentor: Workspace Synchronized to v{res.get('version', '1.1.0')}]",
+                "",
+                f"**Target Workspace:** `{target_path}`",
+                f"**Status:** {res.get('status', 'success').upper()}",
+                ""
+            ]
+            if res.get("new_skills"):
+                report_lines.append("**New Skills Installed:**")
+                for s in res["new_skills"]:
+                    report_lines.append(f"- `/{s}`")
+                report_lines.append("")
+            if res.get("updated_skills"):
+                report_lines.append("**Skills Refreshed:**")
+                for s in res["updated_skills"]:
+                    report_lines.append(f"- `/{s}`")
+                report_lines.append("")
+            if res.get("updated_files"):
+                report_lines.append(f"**Updated {len(res['updated_files'])} Configuration & Directive Files.**")
+            for m in res.get("messages", []):
+                report_lines.append(f"• {m}")
+
+            return OrchestratorResponse(
+                query=user_input,
+                command_mode="update",
+                scaffold=ScaffoldedResponse(
+                    level=3,
+                    level_name="Dynamic Workspace Update",
+                    tier="System Synchronizer",
+                    content="\n".join(report_lines),
+                    anti_dependency_alert=None,
+                    next_action_prompt="Your workspace is fully updated. Use /changelog to view release details or /council to deliberate technical decisions."
+                ),
+                debate_synthesis=None,
+                matched_concept=None,
+                zpd_status=None,
+                anti_dependency_warning=None
             )
 
         # Handle interview command

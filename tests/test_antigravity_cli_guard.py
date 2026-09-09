@@ -101,7 +101,8 @@ class TestAntigravityCLIGuard(unittest.TestCase):
             text=True
         )
         self.assertEqual(res.returncode, 0)
-        self.assertIn("senior-mentor 1.0.0 (Antigravity CLI)", res.stdout)
+        from senior_mentor import __version__
+        self.assertIn(f"senior-mentor {__version__} (Antigravity CLI)", res.stdout)
 
     def test_subprocess_welcome_in_antigravity_without_args(self):
         env = self._get_isolated_env()

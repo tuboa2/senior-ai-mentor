@@ -1,0 +1,26 @@
+{
+  "framework_version": "1.1.0",
+  "initialized_at": "2026-09-09T06:15:02.650649+00:00",
+  "last_updated_at": "2026-09-09T06:17:27.327787+00:00",
+  "synced_skills": [
+    "adaptive-scaffolding",
+    "challenge",
+    "changelog",
+    "code-review-protocols",
+    "council",
+    "data-leakage-detection",
+    "dynamic-specialist-spawner",
+    "expert-council-deliberation",
+    "hint",
+    "interview",
+    "mentor",
+    "python-engineering-standards",
+    "refine",
+    "solve",
+    "statistical-validation",
+    "status",
+    "update"
+  ],
+  "core_skills_count": 17,
+  "status": "up_to_date"
+}

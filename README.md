@@ -179,12 +179,14 @@ When working inside Antigravity CLI (`agy`), simply chat naturally or invoke spe
 | `/hint [query]` | **Progressive Clue** | `/hint`<br>*Provides the next progressive clue (L3 Conceptual $\rightarrow$ L4 Architectural $\rightarrow$ L5 Guided Question) without spoilers.* |
 | `/challenge <concept>`| **L6–L7 Challenge** | `/challenge data leakage`<br>*Issues an isomorphic transfer problem or asks you to red-team/find vulnerabilities in code.* |
 | `/refine` | **Self-Improvement** | `/refine`<br>*Reviews autonomous optimization proposals generated from past feedback and misconceptions (Phase 7).* |
+| `/update` | **Dynamic Update** | `/update`<br>*Seamlessly synchronizes the active project scope directory (.agents/) with the latest mentor skills, directives, and manifests.* |
+| `/changelog [ver]` | **Release Notes** | `/changelog`<br>*Displays release notes, feature history, and component updates directly in-session or for a specific version (`/changelog 1.1.0`).* |
 
 ---
 
 ### 2. Terminal Companion Utility (`agy-mentor`)
 
-From your regular terminal shell (Bash, Zsh, or PowerShell), you can use the `agy-mentor` command-line utility for workspace management, metrics inspection, and skill audits:
+From your regular terminal shell (Bash, Zsh, or PowerShell), you can use the `agy-mentor` command-line utility for workspace management, metrics inspection, dynamic updates, and changelog inspection:
 
 ```bash
 # 1. Initialize any project repository for Antigravity CLI
@@ -192,22 +194,32 @@ agy-mentor init
 # Or initialize a specific path:
 agy-mentor init /path/to/my-project
 
-# 2. View your learner competency evaluation & dimension scores
+# 2. Seamlessly update an existing/old initialized project scope directory to latest release
+agy-mentor update
+# Or update a specific target path:
+agy-mentor update /path/to/my-project
+
+# 3. View the release notes and changelog directly in your terminal
+agy-mentor changelog
+# Or view notes for a specific version:
+agy-mentor changelog 1.1.0
+
+# 4. View your learner competency evaluation & dimension scores
 agy-mentor --status
 
-# 3. List all installed Tier 0 Core and Tier 1 External skills
+# 5. List all installed Tier 0 Core and Tier 1 External skills
 agy-mentor --skills
 
-# 4. Launch a quick mock technical interview question from the terminal
+# 6. Launch a quick mock technical interview question from the terminal
 agy-mentor --interview system_design
 
-# 5. Security-audit any skill folder or file with static AST analysis
+# 7. Security-audit any skill folder or file with static AST analysis
 agy-mentor --audit .agents/skills/council
 
-# 6. Discover and audit candidate Tier 2 external skills for a task
+# 8. Discover and audit candidate Tier 2 external skills for a task
 agy-mentor --discover "transformer attention"
 
-# 7. View autonomous self-improvement proposals (Phase 7 feedback)
+# 9. View autonomous self-improvement proposals (Phase 7 feedback)
 agy-mentor --refine
 ```
 

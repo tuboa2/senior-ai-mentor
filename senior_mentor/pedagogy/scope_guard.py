@@ -34,7 +34,8 @@ class ScopeGuard:
     ALLOWED_SLASH_COMMANDS: Set[str] = {
         "solve", "mentor", "hint", "challenge", "council",
         "interview", "status", "profile", "eval", "skills",
-        "feedback", "refine", "audit", "discover", "init"
+        "feedback", "refine", "audit", "discover", "init",
+        "update", "changelog"
     }
 
     # Core technical pillars
@@ -204,33 +205,17 @@ class ScopeGuard:
         clean_text = query if query else (text if not cmd else "")
         lower_clean = clean_text.lower().strip()
 
-        # 1. Framework control commands with empty query are valid
-        if cmd in self.ALLOWED_SLASH_COMMANDS and not clean_text:
-            return ScopeCheckResult(
-                is_in_scope=True,
-                reason=f"Framework command /{cmd} is in scope.",
-                matched_domains=["framework_controls"]
-            )
-
-        # 2. If command is /interview with valid domain or empty
-        if cmd == "interview" and (not clean_text or clean_text in {"system_design", "ml_theory", "statistics", "coding"}):
-            return ScopeCheckResult(
-                is_in_scope=True,
-                reason="Interview simulation is in scope.",
-                matched_domains=["algorithms_coding"]
-            )
-
-        # 3. Check for out-of-scope categories
+        # 1. Check for out-of-scope categories first
         matched_out_of_scope: Optional[Tuple[str, str]] = None
         for category, regex, reason in self._compiled_out_of_scope:
-            if regex.search(clean_text):
+            if regex.search(clean_text) or regex.search(text):
                 matched_out_of_scope = (category, reason)
                 break
 
         # Check matched technical domains
         matched_domains = [
             domain for domain, regex in self._compiled_technical.items()
-            if regex.search(clean_text)
+            if regex.search(clean_text) or regex.search(text)
         ]
 
         # Check for technical framing override
@@ -257,6 +242,23 @@ class ScopeGuard:
                 matched_domains=[],
                 rejection_message=self._build_rejection_message(text, reason),
                 suggested_topics=self.get_suggested_topics()
+            )
+
+        # 2. Framework control commands
+        if cmd in self.ALLOWED_SLASH_COMMANDS:
+            if not clean_text or cmd in {"status", "skills", "refine", "changelog", "update", "profile", "eval", "audit", "discover", "init"}:
+                return ScopeCheckResult(
+                    is_in_scope=True,
+                    reason=f"Framework command /{cmd} is in scope.",
+                    matched_domains=["framework_controls"]
+                )
+
+        # 3. If command is /interview with valid domain or empty
+        if cmd == "interview" and (not clean_text or clean_text in {"system_design", "ml_theory", "statistics", "coding"}):
+            return ScopeCheckResult(
+                is_in_scope=True,
+                reason="Interview simulation is in scope.",
+                matched_domains=["algorithms_coding"]
             )
 
         # 4. If no explicit out-of-scope matched, verify that at least one technical signal exists
