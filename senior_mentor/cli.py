@@ -72,16 +72,53 @@ To interact with the Senior AI Mentor & the 14-member Expert Council:
         print(safe_msg, file=sys.stderr)
 
 class MentorCLI:
-    def __init__(self):
-        self.orchestrator = Orchestrator()
+    def __init__(self, workspace_dir: Optional[Path] = None):
+        self.orchestrator = Orchestrator(workspace_dir=workspace_dir)
+
+    def print_context(self, target_path: Optional[Path] = None) -> None:
+        path = Path(target_path).resolve() if target_path else self.orchestrator.workspace_dir
+        ctx = self.orchestrator.context_detector.detect(path)
+        out = [
+            f"\n{BOLD}{CYAN}================================================================={RESET}",
+            f"{BOLD}{CYAN}     PROJECT CONTEXT & CONDITIONAL MEMORY INSPECTION             {RESET}",
+            f"{BOLD}{CYAN}================================================================={RESET}",
+            f"{BOLD}Workspace Directory:{RESET} `{path}`",
+            (f"{BOLD}Related to AI/ML/Data Science:{RESET} {GREEN}YES (Active Engineering Domain){RESET}"
+             if ctx.is_related else
+             f"{BOLD}Related to AI/ML/Data Science:{RESET} {RED}NO (Unrelated / Non-Technical){RESET}"),
+            f"{BOLD}Project Classification:{RESET} {CYAN}{ctx.project_type}{RESET}",
+            f"{BOLD}Detection Confidence:{RESET} {BOLD}{int(ctx.confidence * 100)}%{RESET}",
+            f"{BOLD}Detected Domains:{RESET} {', '.join(ctx.detected_domains) if ctx.detected_domains else 'None'}",
+            f"{BOLD}Detected Frameworks:{RESET} " + (f"{GREEN}{', '.join(ctx.detected_frameworks)}{RESET}" if ctx.detected_frameworks else "None"),
+            "",
+            f"{BOLD}Senior AI Mentor Memory Status:{RESET} " + (
+                f"{BOLD}{GREEN}🔓 RETRIEVED & MODIFICATIONS AUTHORIZED{RESET}\n  (Learner progress loaded; live updates to knowledge state and project memory are active.)"
+                if ctx.modification_allowed else
+                f"{BOLD}{YELLOW}🔒 LOCKED (READ-ONLY) - ZERO MUTATIONS PERMITTED{RESET}\n  (Mentor memory is protected against corruption. Queries are answered without altering progress records.)"
+            ),
+            ""
+        ]
+        if ctx.evidence:
+            out.append(f"{BOLD}Detection Evidence Found:{RESET}")
+            for ev in ctx.evidence:
+                out.append(f"  • {ev}")
+            out.append("")
+        out.append(f"{BOLD}{CYAN}================================================================={RESET}\n")
+        try:
+            print("\n".join(out))
+        except UnicodeEncodeError:
+            print("\n".join(out).encode("ascii", errors="replace").decode("ascii"))
 
     def print_antigravity_welcome(self) -> None:
+        ctx = self.orchestrator.project_context
+        mem_status = f"{GREEN}🔓 Memory RETRIEVED & MODIFIABLE{RESET}" if ctx.modification_allowed else f"{YELLOW}🔒 Memory LOCKED (READ-ONLY){RESET}"
         welcome_lines = [
             f"\n{BOLD}{CYAN}================================================================={RESET}",
             f"{BOLD}{CYAN}       SENIOR AI ENGINEERING MENTOR & EXPERT COUNCIL             {RESET}",
             f"{BOLD}{CYAN}              (Strictly Antigravity CLI Environment)             {RESET}",
             f"{BOLD}{CYAN}================================================================={RESET}",
             f"{GREEN}✓ Antigravity CLI Environment Verified.{RESET}",
+            f"{BOLD}Active Workspace Context:{RESET} {CYAN}{ctx.project_type}{RESET} | {mem_status}",
             f"{CYAN}You do not need a separate terminal REPL. Chat directly in this Antigravity CLI session!{RESET}\n",
             f"{BOLD}Active Mentorship Slash Commands in agy:{RESET}",
             f"  {GREEN}/council <topic>{RESET}      - Deliberate technical trade-offs (14 expert personas)",
@@ -90,11 +127,13 @@ class MentorCLI:
             f"  {GREEN}/hint{RESET}                 - Progressive clue without spoilers",
             f"  {GREEN}/challenge <concept>{RESET}  - Isomorphic concept challenge",
             f"  {GREEN}/interview [domain]{RESET}   - Senior mock technical interview",
+            f"  {GREEN}/context [path]{RESET}       - Inspect detected project context & memory lock status",
             f"  {GREEN}/status{RESET}               - Learner profile & competency score",
             f"  {GREEN}/refine{RESET}               - View autonomous self-improvement proposals",
             f"  {GREEN}/update{RESET}               - Dynamically update workspace to latest release",
             f"  {GREEN}/changelog [ver]{RESET}      - View version history & release notes",
             f"\n{BOLD}CLI Helper Flags for Antigravity Agents:{RESET}",
+            f"  --context [path]  Inspect detected project context & memory lock status",
             f"  --status          Display current competency metrics",
             f"  --skills          List installed Tier 0 & Tier 1 skills",
             f"  --audit <path>    Run AST security audit on a skill",
@@ -122,6 +161,15 @@ class MentorCLI:
                 out.append(f"\n{BOLD}{CYAN}Actionable Prompt:{RESET} {resp.scaffold.next_action_prompt}")
             out.append(f"\n{BOLD}{RED}================================================================{RESET}")
             return "\n".join(out)
+
+        if resp.command_mode == "context":
+            return resp.scaffold.content
+
+        if resp.project_context:
+            if resp.project_context.is_related:
+                out.append(f"\n{CYAN}[Project Context: {resp.project_context.project_type} | Memory: RETRIEVED & MODIFIABLE]{RESET}")
+            else:
+                out.append(f"\n{YELLOW}[Project Context: Unrelated ({resp.project_context.project_type}) | Memory: LOCKED (READ-ONLY)]{RESET}")
 
         if resp.anti_dependency_warning:
             out.append(f"\n{YELLOW}{resp.anti_dependency_warning}{RESET}")
@@ -255,12 +303,13 @@ Active Knowledge Concepts Tracked: {status['knowledge_count']}
         )
 
 def main() -> None:
-    # Check if this is an initialization, update, or changelog command
+    # Check if this is an initialization, update, changelog, or context inspection command
     is_init = ("--init" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "init"))
     is_update = ("--update" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "update"))
     is_changelog = ("--changelog" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "changelog"))
+    is_context = ("--context" in sys.argv or (len(sys.argv) > 1 and sys.argv[1].lower() == "context"))
 
-    if not is_antigravity_cli() and not (is_init or is_update or is_changelog):
+    if not is_antigravity_cli() and not (is_init or is_update or is_changelog or is_context):
         print_antigravity_required_error()
         sys.exit(1)
 
@@ -319,12 +368,19 @@ def main() -> None:
         print(cm.format_terminal_output(target_ver, use_color=True))
         return
 
+    if len(sys.argv) > 1 and sys.argv[1].lower() == "context":
+        target_path = Path(sys.argv[2] if len(sys.argv) > 2 else ".").resolve()
+        cli = MentorCLI(workspace_dir=target_path)
+        cli.print_context(target_path)
+        return
+
     parser = argparse.ArgumentParser(
         description="Senior AI Engineering Mentor (Strictly Antigravity CLI Only)."
     )
-    parser.add_argument("--version", action="version", version="senior-mentor 1.1.0 (Antigravity CLI)")
+    parser.add_argument("--version", action="version", version="senior-mentor 1.1.1 (Antigravity CLI)")
     parser.add_argument("query", nargs="?", help="One-shot query for Antigravity subagent invocation")
     parser.add_argument("--status", action="store_true", help="Print learner status and competency report")
+    parser.add_argument("--context", nargs="?", const=".", help="Inspect detected project context and memory lock status")
     parser.add_argument("--skills", action="store_true", help="List installed Tier 0 and Tier 1 skills")
     parser.add_argument("--audit", help="Run security audit on a skill folder or name")
     parser.add_argument("--discover", help="Discover and audit Tier 2 external skills for a specific task")
@@ -388,6 +444,11 @@ def main() -> None:
             from senior_mentor.changelog import ChangelogManager
         cm = ChangelogManager()
         print(cm.format_terminal_output(target_ver, use_color=True))
+        return
+    elif args.context is not None:
+        target_path = Path(args.context).resolve()
+        cli = MentorCLI(workspace_dir=target_path)
+        cli.print_context(target_path)
         return
     elif args.status:
         cli.print_status()

@@ -25,6 +25,29 @@ All notable changes to the **Senior AI Engineering Mentor & Orchestrator Council
 
 ---
 
+## [1.1.1] - 2026-09-10
+
+### Added
+- **Dynamic Project Context Detection & Conditional Memory Modification Protocol:**
+  - Automated project context detection via ProjectContextDetector.
+  - Inspects dependency manifests, model artifacts (.pt, .onnx, .safetensors), structured data (.parquet, .duckdb), and notebooks (.ipynb).
+  - Conditional Memory Modification:
+    - Related projects (AI, ML, Data Science, Distributed Systems): Mentor memory retrieved and progress updates authorized.
+    - Unrelated projects (Non-technical, static blogs, general recipes): Mentor memory locked (read-only) with zero SQLite mutations permitted.
+  - Double-layer protection: method-level checks + connection rollback guarantee.
+- **New In-Session Command & CLI Flag:**
+  - /context [path]: Inspect detected project context and memory lock status in session.
+  - --context [path]: CLI flag to inspect workspace domain classification.
+- **New Core Skill:**
+  - /context skill for dynamic project context inspection.
+
+### Changed
+- Upgraded framework version to 1.1.1 across all components.
+- Orchestrator automatically evaluates workspace context and enforces memory lock state.
+- Welcome output and formatted responses display active project classification and memory authorization status.
+
+---
+
 ## [1.1.0] - 2026-09-09
 
 ### Added

@@ -115,19 +115,31 @@ class ComponentVersionRecord:
     created_at: str
 
 class MemoryStore:
-    def __init__(self, db_path: Path = DB_PATH):
+    def __init__(self, db_path: Path = DB_PATH, mutation_allowed: bool = True):
         self.db_path = Path(db_path)
+        self.mutation_allowed = mutation_allowed
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         ensure_directories(self.db_path.parent)
         self._init_db()
 
+    def set_mutation_allowed(self, allowed: bool) -> None:
+        """Dynamically enable or disable writes to the mentor memory database."""
+        self.mutation_allowed = bool(allowed)
+
+    def is_mutation_allowed(self) -> bool:
+        """Returns True if memory modifications are currently permitted."""
+        return self.mutation_allowed
+
     @contextmanager
-    def _get_conn(self) -> Generator[sqlite3.Connection, None, None]:
+    def _get_conn(self, for_write: bool = False) -> Generator[sqlite3.Connection, None, None]:
         conn = sqlite3.connect(str(self.db_path))
         conn.row_factory = sqlite3.Row
         try:
             yield conn
-            conn.commit()
+            if for_write and not self.mutation_allowed:
+                conn.rollback()
+            else:
+                conn.commit()
         finally:
             conn.close()
 
@@ -277,6 +289,8 @@ class MemoryStore:
                 return UserProfile(**dict(row))
             t = now_iso()
             profile = UserProfile(user_id=user_id, name=name, created_at=t, updated_at=t)
+            if not self.mutation_allowed:
+                return profile
             cur.execute("""
                 INSERT INTO user_profile (user_id, name, target_role, current_level, learning_goals, created_at, updated_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -285,8 +299,10 @@ class MemoryStore:
             return profile
 
     def update_profile(self, profile: UserProfile) -> None:
+        if not self.mutation_allowed:
+            return
         profile.updated_at = now_iso()
-        with self._get_conn() as conn:
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("""
                 UPDATE user_profile
@@ -306,11 +322,17 @@ class MemoryStore:
             return [KnowledgeRecord(**dict(row)) for row in cur.fetchall()]
 
     def record_knowledge_assessment(self, domain: str, microskill: str, success: bool, delta_weight: float = 0.15) -> KnowledgeRecord:
-        with self._get_conn() as conn:
+        t = now_iso()
+        if not self.mutation_allowed:
+            existing = [r for r in self.get_knowledge_state(domain) if r.microskill == microskill]
+            if existing:
+                return existing[0]
+            return KnowledgeRecord(domain, microskill, 0.0, 0.0, 0, 0, t)
+
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("SELECT * FROM knowledge_state WHERE domain = ? AND microskill = ?", (domain, microskill))
             row = cur.fetchone()
-            t = now_iso()
             if row:
                 rec = KnowledgeRecord(**dict(row))
                 new_attempts = rec.attempts + 1
@@ -338,7 +360,9 @@ class MemoryStore:
 
     # --- Misconception Methods ---
     def record_misconception(self, concept: str, pattern: str) -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("SELECT id, frequency FROM misconception_memory WHERE concept=? AND pattern_description=?", (concept, pattern))
             row = cur.fetchone()
@@ -363,14 +387,18 @@ class MemoryStore:
             return [MisconceptionRecord(**dict(row)) for row in cur.fetchall()]
 
     def resolve_misconception(self, misconception_id: int) -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("UPDATE misconception_memory SET resolved = 1 WHERE id = ?", (misconception_id,))
             conn.commit()
 
     # --- Decision & Experiment Methods ---
     def log_decision(self, context: str, options: List[str], chosen: str, rationale: str, outcome: str = "Pending evaluation") -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("""
                 INSERT INTO decision_memory (context, options_considered, chosen_option, rationale, outcome, created_at)
@@ -385,7 +413,9 @@ class MemoryStore:
             return [DecisionRecord(**dict(row)) for row in cur.fetchall()]
 
     def log_experiment(self, name: str, hypothesis: str, baseline: str, variables: str, metrics: str, result: str = "Ongoing", conclusion: str = "") -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("""
                 INSERT INTO experiment_memory (name, hypothesis, baseline, variables, metrics, result, conclusion, created_at)
@@ -401,7 +431,9 @@ class MemoryStore:
 
     # --- Scaffolding & Anti-Dependency Log ---
     def log_scaffolding_interaction(self, query: str, level: int, explicit_override: bool) -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("""
                 INSERT INTO scaffolding_log (timestamp, query, scaffold_level, explicit_override)
@@ -422,7 +454,9 @@ class MemoryStore:
 
     # --- Project Memory Methods ---
     def log_project(self, name: str, tech_stack: str, architecture_notes: str, key_decisions: str, lessons_learned: str) -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("""
                 INSERT INTO project_memory (name, tech_stack, architecture_notes, key_decisions, lessons_learned, created_at)
@@ -458,7 +492,9 @@ class MemoryStore:
 
     # --- Phase 7 Self-Improvement: Feedback & Versioning Methods ---
     def log_feedback(self, context: str, user_feedback: str, system_target: str = "prompt") -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("""
                 INSERT INTO feedback_log (context, user_feedback, system_target, status, created_at)
@@ -476,7 +512,9 @@ class MemoryStore:
             return [FeedbackRecord(**dict(row)) for row in cur.fetchall()]
 
     def record_component_version(self, component_type: str, component_name: str, version: str, content_hash: str, changelog: str) -> None:
-        with self._get_conn() as conn:
+        if not self.mutation_allowed:
+            return
+        with self._get_conn(for_write=True) as conn:
             cur = conn.cursor()
             cur.execute("""
                 INSERT INTO component_versions (component_type, component_name, version, content_hash, changelog, created_at)

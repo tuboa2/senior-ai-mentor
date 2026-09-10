@@ -35,7 +35,7 @@ class ScopeGuard:
         "solve", "mentor", "hint", "challenge", "council",
         "interview", "status", "profile", "eval", "skills",
         "feedback", "refine", "audit", "discover", "init",
-        "update", "changelog"
+        "update", "changelog", "context"
     }
 
     # Core technical pillars
@@ -246,7 +246,7 @@ class ScopeGuard:
 
         # 2. Framework control commands
         if cmd in self.ALLOWED_SLASH_COMMANDS:
-            if not clean_text or cmd in {"status", "skills", "refine", "changelog", "update", "profile", "eval", "audit", "discover", "init"}:
+            if not clean_text or cmd in {"status", "skills", "refine", "changelog", "update", "profile", "eval", "audit", "discover", "init", "context"}:
                 return ScopeCheckResult(
                     is_in_scope=True,
                     reason=f"Framework command /{cmd} is in scope.",

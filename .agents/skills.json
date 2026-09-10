@@ -16,6 +16,7 @@
         "refine",
         "update",
         "changelog",
+        "context",
         "ab-testing",
         "advanced-evaluation",
         "agent-creator",

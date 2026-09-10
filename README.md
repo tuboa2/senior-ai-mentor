@@ -7,7 +7,7 @@
 [![CI](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml/badge.svg)](https://github.com/tuboa2/senior-ai-mentor/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests: 48 Passed](https://img.shields.io/badge/tests-48%20passed-brightgreen.svg)]()
+[![Tests: 68 Passed](https://img.shields.io/badge/tests-68%20passed-brightgreen.svg)]()
 [![Dependencies: Zero External](https://img.shields.io/badge/dependencies-0%20external-success.svg)]()
 [![Platform: Linux | macOS | Windows](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg)]()
 [![Antigravity CLI: Strictly Required](https://img.shields.io/badge/Antigravity%20CLI-Strictly%20Required-red.svg)]()
@@ -45,7 +45,7 @@ cd /path/to/my-project
 agy-mentor init
 ```
 
-*This automatically provisions local `.agents/skills/` with all 15 core and slash skills, creates `GEMINI.md` / `AGENTS.md`, and connects your project to shared cross-project memory.*
+*This automatically provisions local `.agents/skills/` with all core and slash skills, creates `GEMINI.md` / `AGENTS.md`, and connects your project to shared cross-project memory.*
 
 ### Step 3: Launch Antigravity CLI & Start Pair Programming
 
@@ -59,14 +59,22 @@ Inside your `agy` session, interact directly using natural language or slash com
 - `/council DuckDB vs Spark for 15GB daily log processing`
 - `/mentor How should I structure my feature store?`
 - `/solve Implement temporal cross-validation in pure Python`
+- `/context` *(Inspect detected project classification & memory lock state)*
 - `/interview system_design`
 - `/status`
 - `/hint`
 - `/challenge attention mechanism`
 - `/refine`
+- `/update` *(Dynamically sync workspace to latest release)*
+- `/changelog` *(View release notes and version history)*
 
 > [!TIP]
-> **Terminal Companion Commands:** You can also inspect your learner state or audit skills from your regular terminal shell at any time using `agy-mentor --status` or `agy-mentor --skills`.
+> **Terminal Companion Commands:** You can inspect project context, learner state, or release notes from your terminal at any time:
+> - `agy-mentor --context [path]` — Inspect detected project domain & memory authorization status
+> - `agy-mentor --status` — Display current competency metrics and ZPD diagnostics
+> - `agy-mentor --update [path]` — Dynamically update workspace scope to latest release
+> - `agy-mentor --changelog [ver]` — View version history in terminal with color formatting
+> - `agy-mentor --skills` — List installed Tier 0 and Tier 1 skills
 
 ---
 
@@ -300,6 +308,17 @@ agy-mentor init
 ```
 
 *This creates a local database in `./.mentor_data/mentor_memory.db` dedicated exclusively to that workspace.*
+
+### 4. Dynamic Project Context Detection & Conditional Memory Modification (v1.1.1)
+
+When Antigravity CLI runs, it dynamically inspects the active workspace directory to classify the project domain:
+- **Analyzed Artifacts:** Dependency manifests (`requirements.txt`, `pyproject.toml`, `package.json`, etc.), machine learning model files (`.pt`, `.onnx`, `.safetensors`), structured data files (`.parquet`, `.arrow`, `.duckdb`), Jupyter notebooks (`.ipynb`), dedicated directory structures (`models/`, `data/`, `pipelines/`), and Python code imports.
+- **Conditional Memory Modification Rules:**
+  - **Related Projects (AI, ML, Data Science, Distributed Systems):** The Senior AI Mentor **retrieves** previous memory, learner progress, and mastered knowledge states. Live updates to knowledge state, misconception memory, decision records, and project tracking are **AUTHORIZED and ACTIVE**.
+  - **Unrelated Projects (Non-Technical, Static Sites, Recipes, Marketing, General Docs):** The Senior AI Mentor **LOCKS memory modification (`mutation_allowed = False`)**. The mentor answers queries in read-only / stateless mode and is strictly prohibited from mutating SQLite database tables, protecting your engineering progress from corruption.
+- **Inspect Context Anytime:**
+  - In `agy` session: `/context`
+  - In terminal: `agy-mentor --context [path]`
 
 ---
 

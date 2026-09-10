@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] - 2026-09-10
+
+### Added
+- **Dynamic Project Context Detection & Conditional Memory Modification Protocol:**
+  - Automated project context detection via `senior_mentor.project_detector.ProjectContextDetector`.
+  - Comprehensive workspace inspection analyzing:
+    - Dependency manifests (`requirements.txt`, `pyproject.toml`, `setup.py`, `Pipfile`, `environment.yml`, `package.json`).
+    - Dedicated AI/ML directory trees (`models/`, `data/`, `notebooks/`, `pipelines/`, `experiments/`).
+    - Model artifact files (`.pt`, `.onnx`, `.safetensors`, `.h5`, `.tflite`, `.pkl`).
+    - Structured data storage (`.parquet`, `.arrow`, `.feather`, `.duckdb`, `.sqlite3`).
+    - Jupyter notebooks (`.ipynb`) and AST code import scanning.
+  - **Conditional Memory Modification Enforcement:**
+    - **Related Projects (AI, ML, Data Science, Distributed Systems):** Senior AI Mentor retrieves memory and learner progress. Live updates to knowledge state, misconception memory, decision memory, and project memory are **AUTHORIZED**.
+    - **Unrelated Projects (Non-Technical, Static Blogs, Recipes, General Docs):** Senior AI Mentor memory is **LOCKED (READ-ONLY)**. Modifications to SQLite memory tables are strictly blocked to prevent corruption of the mentor's progress records.
+  - **Double-Layer Mutation Protection in `MemoryStore`:**
+    - Layer 1: Individual write methods check `mutation_allowed` and return early without mutating state.
+    - Layer 2: Connection-level rollback in `_get_conn(for_write=True)` ensures 0 commits if writes are attempted while locked.
+- **New In-Session Command & CLI Flag:**
+  - `/context [path]`: Inspect the detected project classification, confidence, frameworks, and memory status directly inside Antigravity CLI.
+  - `--context [path]` flag on `mentor` and `agy-mentor` CLI for standalone workspace inspection.
+- **New Core Skill:**
+  - `/context` skill added to `.agents/skills/context/SKILL.md` and registered in `CORE_MENTOR_SKILLS`.
+
+### Changed
+- Upgraded package version to `1.1.1` across `senior_mentor/__init__.py`, `pyproject.toml`, `setup.py`, and `senior_mentor/initializer.py`.
+- Updated `Orchestrator` to automatically evaluate active workspace context upon initialization and conditionalize `MemoryStore.set_mutation_allowed()`.
+- Updated `MentorCLI` welcome message and response formatting to display active project context classification and memory authorization status.
+- Updated `GEMINI.md` and `AGENTS.md` with Section 6: Dynamic Project Context Detection & Conditional Memory Modification Protocol.
+
+---
+
 ## [1.1.0] - 2026-09-09
 
 ### Added

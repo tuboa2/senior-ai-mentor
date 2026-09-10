@@ -19,6 +19,7 @@ from .council.interview import InterviewSimulator, InterviewQuestion
 from .skills.manager import SkillManager
 from .evaluation.tracker import CompetencyTracker, EvaluationReport
 from .self_improvement.feedback import AutonomousSelfImprovementEngine, RefinementProposal
+from .project_detector import ProjectContextDetector, ProjectContextResult
 
 @dataclass
 class OrchestratorResponse:
@@ -33,11 +34,18 @@ class OrchestratorResponse:
     interview_feedback: Optional[Dict] = None
     is_rejected: bool = False
     rejection_reason: Optional[str] = None
+    project_context: Optional[ProjectContextResult] = None
+    retrieved_progress: Optional[Dict] = None
 
 class Orchestrator:
-    def __init__(self, config: Optional[MentorConfig] = None):
+    def __init__(self, config: Optional[MentorConfig] = None, workspace_dir: Optional[Path] = None):
         self.config = config or MentorConfig()
-        self.store = MemoryStore(self.config.db_path)
+        self.workspace_dir = Path(workspace_dir or Path.cwd()).resolve()
+        self.context_detector = ProjectContextDetector()
+        self.project_context = self.context_detector.detect(self.workspace_dir)
+
+        # Initialize Memory Store with conditional mutation authorization
+        self.store = MemoryStore(self.config.db_path, mutation_allowed=self.project_context.is_related)
         self.graph = KnowledgeGraph()
         self.learner_model = LearnerModel(self.store, self.graph)
         self.scaffolding_engine = ScaffoldingEngine(self.learner_model, self.graph)
@@ -48,14 +56,49 @@ class Orchestrator:
         self.self_improvement = AutonomousSelfImprovementEngine(self.store)
         self.scope_guard = ScopeGuard()
 
+        # If project is related to AI/ML/Data Science, retrieve progress and link project
+        self.retrieved_progress: Optional[Dict] = None
+        if self.project_context.is_related:
+            self.retrieved_progress = self.get_learner_status()
+            self._sync_project_memory()
+
+    def _sync_project_memory(self) -> None:
+        """Links active technical project to project memory if modification is authorized."""
+        if not self.project_context.is_related:
+            return
+        proj_name = self.workspace_dir.name
+        existing = [p for p in self.store.get_projects(limit=20) if p.name == proj_name]
+        if not existing:
+            stack = ", ".join(self.project_context.detected_frameworks) or self.project_context.project_type
+            notes = f"Detected domains: {', '.join(self.project_context.detected_domains)}"
+            self.store.log_project(
+                name=proj_name,
+                tech_stack=stack,
+                architecture_notes=notes,
+                key_decisions="Project dynamically linked by Senior AI Mentor Orchestrator",
+                lessons_learned="Active development underway"
+            )
+
+    def set_workspace(self, workspace_dir: Path) -> ProjectContextResult:
+        """Dynamically switches workspace context and updates memory mutation lock."""
+        self.workspace_dir = Path(workspace_dir).resolve()
+        self.project_context = self.context_detector.detect(self.workspace_dir)
+        self.store.set_mutation_allowed(self.project_context.is_related)
+        if self.project_context.is_related:
+            self.retrieved_progress = self.get_learner_status()
+            self._sync_project_memory()
+        else:
+            self.retrieved_progress = None
+        return self.project_context
+
     def parse_command(self, raw_text: str) -> Tuple[Optional[str], str]:
-        """Extracts slash commands like /solve, /mentor, /hint, /challenge, /council, /interview."""
+        """Extracts slash commands like /solve, /mentor, /hint, /challenge, /council, /interview, /context."""
         text = raw_text.strip()
         if text.startswith("/"):
             parts = text[1:].split(maxsplit=1)
             cmd = parts[0].lower()
             remainder = parts[1].strip() if len(parts) > 1 else ""
-            if cmd in ("solve", "mentor", "hint", "challenge", "council", "interview", "status", "profile", "eval", "skills", "feedback", "refine", "update", "changelog"):
+            if cmd in ("solve", "mentor", "hint", "challenge", "council", "interview", "status", "profile", "eval", "skills", "feedback", "refine", "update", "changelog", "context"):
                 return cmd, remainder
         return None, text
 
@@ -113,7 +156,52 @@ class Orchestrator:
                 debate_synthesis=None,
                 matched_concept=None,
                 zpd_status=None,
-                anti_dependency_warning=None
+                anti_dependency_warning=None,
+                project_context=self.project_context,
+                retrieved_progress=self.retrieved_progress
+            )
+
+        # Handle context command
+        if cmd == "context":
+            target_dir = Path(clean_query).resolve() if clean_query else self.workspace_dir
+            ctx_res = self.context_detector.detect(target_dir)
+            ctx_lines = [
+                f"### [Senior AI Engineering Mentor: Project Context Inspection]",
+                "",
+                f"**Workspace Path:** `{target_dir}`",
+                f"**Related to AI/ML/Data Science:** {'YES (Active Domain)' if ctx_res.is_related else 'NO (Unrelated / Non-Technical)'}",
+                f"**Project Classification:** {ctx_res.project_type}",
+                f"**Detection Confidence:** {ctx_res.confidence * 100:.0f}%",
+                f"**Detected Domains:** {', '.join(ctx_res.detected_domains) if ctx_res.detected_domains else 'None'}",
+                f"**Detected Frameworks:** {', '.join(ctx_res.detected_frameworks) if ctx_res.detected_frameworks else 'None'}",
+                "",
+                f"**Mentor Memory Status:** {'🔓 RETRIEVED & MODIFICATIONS AUTHORIZED' if ctx_res.modification_allowed else '🔒 LOCKED (READ-ONLY) - ZERO MUTATIONS PERMITTED'}",
+                ""
+            ]
+            if ctx_res.evidence:
+                ctx_lines.append("**Detection Evidence:**")
+                for ev in ctx_res.evidence:
+                    ctx_lines.append(f"- {ev}")
+                ctx_lines.append("")
+            ctx_lines.append(f"*{ctx_res.summary}*")
+
+            return OrchestratorResponse(
+                query=user_input,
+                command_mode="context",
+                scaffold=ScaffoldedResponse(
+                    level=3,
+                    level_name="Project Context Inspection",
+                    tier="Context Detector",
+                    content="\n".join(ctx_lines),
+                    anti_dependency_alert=None,
+                    next_action_prompt="Ask a technical ML/engineering question or use /council to deliberate technical decisions."
+                ),
+                debate_synthesis=None,
+                matched_concept=None,
+                zpd_status=None,
+                anti_dependency_warning=None,
+                project_context=ctx_res,
+                retrieved_progress=self.retrieved_progress
             )
 
         # Handle update command
@@ -122,7 +210,7 @@ class Orchestrator:
             target_path = Path(clean_query).resolve() if clean_query else Path.cwd()
             res = update_workspace(target_path)
             report_lines = [
-                f"### [Senior AI Engineering Mentor: Workspace Synchronized to v{res.get('version', '1.1.0')}]",
+                f"### [Senior AI Engineering Mentor: Workspace Synchronized to v{res.get('version', '1.1.1')}]",
                 "",
                 f"**Target Workspace:** `{target_path}`",
                 f"**Status:** {res.get('status', 'success').upper()}",
@@ -157,7 +245,9 @@ class Orchestrator:
                 debate_synthesis=None,
                 matched_concept=None,
                 zpd_status=None,
-                anti_dependency_warning=None
+                anti_dependency_warning=None,
+                project_context=self.project_context,
+                retrieved_progress=self.retrieved_progress
             )
 
         # Handle interview command
@@ -196,7 +286,9 @@ class Orchestrator:
             matched_concept=matched_concept,
             zpd_status=zpd_info,
             anti_dependency_warning=anti_warning,
-            interview_question=interview_q
+            interview_question=interview_q,
+            project_context=self.project_context,
+            retrieved_progress=self.retrieved_progress
         )
 
     def record_user_decision(self, context: str, options: List[str], chosen: str, rationale: str) -> Dict:

@@ -31,13 +31,17 @@ class TestDynamicUpdateAndChangelog(unittest.TestCase):
 
     def test_changelog_manager_versions_and_content(self):
         versions = self.changelog_mgr.list_versions()
+        self.assertIn("1.1.1", versions)
         self.assertIn("1.1.0", versions)
         self.assertIn("1.0.0", versions)
-        self.assertEqual(self.changelog_mgr.get_latest_version(), "1.1.0")
+        self.assertEqual(self.changelog_mgr.get_latest_version(), "1.1.1")
+
+        notes_111 = self.changelog_mgr.get_version_notes("1.1.1")
+        self.assertIsNotNone(notes_111)
+        self.assertIn("Dynamic Project Context Detection", notes_111)
 
         notes_110 = self.changelog_mgr.get_version_notes("1.1.0")
         self.assertIsNotNone(notes_110)
-        self.assertIn("Seamless Dynamic Workspace Update", notes_110)
         self.assertIn("Scope Guard", notes_110)
         self.assertIn("Terminal & GitHub Changelog System", notes_110)
 
@@ -103,7 +107,7 @@ class TestDynamicUpdateAndChangelog(unittest.TestCase):
         # 5. Verify manifest updated
         new_manifest = get_workspace_manifest(old_project)
         self.assertIsNotNone(new_manifest)
-        self.assertEqual(new_manifest["framework_version"], "1.1.0")
+        self.assertEqual(new_manifest["framework_version"], CURRENT_FRAMEWORK_VERSION)
         self.assertIn("custom-fraud-detection", new_manifest["synced_skills"])
         self.assertIn("update", new_manifest["synced_skills"])
         self.assertIn("changelog", new_manifest["synced_skills"])
@@ -133,7 +137,7 @@ class TestDynamicUpdateAndChangelog(unittest.TestCase):
         resp_up = orchestrator.process_query(f"/update {target_dir}")
         self.assertEqual(resp_up.command_mode, "update")
         self.assertFalse(resp_up.is_rejected)
-        self.assertIn("Workspace Synchronized to v1.1.0", resp_up.scaffold.content)
+        self.assertIn(f"Workspace Synchronized to v{CURRENT_FRAMEWORK_VERSION}", resp_up.scaffold.content)
         self.assertTrue((target_dir / ".agents" / "manifest.json").exists())
 
 if __name__ == "__main__":
