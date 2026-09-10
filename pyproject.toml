@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "senior-ai-mentor"
-version = "1.1.1"
+version = "1.1.2"
 description = "A multi-agent AI senior engineering mentorship environment strictly configured for Google Antigravity CLI (agy), featuring an Expert Council, adaptive scaffolding, persistent memory, and knowledge graphs."
 readme = "README.md"
 requires-python = ">=3.10"

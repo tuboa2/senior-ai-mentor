@@ -378,7 +378,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Senior AI Engineering Mentor (Strictly Antigravity CLI Only)."
     )
-    parser.add_argument("--version", action="version", version="senior-mentor 1.1.1 (Antigravity CLI)")
+    parser.add_argument("--version", action="version", version="senior-mentor 1.1.2 (Antigravity CLI)")
     parser.add_argument("query", nargs="?", help="One-shot query for Antigravity subagent invocation")
     parser.add_argument("--status", action="store_true", help="Print learner status and competency report")
     parser.add_argument("--context", nargs="?", const=".", help="Inspect detected project context and memory lock status")

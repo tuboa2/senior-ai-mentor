@@ -5,7 +5,7 @@ featuring a role-based expert council, adaptive scaffolding, persistent multi-fa
 memory, knowledge graphs, and tiered skill security.
 """
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 from .changelog import ChangelogManager
 

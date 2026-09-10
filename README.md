@@ -320,6 +320,15 @@ When Antigravity CLI runs, it dynamically inspects the active workspace director
   - In `agy` session: `/context`
   - In terminal: `agy-mentor --context [path]`
 
+### 5. Forensic Reliability, Actionable Scaffolding & Zero-Data-Loss Upgrades (v1.1.2)
+
+- **ScopeGuard Reliability:** Eliminates false-positive rejections on conversational mentoring (`/mentor Hello!`), developer confusion (`/mentor I am now confused, give me the very first task to do.`), next-step guidance, and data science terminology (`nulls`, `nans`, `missing data`, `imputation`, `signals`, `outliers`).
+- **Debate Engine Precision:** Eradicates the raw `"or"` substring trigger bug using word-bounded regex matching (`\bvs\b`, `\btrade-offs?\b`, `\bwhich is better\b`). Accidental debates no longer hijack `/mentor` or `/solve` sessions.
+- **Dynamic Knowledge Tracking & Competency Updates:** Replaces inverted concept search with a multi-signal scoring engine across 16 core engineering concepts. Queries dynamically update `knowledge_state`, log detected misconceptions, and evolve competency ratings in real time.
+- **Actionable Micro-Tasking (Cognitive De-escalation):** When a user expresses confusion or asks where to start, the mentor provides a grounded **Level 4 Actionable Micro-Task** (isolating a single step, minimal implementation action, and verification rule) instead of theoretical overload.
+- **Machine-Readable CLI Output (`--json`):** Add `--json` flag to all CLI inspection commands (`--status --json`, `--context --json`, `--skills --json`, and one-shot queries) for seamless programmatic consumption by Antigravity CLI autonomous subagents.
+- **Retroactive Historical Progress Backfilling:** Upgrading via `/update` or `agy-mentor update` scans historical interactions in `scaffolding_log` and retroactively credits past engineering work into active knowledge state with 100% data retention.
+
 ---
 
 ## 📦 Installation Reference

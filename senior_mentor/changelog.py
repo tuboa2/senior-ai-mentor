@@ -25,6 +25,37 @@ All notable changes to the **Senior AI Engineering Mentor & Orchestrator Council
 
 ---
 
+## [1.1.2] - 2026-09-10
+
+### Fixed
+- **ScopeGuard False Positive Eradication:**
+  - Fixed false-positive rejections on conversational mentoring queries (/mentor Hello!, /mentor I am now confused, give me the very first task to do.).
+  - Added PEDAGOGICAL_WORKFLOW_PATTERNS to recognize developer navigation, code reviews, and orientation inquiries.
+  - Queries under slash commands (/mentor, /solve, /hint, /challenge, /council) not matching prohibited domains are permitted.
+  - Added nulls, nans, missing data, imputation, signals, outliers to authorized patterns.
+- **Accidental Expert Council Debate Triggering ("or" Substring Bug):**
+  - Eliminated raw substring "or" matching from debate evaluation engine.
+  - Replaced with word-bounded regex triggers to prevent words like torch, error, store, transformer from triggering debates.
+- **Knowledge State & Competency Progression Freeze:**
+  - Fixed inverted substring search in KnowledgeGraph.search() that prevented natural queries from matching concepts.
+  - Added rich aliases, pitfall keywords, and token overlap scoring across 16 core engineering concepts.
+  - In Orchestrator.process_query(), dynamically record concept attempts in knowledge_state and update competency scores.
+- **Cognitive Overload in Scaffolding (Actionable Micro-Tasking):**
+  - Added Level 4 Actionable Micro-Tasks (Single Task Focus, concrete action, verification rule) when learners express confusion.
+  - Dynamic Guided Socratic Dialogue derived from concept formulations and common pitfalls.
+  - Welcoming mentor onboarding orientation for conversational greetings.
+
+### Added
+- **Machine-Readable CLI Output (--json):**
+  - Added --json flag across senior_mentor.cli commands for seamless programmatic consumption by Antigravity subagents.
+- **Retroactive Historical Progress Backfilling:**
+  - Added backfill_unindexed_history() to retroactively credit past interactions into knowledge_state with 100% data retention.
+
+### Changed
+- Upgraded package version to 1.1.2 across all components.
+
+---
+
 ## [1.1.1] - 2026-09-10
 
 ### Added

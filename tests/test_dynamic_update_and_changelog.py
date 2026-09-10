@@ -31,10 +31,15 @@ class TestDynamicUpdateAndChangelog(unittest.TestCase):
 
     def test_changelog_manager_versions_and_content(self):
         versions = self.changelog_mgr.list_versions()
+        self.assertIn("1.1.2", versions)
         self.assertIn("1.1.1", versions)
         self.assertIn("1.1.0", versions)
         self.assertIn("1.0.0", versions)
-        self.assertEqual(self.changelog_mgr.get_latest_version(), "1.1.1")
+        self.assertEqual(self.changelog_mgr.get_latest_version(), "1.1.2")
+
+        notes_112 = self.changelog_mgr.get_version_notes("1.1.2")
+        self.assertIsNotNone(notes_112)
+        self.assertIn("ScopeGuard False Positive Eradication", notes_112)
 
         notes_111 = self.changelog_mgr.get_version_notes("1.1.1")
         self.assertIsNotNone(notes_111)

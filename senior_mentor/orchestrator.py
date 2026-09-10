@@ -244,7 +244,7 @@ class Orchestrator:
             target_path = Path(clean_query).resolve() if clean_query else Path.cwd()
             res = update_workspace(target_path)
             report_lines = [
-                f"### [Senior AI Engineering Mentor: Workspace Synchronized to v{res.get('version', '1.1.1')}]",
+                f"### [Senior AI Engineering Mentor: Workspace Synchronized to v{res.get('version', '1.1.2')}]",
                 "",
                 f"**Target Workspace:** `{target_path}`",
                 f"**Status:** {res.get('status', 'success').upper()}",

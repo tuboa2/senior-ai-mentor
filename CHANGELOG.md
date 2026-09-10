@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.2] - 2026-09-10
+
+### Fixed
+- **ScopeGuard False Positive Eradication:**
+  - Fixed false-positive rejections on conversational mentoring queries (e.g. `/mentor Hello!`, `/mentor I am now confused, give me the very first task to do.`, and next step guidance).
+  - Added `PEDAGOGICAL_WORKFLOW_PATTERNS` to recognize developer navigation, code reviews, and orientation inquiries.
+  - Queries under slash commands (`/mentor`, `/solve`, `/hint`, `/challenge`, `/council`) that do not match strictly prohibited non-technical domains are automatically permitted.
+  - Added missing data science terms (`nulls`, `nans`, `missing data`, `imputation`, `signals`, `outliers`, `tabular`, `time-series`) to authorized statistics patterns.
+- **Accidental Expert Council Debate Triggering (`"or"` Substring Bug):**
+  - Eliminated raw substring `"or"` matching from the debate evaluation engine.
+  - Replaced with word-bounded regex (`\b(vs|versus|trade-?offs?|compare|pros\s+and\s+cons|which\s+is\s+better|should\s+i\s+use)\b`), preventing words like `torch`, `error`, `store`, `transformer`, `forward` or phrases like `drop it or investigate it` from triggering unsolicited 5-expert debates.
+  - Ensured debates only fire when explicitly requested via `/council` or on true comparative dilemmas without slash command overrides.
+- **Knowledge State & Competency Progression Freeze ("Stuck at 5.0 / 0 Concepts" Bug):**
+  - Fixed inverted substring search in `KnowledgeGraph.search()` that prevented multi-word natural queries from matching concepts.
+  - Added rich aliases, pitfall keywords, and token overlap scoring across 16 core engineering concepts.
+  - In `Orchestrator.process_query()`, dynamically record concept attempts in `knowledge_state`, detect misconception patterns, and update learner competency ratings via `CompetencyTracker`.
+- **Cognitive Overload in Scaffolding (Actionable Micro-Tasking):**
+  - Added `_is_orientation_or_confusion_query()` to `ScaffoldingEngine`.
+  - Replaced abstract multi-page theoretical dissertations with grounded **Level 4 Actionable Micro-Tasks** (Single Task Focus, concrete implementation action, and isolation verification rule) when learners express confusion or ask where to start.
+  - Enhanced Level 5 Guided Socratic Dialogue to dynamically derive questions from concept formulations and common pitfalls.
+  - Handled conversational greetings with a welcoming mentor onboarding orientation rather than rejection.
+
+### Added
+- **Machine-Readable CLI Output (`--json`):**
+  - Added `--json` flag across `senior_mentor.cli` commands (`--status --json`, `--context --json`, `--skills --json`, `--changelog --json`, and one-shot queries).
+  - Enables seamless programmatic consumption by Antigravity CLI autonomous subagents without text parsing or ANSI stripping.
+- **Retroactive Historical Progress Backfilling:**
+  - Added `Orchestrator.backfill_unindexed_history()` and integrated it into `update_workspace()`.
+  - Upgrading automatically scans existing `scaffolding_log` history, identifies previously discussed concepts, and retroactively credits them into `knowledge_state` with 100% data retention.
+
+### Changed
+- Upgraded package version to `1.1.2` across `senior_mentor/__init__.py`, `pyproject.toml`, `setup.py`, `senior_mentor/initializer.py`, and `senior_mentor/cli.py`.
+- Updated test suites with comprehensive regression tests covering all 5 conversation flaw fixes.
+
+---
+
 ## [1.1.1] - 2026-09-10
 
 ### Added
