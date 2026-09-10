@@ -25,7 +25,7 @@ All notable changes to the **Senior AI Engineering Mentor & Orchestrator Council
 
 ---
 
-## [1.1.2] - 2026-09-10
+## [1.1.2] - 2026-09-11
 
 ### Fixed
 - **ScopeGuard False Positive Eradication:**
