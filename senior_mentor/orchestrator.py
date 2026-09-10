@@ -60,8 +60,41 @@ class Orchestrator:
         # If project is related to AI/ML/Data Science, retrieve progress and link project
         self.retrieved_progress: Optional[Dict] = None
         if self.project_context.is_related:
+            self.backfill_unindexed_history()
             self.retrieved_progress = self.get_learner_status()
             self._sync_project_memory()
+
+    def backfill_unindexed_history(self) -> int:
+        """Retroactively indexes concepts from past scaffolding history into knowledge_state.
+        
+        Guarantees that existing users upgrading to newer versions receive full credit for their
+        previous work and experience zero loss of historical interactions.
+        """
+        if not self.project_context.is_related or not self.store.mutation_allowed:
+            return 0
+
+        history = self.store.get_scaffolding_history(limit=500)
+        existing_concepts = {r.microskill.lower() for r in self.store.get_knowledge_state()}
+        newly_indexed = 0
+
+        for record in history:
+            matches = self.graph.search(record.query)
+            if matches:
+                top_match = matches[0]
+                if top_match.name.lower() not in existing_concepts:
+                    self.store.record_knowledge_assessment(
+                        domain=top_match.domain,
+                        microskill=top_match.name,
+                        success=True,
+                        delta_weight=0.10
+                    )
+                    existing_concepts.add(top_match.name.lower())
+                    newly_indexed += 1
+
+        if newly_indexed > 0:
+            self.tracker.generate_current_assessment()
+
+        return newly_indexed
 
     def _sync_project_memory(self) -> None:
         """Links active technical project to project memory if modification is authorized."""

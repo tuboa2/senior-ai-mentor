@@ -114,6 +114,14 @@ class ComponentVersionRecord:
     changelog: str
     created_at: str
 
+@dataclass
+class ScaffoldingRecord:
+    id: Optional[int]
+    timestamp: str
+    query: str
+    scaffold_level: int
+    explicit_override: bool
+
 class MemoryStore:
     def __init__(self, db_path: Path = DB_PATH, mutation_allowed: bool = True):
         self.db_path = Path(db_path)
@@ -451,6 +459,13 @@ class MemoryStore:
                 return 0.0
             direct_count = sum(1 for r in rows if r["scaffold_level"] <= 2)
             return round(direct_count / len(rows), 2)
+
+    def get_scaffolding_history(self, limit: int = 200) -> List[ScaffoldingRecord]:
+        """Retrieves recent scaffolding interactions in chronological order."""
+        with self._get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM scaffolding_log ORDER BY id ASC LIMIT ?", (limit,))
+            return [ScaffoldingRecord(**dict(row)) for row in cur.fetchall()]
 
     # --- Project Memory Methods ---
     def log_project(self, name: str, tech_stack: str, architecture_notes: str, key_decisions: str, lessons_learned: str) -> None:
