@@ -5,6 +5,7 @@ adaptive scaffolding, and learner tracking.
 """
 
 import argparse
+import json
 from pathlib import Path
 import sys
 from typing import Optional
@@ -389,6 +390,7 @@ def main() -> None:
     parser.add_argument("--init", nargs="?", const=".", help="Initialize a project workspace for Antigravity CLI")
     parser.add_argument("--update", nargs="?", const=".", help="Dynamically update workspace skills, directives, and manifests to latest release")
     parser.add_argument("--changelog", nargs="?", const="", help="View version history and release notes in terminal")
+    parser.add_argument("--json", action="store_true", help="Output machine-readable JSON format for Antigravity subagent integration")
     args = parser.parse_args()
 
     cli = MentorCLI()
@@ -443,17 +445,65 @@ def main() -> None:
         except (ImportError, ValueError):
             from senior_mentor.changelog import ChangelogManager
         cm = ChangelogManager()
-        print(cm.format_terminal_output(target_ver, use_color=True))
+        if args.json:
+            print(json.dumps(cm.get_all_releases(), indent=2))
+        else:
+            print(cm.format_terminal_output(target_ver, use_color=True))
         return
     elif args.context is not None:
         target_path = Path(args.context).resolve()
         cli = MentorCLI(workspace_dir=target_path)
-        cli.print_context(target_path)
+        if args.json:
+            ctx = cli.orchestrator.context_detector.detect(target_path)
+            print(json.dumps({
+                "workspace_path": str(target_path),
+                "is_related": ctx.is_related,
+                "project_type": ctx.project_type,
+                "confidence": ctx.confidence,
+                "detected_domains": ctx.detected_domains,
+                "detected_frameworks": ctx.detected_frameworks,
+                "modification_allowed": ctx.modification_allowed,
+                "evidence": ctx.evidence,
+                "summary": ctx.summary
+            }, indent=2))
+        else:
+            cli.print_context(target_path)
         return
     elif args.status:
-        cli.print_status()
+        if args.json:
+            st = cli.orchestrator.get_learner_status()
+            print(json.dumps({
+                "user_id": st["profile"].user_id,
+                "current_level": st["profile"].current_level,
+                "anti_dependency_ratio": round(st["anti_dependency_ratio"], 3),
+                "overall_score": st["overall_score"],
+                "competency_tier": st["competency_tier"],
+                "dimension_scores": [
+                    {"name": ds.name, "score": ds.score}
+                    for ds in st["dimension_scores"]
+                ],
+                "knowledge_concepts_tracked": st["knowledge_count"],
+                "unresolved_misconceptions": [
+                    {"concept": m.concept, "pattern": m.pattern_description, "frequency": m.frequency}
+                    for m in st["unresolved_misconceptions"]
+                ],
+                "recent_decisions": [
+                    {"context": d.context, "chosen": d.chosen, "rationale": d.rationale}
+                    for d in st["recent_decisions"]
+                ],
+                "recommended_learning_plan": st["recommended_learning_plan"]
+            }, indent=2))
+        else:
+            cli.print_status()
     elif args.skills:
-        cli.print_skills()
+        if args.json:
+            skills = cli.orchestrator.skill_manager.list_installed_skills()
+            print(json.dumps([
+                {"name": s.name, "tier": s.tier, "domain": s.domain, "path": str(s.path), "is_safe": s.is_safe}
+                for s in skills
+            ], indent=2))
+        else:
+            cli.print_skills()
     elif args.discover:
         print(f"\n--- TIER 2 DYNAMIC DISCOVERY: '{args.discover}' ---")
         matches = cli.orchestrator.skill_manager.discover_skills_for_task(args.discover)
@@ -484,7 +534,37 @@ def main() -> None:
             print(f"  [{f.severity}] {f.category} in {f.file}:{f.line_number} - {f.message}")
     elif args.query:
         resp = cli.orchestrator.process_query(args.query)
-        print(cli.format_response(resp))
+        if args.json:
+            debate_data = None
+            if resp.debate_synthesis:
+                deb = resp.debate_synthesis
+                debate_data = {
+                    "participating_experts": deb.participating_experts,
+                    "positions": deb.positions,
+                    "has_unresolved_disagreement": deb.has_unresolved_disagreement,
+                    "consensus_summary": deb.consensus_summary,
+                    "conflict_statement": deb.conflict_statement,
+                    "uncertainty_statement": deb.uncertainty_statement,
+                    "escalation_question": deb.escalation_question
+                }
+            print(json.dumps({
+                "query": resp.query,
+                "command_mode": resp.command_mode,
+                "is_rejected": getattr(resp, "is_rejected", False),
+                "rejection_reason": getattr(resp, "rejection_reason", None),
+                "matched_concept": resp.matched_concept,
+                "debate": debate_data,
+                "scaffold": {
+                    "level": resp.scaffold.level,
+                    "level_name": resp.scaffold.level_name,
+                    "tier": resp.scaffold.tier,
+                    "content": resp.scaffold.content,
+                    "next_action_prompt": resp.scaffold.next_action_prompt,
+                    "anti_dependency_alert": resp.scaffold.anti_dependency_alert
+                }
+            }, indent=2))
+        else:
+            print(cli.format_response(resp))
     else:
         cli.print_antigravity_welcome()
 

@@ -1,9 +1,4 @@
-"""Pedagogical Scaffolding Engine (L0 through L7).
-
-Translates technical concepts and queries into calibrated pedagogical interventions
-tailored to the user's proficiency level or explicit mode override.
-"""
-
+import re
 from dataclasses import dataclass
 from typing import Optional
 from .learner_model import LearnerModel, ZPDStatus
@@ -22,6 +17,19 @@ class ScaffoldingEngine:
     def __init__(self, learner_model: LearnerModel, knowledge_graph: KnowledgeGraph):
         self.learner_model = learner_model
         self.graph = knowledge_graph
+
+    def _is_orientation_or_confusion_query(self, query: str) -> bool:
+        q = query.lower()
+        patterns = [
+            r"\b(where\s+(do|should)\s+i\s+(start|begin))\b",
+            r"\b(what('s|\s+is)\s+(the\s+)?(first|next)\s+(task|step|action))\b",
+            r"\b(give\s+me\s+(the|a)\s+(first|next)\s+(task|step))\b",
+            r"\b(i('m|\s+am)?\s+(now\s+)?(confused|lost|stuck|overwhelmed))\b",
+            r"\b(what\s+should\s+(i|we)\s+do\s+(first|now|next))\b",
+            r"\b(step-by-step\s+(checklist|plan|guide))\b",
+            r"\b(how\s+do\s+i\s+get\s+started)\b"
+        ]
+        return any(re.search(p, q) for p in patterns)
 
     def resolve_target_level(self, query: str, override_mode: Optional[str] = None, matched_concept: Optional[str] = None) -> int:
         """Determines the exact scaffolding level to apply."""
@@ -50,9 +58,20 @@ class ScaffoldingEngine:
         concept_name: Optional[str] = None,
         override_mode: Optional[str] = None
     ) -> ScaffoldedResponse:
-        level = self.resolve_target_level(query, override_mode, concept_name)
         concept = self.graph.get_concept(concept_name) if concept_name else None
         anti_dep = self.learner_model.check_anti_dependency_warning()
+
+        # Check for conversational greeting
+        clean_q = query.strip().lower()
+        if re.search(r"^(hello|hi|hey|greetings)(\s+mentor)?([!.,\s]|$)", clean_q):
+            return self._build_greeting(anti_dep)
+
+        # Check for confusion or request for first step / where to start (even in /mentor mode)
+        if self._is_orientation_or_confusion_query(query) and override_mode != "solve":
+            self.learner_model.store.log_scaffolding_interaction(query, 4, override_mode is not None)
+            return self._build_actionable_micro_task(query, concept, anti_dep)
+
+        level = self.resolve_target_level(query, override_mode, concept_name)
 
         # Record this scaffolding interaction for anti-dependency tracking
         self.learner_model.store.log_scaffolding_interaction(query, level, override_mode is not None)
@@ -178,19 +197,90 @@ class ScaffoldingEngine:
         )
 
     def _build_l5(self, query: str, concept: Optional[ConceptNode], anti_dep: Optional[str]) -> ScaffoldedResponse:
-        content = (
-            "### [L5: Guided Socratic Dialogue]\n\n"
-            "Let's reason through this step-by-step like a Senior Staff Engineer:\n\n"
-            "1. If you run this transformation on the entire dataset at once, what hidden information does the validation set receive?\n"
-            "2. How does that change the statistical distribution of your out-of-fold metrics compared to actual production inference?\n"
-        )
+        if concept:
+            content_lines = [
+                f"### [L5: Guided Socratic Dialogue - {concept.name}]",
+                "",
+                f"Let's reason through the core mechanics of **{concept.name}**:",
+                ""
+            ]
+            if concept.first_principles_formulation:
+                content_lines.append(f"📐 **Mathematical Invariant:** `{concept.first_principles_formulation}`\n")
+            if concept.common_pitfalls:
+                content_lines.append(f"1. A classic failure mode is: *\"{concept.common_pitfalls[0]}\"*")
+                content_lines.append("   How does your current design or implementation protect against this?\n")
+                if len(concept.common_pitfalls) > 1:
+                    content_lines.append(f"2. Considering: *\"{concept.common_pitfalls[1]}\"*")
+                    content_lines.append("   What diagnostic metric or test would immediately reveal if this occurs?\n")
+                else:
+                    content_lines.append("2. How would you test this component in isolation before integrating it into production?\n")
+            else:
+                content_lines.append("1. What are the key assumptions this component makes about its input data distribution?\n")
+                content_lines.append("2. Where is the highest risk of silent degradation during live inference?\n")
+            content = "\n".join(content_lines)
+            prompt = f"How would you address question 1 for {concept.name}?"
+        else:
+            content = (
+                "### [L5: Guided Socratic Dialogue]\n\n"
+                f"Let's break down your objective (*{query}*) from first principles:\n\n"
+                "1. What is the precise input, transformation, and output contract you want to establish?\n"
+                "2. What failure mode or edge case would cause the biggest issue if unhandled?\n"
+            )
+            prompt = "Post your answer to question 1 to proceed to the next step."
+
         return ScaffoldedResponse(
             level=5,
             level_name="Guided Dialogue",
             tier="Socratic Scaffolding",
             content=content,
             anti_dependency_alert=anti_dep,
-            next_action_prompt="Post your answer to question 1 to proceed to the next step."
+            next_action_prompt=prompt
+        )
+
+    def _build_actionable_micro_task(self, query: str, concept: Optional[ConceptNode], anti_dep: Optional[str]) -> ScaffoldedResponse:
+        target = concept.name if concept else "Initial Pipeline Verification"
+        notes = (
+            concept.practical_implementation_notes
+            if concept and concept.practical_implementation_notes
+            else "Write a minimal script that imports dependencies, loads 5 sample rows, and prints their shapes and column types."
+        )
+        content = (
+            "### [Actionable Micro-Task: Concrete Step 1 of 1]\n\n"
+            "Take a breath — let's de-escalate and ignore the full pipeline complexity for a moment. "
+            "Here is your single, concrete, testable task:\n\n"
+            f"🎯 **Step 1 Focus:** {target}\n\n"
+            f"📝 **Implementation Action:**\n"
+            f"{notes}\n\n"
+            "🔒 **Mentor Rule:** Do NOT worry about full model training, optimization, or downstream complexity yet. "
+            "Complete and verify ONLY this single step with an isolated test or print assertion."
+        )
+        return ScaffoldedResponse(
+            level=4,
+            level_name="Actionable Micro-Task",
+            tier="Cognitive De-escalation Scaffolding",
+            content=content,
+            anti_dependency_alert=anti_dep,
+            next_action_prompt="Run this single verification step now. Once it succeeds, let me know and we will proceed to Step 2."
+        )
+
+    def _build_greeting(self, anti_dep: Optional[str]) -> ScaffoldedResponse:
+        content = (
+            "### [Senior AI Engineering Mentor & Orchestrator Lead]\n\n"
+            "👋 **Online and ready to pair program.**\n\n"
+            "I provide architectural guidance, theoretical derivations, code reviews, and Socratic debugging across:\n"
+            "• Machine Learning & Deep Learning (Transformers, Attention, LoRA, Optimizers)\n"
+            "• Statistics & Data Science (Leakage Prevention, Time-Series Splits, Hypothesis Testing)\n"
+            "• Modern Data Engineering (DuckDB, Spark, Polars, Parquet Lakehouse)\n"
+            "• Software Architecture & MLOps (Clean Architecture, vLLM, Serving, Latency Profiling)\n\n"
+            "What component or question are we tackling today?"
+        )
+        return ScaffoldedResponse(
+            level=3,
+            level_name="Mentor Orientation",
+            tier="Pedagogical Onboarding",
+            content=content,
+            anti_dependency_alert=anti_dep,
+            next_action_prompt="Ask a technical question, propose an architecture, or use /mentor, /solve, or /council."
         )
 
     def _build_l6(self, query: str, concept: Optional[ConceptNode], anti_dep: Optional[str]) -> ScaffoldedResponse:

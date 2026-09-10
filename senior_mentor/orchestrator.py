@@ -6,6 +6,7 @@ Coordinates the Expert Council, Learner Model, Knowledge Graph, and Scaffolding 
 
 from dataclasses import dataclass
 from pathlib import Path
+import re
 from typing import Dict, List, Optional, Tuple
 from .config import MentorConfig
 from .memory.store import MemoryStore, UserProfile
@@ -261,13 +262,52 @@ class Orchestrator:
         zpd_info = self.learner_model.assess_concept_zpd(matched_concept) if matched_concept else None
 
         # Check if Expert Council debate should be triggered
-        should_debate = (cmd == "council") or any(
-            t in active_query.lower() for t in ["trade-off", "vs", "or", "compare", "which is better", "should i use"]
-        )
+        # Debate is triggered if:
+        # 1. Explicit /council command is invoked
+        # 2. Query has no slash command (cmd is None) and contains explicit comparative trade-off signals
+        # Note: Do NOT trigger unsolicited debates when user explicitly asked for /mentor, /solve, /hint, /challenge, or /interview
+        should_debate = False
+        if cmd == "council":
+            should_debate = True
+        elif cmd is None:
+            should_debate = bool(re.search(
+                r"\b(vs|versus|trade-?offs?|compare|comparison|pros\s+and\s+cons|which\s+is\s+better|should\s+i\s+use)\b",
+                active_query,
+                re.IGNORECASE
+            ))
 
         debate_result = None
         if should_debate:
             debate_result = self.debate_engine.deliberate(active_query, force_disagreement=(cmd == "council"))
+
+        # If project is related and mutation is authorized, update knowledge state and track misconceptions
+        if matched_concept and self.project_context.is_related and self.store.mutation_allowed:
+            node = self.graph.get_concept(matched_concept)
+            domain = node.domain if node else "Engineering"
+            # Record learning interaction in knowledge state
+            self.store.record_knowledge_assessment(
+                domain=domain,
+                microskill=matched_concept,
+                success=True,
+                delta_weight=0.10
+            )
+
+            # Detect known misconceptions or traps mentioned in the user's query
+            if node and node.common_pitfalls:
+                lower_q = active_query.lower()
+                for pit in node.common_pitfalls:
+                    pit_keywords = [
+                        w for w in re.findall(r"\b[a-zA-Z]{4,}\b", pit.lower())
+                        if w not in {"with", "that", "this", "from", "when", "into", "before", "after", "without", "using"}
+                    ]
+                    matches = sum(1 for kw in pit_keywords if kw in lower_q)
+                    if matches >= 2 or (len(pit_keywords) <= 3 and matches >= 1):
+                        self.store.record_misconception(concept=node.name, pattern=pit)
+                        break
+
+            # Refresh competency ratings and profile
+            self.tracker.generate_current_assessment()
+            self.retrieved_progress = self.get_learner_status()
 
         # Generate Scaffolding
         scaffold = self.scaffolding_engine.generate_scaffold(

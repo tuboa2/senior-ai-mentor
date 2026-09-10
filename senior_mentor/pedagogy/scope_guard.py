@@ -69,7 +69,8 @@ class ScopeGuard:
             r"r-squared|collinearity|homoscedasticity|heteroscedasticity|eda|data\s+leakage|"
             r"lookahead\s+bias|cross-validation|k-fold|stratified|bootstrap|permutation\s+test(s)?|"
             r"causal\s+inference|confound(er|ers|ing)?|do-calculus|propensity\s+score(s)?|a/b\s+test(ing|s)?|"
-            r"sample\s+ratio\s+mismatch|power\s+analysis|normal\s+distribution|compute|calculation|derive)\b"
+            r"sample\s+ratio\s+mismatch|power\s+analysis|normal\s+distribution|compute|calculation|derive|"
+            r"nulls?|nans?|missing\s+(values?|data)|imput(ation|e|ing|ed)?|outliers?|signals?|tabular|time-series|temporal)\b"
         ),
         "software_architecture": (
             r"\b(software\s+architecture|design\s+pattern(s)?|clean\s+architecture|hexagonal|"
@@ -174,6 +175,22 @@ class ScopeGuard:
         r"\b(machine\s+learning|model|dataset|recommendation\s+system|predict|classifier|embeddings?)\b"
     ]
 
+    # Authorized pedagogical and development workflow patterns (greetings, orientation, next steps, reviews)
+    PEDAGOGICAL_WORKFLOW_PATTERNS: List[str] = [
+        r"\b(where\s+(do|should)\s+i\s+(start|begin))\b",
+        r"\b(what('s|\s+is)\s+(the\s+)?(first|next)\s+(task|step|action))\b",
+        r"\b(give\s+me\s+(the|a)\s+(first|next)\s+(task|step))\b",
+        r"\b(i('m|\s+am)?\s+(now\s+)?(confused|lost|stuck|overwhelmed))\b",
+        r"\b(check|review|evaluate|critique)\s+(my|this)\s+(code|script|pipeline|implementation|approach|design|architecture|logic|work)\b",
+        r"\b(how\s+(should|do)\s+(i|we)\s+(structure|organize|implement|test|debug|split|format|clean|handle))\b",
+        r"\b(is\s+this\s+(correct|right|good\s+practice|optimal|safe))\b",
+        r"\b(what\s+should\s+(i|we)\s+do\s+(first|next|now))\b",
+        r"\b(roadmap|learning\s+path|curriculum|next\s+topic)\b",
+        r"\b(what\s+about\s+(nulls?|nans?|missing|outliers?|duplicates?))\b",
+        r"\b(hello|hi|hey|greetings)(\s+mentor)?\b",
+        r"\b(help(\s+me)?|who\s+are\s+you|what\s+can\s+you\s+do)\b"
+    ]
+
     def __init__(self):
         self._compiled_technical = {
             domain: re.compile(pattern, re.IGNORECASE)
@@ -185,6 +202,9 @@ class ScopeGuard:
         ]
         self._compiled_overrides = [
             re.compile(p, re.IGNORECASE) for p in self.TECHNICAL_CONTEXT_OVERRIDE_PATTERNS
+        ]
+        self._compiled_pedagogical = [
+            re.compile(p, re.IGNORECASE) for p in self.PEDAGOGICAL_WORKFLOW_PATTERNS
         ]
 
     def _extract_command_and_query(self, raw_text: str) -> Tuple[Optional[str], str]:
@@ -261,12 +281,14 @@ class ScopeGuard:
                 matched_domains=["algorithms_coding"]
             )
 
-        # 4. If no explicit out-of-scope matched, verify that at least one technical signal exists
-        if matched_domains:
+        # 4. Authorized mentor commands with non-prohibited queries
+        # If the user explicitly invokes /mentor, /solve, /hint, /challenge, or /council, and it didn't
+        # match any prohibited out-of-scope domain, it is an authorized mentoring interaction.
+        if cmd in {"mentor", "solve", "hint", "challenge", "council"}:
             return ScopeCheckResult(
                 is_in_scope=True,
-                reason="Matched authorized AI engineering technical domains.",
-                matched_domains=matched_domains
+                reason=f"Authorized technical interaction under /{cmd} command.",
+                matched_domains=matched_domains if matched_domains else ["pedagogical_guidance"]
             )
 
         # 5. Check if query is an empty or whitespace string
@@ -277,25 +299,24 @@ class ScopeGuard:
                 rejection_message="Query is empty. Please enter a technical question or command (e.g. /council, /mentor, /solve, /interview, /status)."
             )
 
-        # 6. Check common greetings or metadata
-        if lower_clean in {"hi", "hello", "hey", "help", "who are you", "what can you do"}:
+        # 6. Technical domain match
+        if matched_domains:
             return ScopeCheckResult(
-                is_in_scope=False,
-                reason="Conversational greeting or general help request outside technical problem scope.",
-                rejection_message=(
-                    "👋 Welcome! I am your Senior AI Engineering Mentor & Orchestrator Council.\n\n"
-                    "I provide technical mentorship, architecture reviews, and adaptive scaffolding across:\n"
-                    "• Machine Learning & Deep Learning (Transformers, LoRA, Attention, Training Dynamics)\n"
-                    "• Mathematics for ML & Optimization (Linear Algebra, SVD, Convexity, Gradients)\n"
-                    "• Software Architecture & Clean Code (DDD, Concurrency, Design Patterns, Refactoring)\n"
-                    "• Data Engineering & Distributed Systems (DuckDB, Spark, Kafka, Partitioning)\n"
-                    "• MLOps & Production AI (vLLM, Triton, Profiling, Model Drift, Latency)\n"
-                    "• Senior Technical Interviews & Deliberations (/interview, /council)\n\n"
-                    "👉 Ask a technical question or use commands: /solve, /mentor, /hint, /challenge, /council, /interview, /status."
-                )
+                is_in_scope=True,
+                reason="Matched authorized AI engineering technical domains.",
+                matched_domains=matched_domains
             )
 
-        # 7. Unmatched / general trivia / unsupported domain
+        # 7. Pedagogical workflow & developer collaboration match (where to start, review code, confused, greetings)
+        has_pedagogical = any(r.search(clean_text) or r.search(text) for r in self._compiled_pedagogical)
+        if has_pedagogical:
+            return ScopeCheckResult(
+                is_in_scope=True,
+                reason="Matched pedagogical workflow, developer guidance, or mentoring interaction.",
+                matched_domains=["pedagogical_guidance"]
+            )
+
+        # 8. Unmatched / general trivia / unsupported domain
         return ScopeCheckResult(
             is_in_scope=False,
             reason="Query does not match any recognized Machine Learning, Data Science, Software Engineering, or Systems domain.",
