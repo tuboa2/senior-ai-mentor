@@ -35,7 +35,7 @@ class ScopeGuard:
         "solve", "mentor", "hint", "challenge", "council",
         "interview", "status", "profile", "eval", "skills",
         "feedback", "refine", "audit", "discover", "init",
-        "update", "changelog", "context"
+        "update", "changelog", "context", "draw", "diagram"
     }
 
     # Core technical pillars
@@ -188,7 +188,9 @@ class ScopeGuard:
         r"\b(roadmap|learning\s+path|curriculum|next\s+topic)\b",
         r"\b(what\s+about\s+(nulls?|nans?|missing|outliers?|duplicates?))\b",
         r"\b(hello|hi|hey|greetings)(\s+mentor)?\b",
-        r"\b(help(\s+me)?|who\s+are\s+you|what\s+can\s+you\s+do)\b"
+        r"\b(help(\s+me)?|who\s+are\s+you|what\s+can\s+you\s+do)\b",
+        r"\b(draw|diagram|visualize|illustrate|sketch|map\s+out)\b",
+        r"\b(excalidraw|flowchart|architecture\s+diagram|whiteboard)\b"
     ]
 
     def __init__(self):

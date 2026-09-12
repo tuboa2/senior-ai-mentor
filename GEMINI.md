@@ -76,6 +76,7 @@ Recognize and immediately adapt to the following intent commands:
 - `/status`: Report the current learner model state, estimated competencies, and anti-dependency metrics.
 - `/update`: Seamlessly synchronize the workspace scope with the latest mentor framework release.
 - `/changelog [version]`: View release notes and version history directly in terminal.
+- `/draw [concept]`: Generate serene, beautiful Excalidraw architectural diagrams (`.excalidraw.md`) with KaTeX/LaTeX math.
 
 ---
 

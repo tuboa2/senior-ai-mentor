@@ -17,6 +17,7 @@
         "update",
         "changelog",
         "context",
+        "draw",
         "ab-testing",
         "advanced-evaluation",
         "agent-creator",

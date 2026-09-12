@@ -25,6 +25,23 @@ All notable changes to the **Senior AI Engineering Mentor & Orchestrator Council
 
 ---
 
+## [1.2.0] - 2026-09-12
+
+### Added
+- Excalidraw Visual Architecture Engine (/draw & /diagram):
+  - Generate serene, beautiful, non-overwhelming visual architecture diagrams for ML, DL, and systems.
+  - Generates both Obsidian-compatible .excalidraw.md (Markdown frontmatter, LaTeX/KaTeX math blocks, and embedded Excalidraw JSON canvas) and raw .excalidraw scene files in diagrams/.
+  - Zen Palette Aesthetics: Soothing pastel palette (Azure, Sage Green, Sunlight Amber, Lavender, Soft Coral, Clean Slate) designed to make technical reading calming, comfortable, and intuitive.
+  - Deep KaTeX / LaTeX Formulations: All diagrams include rigorous mathematical derivations in clear block equations ($$...$$).
+  - Rich Architectural Templates: Pre-configured mathematical diagrams for Scaled Dot-Product Attention, Multi-Head Attention, Backprop Computational Graph, Diffusion Models (DDPM), RAG Architecture, ResNet Skip Connections, and Universal Dynamic Synthesizer.
+  - New Tier 0/1 Core Skill draw (.agents/skills/draw/SKILL.md).
+  - CLI Commands: agy-mentor --draw "<topic>" with optional --json machine-readable output.
+
+### Changed
+- Upgraded framework version to 1.2.0 across all components.
+
+---
+
 ## [1.1.2] - 2026-09-11
 
 ### Fixed

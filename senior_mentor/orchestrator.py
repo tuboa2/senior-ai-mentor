@@ -132,7 +132,7 @@ class Orchestrator:
             parts = text[1:].split(maxsplit=1)
             cmd = parts[0].lower()
             remainder = parts[1].strip() if len(parts) > 1 else ""
-            if cmd in ("solve", "mentor", "hint", "challenge", "council", "interview", "status", "profile", "eval", "skills", "feedback", "refine", "update", "changelog", "context"):
+            if cmd in ("solve", "mentor", "hint", "challenge", "council", "interview", "status", "profile", "eval", "skills", "feedback", "refine", "update", "changelog", "context", "draw", "diagram"):
                 return cmd, remainder
         return None, text
 
@@ -244,7 +244,7 @@ class Orchestrator:
             target_path = Path(clean_query).resolve() if clean_query else Path.cwd()
             res = update_workspace(target_path)
             report_lines = [
-                f"### [Senior AI Engineering Mentor: Workspace Synchronized to v{res.get('version', '1.1.2')}]",
+                f"### [Senior AI Engineering Mentor: Workspace Synchronized to v{res.get('version', '1.2.0')}]",
                 "",
                 f"**Target Workspace:** `{target_path}`",
                 f"**Status:** {res.get('status', 'success').upper()}",
@@ -278,6 +278,55 @@ class Orchestrator:
                 ),
                 debate_synthesis=None,
                 matched_concept=None,
+                zpd_status=None,
+                anti_dependency_warning=None,
+                project_context=self.project_context,
+                retrieved_progress=self.retrieved_progress
+            )
+
+        # Handle draw / diagram command or explicit visual drawing requests
+        is_visual_request = (cmd in ("draw", "diagram")) or (
+            cmd is None and bool(re.search(
+                r"\b(draw|diagram|illustrate|sketch)\b.*\b(excalidraw|architecture|pipeline|flowchart|graph|system)\b|\bexcalidraw\b",
+                user_input,
+                re.IGNORECASE
+            ))
+        )
+        if is_visual_request:
+            try:
+                from .visuals import VisualMentor
+            except (ImportError, ValueError):
+                from senior_mentor.visuals import VisualMentor
+
+            vm = VisualMentor(self.workspace_dir)
+            matched_concept = self.match_concept(active_query)
+            vis_res = vm.generate(query=active_query, concept_name=matched_concept)
+
+            if matched_concept and self.project_context.is_related and self.store.mutation_allowed:
+                node = self.graph.get_concept(matched_concept)
+                domain = node.domain if node else "Engineering"
+                self.store.record_knowledge_assessment(
+                    domain=domain,
+                    microskill=matched_concept,
+                    success=True,
+                    delta_weight=0.10
+                )
+                self.tracker.generate_current_assessment()
+                self.retrieved_progress = self.get_learner_status()
+
+            return OrchestratorResponse(
+                query=user_input,
+                command_mode="draw",
+                scaffold=ScaffoldedResponse(
+                    level=4,
+                    level_name="Visual Architectural Excalidraw",
+                    tier="Visual Architecture",
+                    content=vis_res.summary_markdown,
+                    anti_dependency_alert=None,
+                    next_action_prompt="Inspect the generated .excalidraw.md file or request /mentor to delve deeper into implementation details."
+                ),
+                debate_synthesis=None,
+                matched_concept=matched_concept,
                 zpd_status=None,
                 anti_dependency_warning=None,
                 project_context=self.project_context,

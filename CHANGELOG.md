@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-09-12
+
+### Added
+- **Excalidraw Visual Architecture Engine (`/draw` & `/diagram`):**
+  - Ability to generate serene, beautiful, non-overwhelming visual architecture diagrams for machine learning, deep learning, systems, and mathematics.
+  - Generates both Obsidian-compatible `.excalidraw.md` (Markdown frontmatter, LaTeX / KaTeX math blocks, and embedded Excalidraw JSON canvas) and raw `.excalidraw` scene files in the `diagrams/` workspace directory.
+  - **Zen Palette Aesthetics:** Soothing, eye-friendly pastel palette (Azure, Sage Green, Sunlight Amber, Lavender, Soft Coral, Clean Slate) designed to make technical reading calming, comfortable, and intuitive.
+  - **Deep KaTeX / LaTeX Formulations:** All diagrams are accompanied by rigorous mathematical derivations formatted in clear block equations (`$$ ... $$`) with variable dimensions and tensor shapes.
+  - **Rich Architectural Templates:** Pre-configured mathematical diagrams for Scaled Dot-Product Attention, Multi-Head Attention, Computational Graph Backpropagation, Denoising Diffusion Probabilistic Models (DDPM), Retrieval-Augmented Generation (RAG), Residual Networks (ResNet), and Universal Dynamic Synthesizer for arbitrary systems.
+  - **New Tier 0/1 Core Skill `draw` (`.agents/skills/draw/SKILL.md`):** Equips Antigravity CLI and autonomous subagents with visual architecture rendering and inspection.
+  - **CLI Commands:** Added `agy-mentor --draw "<topic>"` with optional `--json` machine-readable output.
+
+### Changed
+- Upgraded framework version to `1.2.0` across all components and configuration manifests.
+
+---
+
 ## [1.1.2] - 2026-09-11
 
 ### Fixed

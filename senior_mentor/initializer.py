@@ -23,7 +23,7 @@ from .config import (
     ensure_directories
 )
 
-CURRENT_FRAMEWORK_VERSION = "1.1.2"
+CURRENT_FRAMEWORK_VERSION = "1.2.0"
 MANIFEST_FILE_NAME = "manifest.json"
 
 CORE_MENTOR_SKILLS = [
@@ -38,6 +38,7 @@ CORE_MENTOR_SKILLS = [
     "update",
     "changelog",
     "context",
+    "draw",
     "ab-testing",
     "advanced-evaluation",
     "agent-creator",

@@ -31,11 +31,16 @@ class TestDynamicUpdateAndChangelog(unittest.TestCase):
 
     def test_changelog_manager_versions_and_content(self):
         versions = self.changelog_mgr.list_versions()
+        self.assertIn("1.2.0", versions)
         self.assertIn("1.1.2", versions)
         self.assertIn("1.1.1", versions)
         self.assertIn("1.1.0", versions)
         self.assertIn("1.0.0", versions)
-        self.assertEqual(self.changelog_mgr.get_latest_version(), "1.1.2")
+        self.assertEqual(self.changelog_mgr.get_latest_version(), "1.2.0")
+
+        notes_120 = self.changelog_mgr.get_version_notes("1.2.0")
+        self.assertIsNotNone(notes_120)
+        self.assertIn("Excalidraw Visual Architecture Engine", notes_120)
 
         notes_112 = self.changelog_mgr.get_version_notes("1.1.2")
         self.assertIsNotNone(notes_112)

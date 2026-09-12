@@ -329,6 +329,19 @@ When Antigravity CLI runs, it dynamically inspects the active workspace director
 - **Machine-Readable CLI Output (`--json`):** Add `--json` flag to all CLI inspection commands (`--status --json`, `--context --json`, `--skills --json`, and one-shot queries) for seamless programmatic consumption by Antigravity CLI autonomous subagents.
 - **Retroactive Historical Progress Backfilling:** Upgrading via `/update` or `agy-mentor update` scans historical interactions in `scaffolding_log` and retroactively credits past engineering work into active knowledge state with 100% data retention.
 
+### 6. Serene Excalidraw Visual Architecture Engine (v1.2.0)
+
+- **Aesthetic, Calming Architecture Diagrams (`/draw` & `/diagram`):** Generate serene, beautiful visual diagrams designed with generous whitespace, smooth curved corners, and a soothing **Zen Palette** (Azure, Sage Green, Sunlight Amber, Lavender, Soft Coral, Clean Slate) that make complex systems comfortable and reassuring to read.
+- **Deep KaTeX / LaTeX Mathematical Rigor:** Every diagram document includes rigorous mathematical foundations formatted with standard block equations (`$$ ... $$`), variable dimensions ($n \times d_k$), and intuitive derivations.
+- **Dual File Format Persistence:** Automatically generates two ready-to-use artifacts in the `diagrams/` workspace directory:
+  - `.excalidraw.md`: Obsidian-compatible Markdown document containing full documentation, KaTeX formulas, and an embedded interactive Excalidraw JSON canvas.
+  - `.excalidraw`: Raw Excalidraw scene JSON for instant 1-click loading in [excalidraw.com](https://excalidraw.com) or the VS Code Excalidraw extension.
+- **Pre-Configured Architecture Templates:** Scaled Dot-Product & Multi-Head Attention, Computational Graph Backpropagation, Denoising Diffusion Probabilistic Models (DDPM), Enterprise RAG Architecture, ResNet Residual Skip Connections, MLOps Production Systems, plus a Universal Dynamic Synthesizer for arbitrary engineering concepts.
+- **How to Use:**
+  - Inside `agy` chat: `/draw transformer attention` or `/draw diffusion models`
+  - In terminal: `agy-mentor --draw "backpropagation"`
+  - For Antigravity subagents: `agy-mentor --draw "rag architecture" --json`
+
 ---
 
 ## 📦 Installation Reference

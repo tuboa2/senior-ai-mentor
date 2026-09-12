@@ -28,7 +28,7 @@ This repository operates as an intelligent pair programming environment powered 
 ## Pedagogical Scaffolding
 - Levels: L0 (Direct Answer) through L7 (Self-Critique).
 - Anti-dependency: default to Socratic questioning and progressive hints.
-- Explicit overrides: `/solve`, `/mentor`, `/hint`, `/challenge`, `/interview`, `/council`, `/status`, `/context`, `/update`, `/changelog`.
+- Explicit overrides: `/solve`, `/mentor`, `/hint`, `/challenge`, `/interview`, `/council`, `/status`, `/context`, `/update`, `/changelog`, `/draw`.
 
 ## Scope Guard & Memory Isolation
 - Authorized Domains: Machine Learning, Deep Learning, Statistics, Math for ML, Software Architecture, Distributed Systems, Data Engineering, MLOps, Performance, AI/LLM Systems, Technical Interviews, and Code Reviews.

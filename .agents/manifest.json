@@ -1,7 +1,7 @@
 {
-  "framework_version": "1.1.2",
+  "framework_version": "1.2.0",
   "initialized_at": "2026-09-09T06:15:02.650649+00:00",
-  "last_updated_at": "2026-09-10T06:08:08.943251+00:00",
+  "last_updated_at": "2026-09-12T03:48:51.139351+00:00",
   "synced_skills": [
     "adaptive-scaffolding",
     "challenge",
@@ -10,6 +10,7 @@
     "context",
     "council",
     "data-leakage-detection",
+    "draw",
     "dynamic-specialist-spawner",
     "expert-council-deliberation",
     "hint",
@@ -22,6 +23,6 @@
     "status",
     "update"
   ],
-  "core_skills_count": 18,
+  "core_skills_count": 19,
   "status": "up_to_date"
 }

@@ -378,7 +378,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Senior AI Engineering Mentor (Strictly Antigravity CLI Only)."
     )
-    parser.add_argument("--version", action="version", version="senior-mentor 1.1.2 (Antigravity CLI)")
+    parser.add_argument("--version", action="version", version="senior-mentor 1.2.0 (Antigravity CLI)")
     parser.add_argument("query", nargs="?", help="One-shot query for Antigravity subagent invocation")
     parser.add_argument("--status", action="store_true", help="Print learner status and competency report")
     parser.add_argument("--context", nargs="?", const=".", help="Inspect detected project context and memory lock status")
@@ -390,6 +390,7 @@ def main() -> None:
     parser.add_argument("--init", nargs="?", const=".", help="Initialize a project workspace for Antigravity CLI")
     parser.add_argument("--update", nargs="?", const=".", help="Dynamically update workspace skills, directives, and manifests to latest release")
     parser.add_argument("--changelog", nargs="?", const="", help="View version history and release notes in terminal")
+    parser.add_argument("--draw", "--diagram", dest="draw", help="Generate beautiful, serene Excalidraw architecture diagram with KaTeX math")
     parser.add_argument("--json", action="store_true", help="Output machine-readable JSON format for Antigravity subagent integration")
     args = parser.parse_args()
 
@@ -449,6 +450,24 @@ def main() -> None:
             print(json.dumps(cm.get_all_releases(), indent=2))
         else:
             print(cm.format_terminal_output(target_ver, use_color=True))
+        return
+    elif args.draw is not None:
+        try:
+            from .visuals import VisualMentor
+        except (ImportError, ValueError):
+            from senior_mentor.visuals import VisualMentor
+        vm = VisualMentor()
+        res = vm.generate(args.draw)
+        if args.json:
+            print(json.dumps({
+                "concept": res.concept,
+                "title": res.title,
+                "md_path": str(res.md_path),
+                "raw_path": str(res.raw_path),
+                "excalidraw_json": res.diagram.to_dict()
+            }, indent=2))
+        else:
+            print(res.summary_markdown)
         return
     elif args.context is not None:
         target_path = Path(args.context).resolve()
