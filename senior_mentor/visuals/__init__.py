@@ -1,14 +1,16 @@
 """Visual Architecture & Excalidraw Diagramming Engine for Senior AI Mentor.
 
-Generates serene, beautiful, harmonious Excalidraw visual diagrams with
+Generates serene, beautiful, hierarchical Excalidraw concept mind maps with
 full Markdown formatting, KaTeX/LaTeX mathematical formulas, and cognitive ease.
 """
 
 from .excalidraw import (
     ExcalidrawDiagram,
-    ExcalidrawElement,
-    ZenPalette,
-    ExcalidrawTheme
+    MindmapExcalidrawBuilder,
+    MindmapTreeData,
+    MindmapMethod,
+    MindmapOperation,
+    gen_excalidraw_id
 )
 from .templates import (
     DiagramTemplateRegistry,
@@ -21,9 +23,11 @@ from .generator import (
 
 __all__ = [
     "ExcalidrawDiagram",
-    "ExcalidrawElement",
-    "ZenPalette",
-    "ExcalidrawTheme",
+    "MindmapExcalidrawBuilder",
+    "MindmapTreeData",
+    "MindmapMethod",
+    "MindmapOperation",
+    "gen_excalidraw_id",
     "DiagramTemplateRegistry",
     "get_diagram_for_concept",
     "VisualMentor",

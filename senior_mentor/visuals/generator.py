@@ -1,15 +1,15 @@
 """Visual Mentor Generator: Orchestrates beautiful Excalidraw creation.
 
-Combines LaTeX/KaTeX mathematics, visual design, file persistence,
+Combines LaTeX/KaTeX mathematics, hierarchical mind map design, file persistence,
 and serene Markdown responses.
 """
 
 from dataclasses import dataclass
 from pathlib import Path
 import re
-from typing import Optional, Tuple
+from typing import Optional
 
-from .excalidraw import ExcalidrawDiagram
+from .excalidraw import MindmapExcalidrawBuilder
 from .templates import get_diagram_for_concept
 
 
@@ -17,7 +17,7 @@ from .templates import get_diagram_for_concept
 class VisualDiagramResult:
     concept: str
     title: str
-    diagram: ExcalidrawDiagram
+    diagram: MindmapExcalidrawBuilder
     markdown_content: str
     json_content: str
     md_path: Path
@@ -48,31 +48,44 @@ class VisualMentor:
         diagram = get_diagram_for_concept(clean_query, concept_name)
 
         out_dir = Path(target_dir).resolve() if target_dir else (self.workspace_dir / "diagrams")
-        base_slug = self._slugify(diagram.concept or effective_concept)
+        base_slug = self._slugify(effective_concept)
 
         md_path, raw_path = diagram.save(out_dir, base_slug)
-        md_text = diagram.to_markdown()
+        md_text = diagram.to_obsidian_markdown()
         json_text = diagram.to_json(indent=2)
+        display_title = diagram.data.root_title.replace("\n", " ")
 
-        # Construct serene, welcoming chat/terminal presentation
         summary_lines = [
-            f"### 🎨 [Excalidraw Visual Architecture: {diagram.title}]",
-            f"*{diagram.subtitle}*",
+            f"### 🎨 [Excalidraw Visual Mind Map: {display_title}]",
             "",
             "---",
             "",
-            "#### 🌿 Intuition & Mental Model",
-            diagram.intuition,
+            "#### 🌿 1. Concept Intuition & Mental Model",
+            diagram.data.intuition_markdown.strip(),
             "",
             "---",
             "",
-            "#### 📐 Mathematical Foundations (KaTeX / LaTeX)",
-            diagram.math_katex,
+            "#### 📐 2. Mathematical Foundations (LaTeX / KaTeX)",
+            diagram.data.math_katex_markdown.strip(),
             "",
             "---",
             "",
-            "#### 🗺️ Visual Architecture Map",
-            "\n".join(f"{i+1}. {step}" for i, step in enumerate(diagram.walkthrough_steps)),
+            "#### 🗺️ 3. Mind Map & Architecture Decomposition",
+            f"**Libraries:** {', '.join(f'`{lib}`' for lib in diagram.data.libraries)}",
+            "",
+            "**Methods & Implementations:**",
+        ]
+
+        for m in diagram.data.methods:
+            summary_lines.append(f"- **{m.name}:**")
+            for op in m.operations:
+                summary_lines.append(f"  • `{op.code}`: {op.explanation}")
+            if m.synthesis_callout:
+                summary_lines.append(f"  👉 *Synthesis:* {m.synthesis_callout}")
+
+        summary_lines.extend([
+            "",
+            f"**End-to-End Pipeline:** {' ➔ '.join(f'`{s}`' for s in diagram.data.pipeline_steps)}",
             "",
             "---",
             "",
@@ -87,15 +100,15 @@ class VisualMentor:
             "",
             "---",
             "",
-            "#### 💡 Senior Engineering Takeaways",
-            "\n".join(f"- {tip}" for tip in diagram.engineering_insights)
-        ]
+            "#### 💡 Senior Engineering & Performance Takeaways",
+            diagram.data.engineering_insights_markdown.strip()
+        ])
 
         summary_md = "\n".join(summary_lines)
 
         return VisualDiagramResult(
             concept=effective_concept,
-            title=diagram.title,
+            title=display_title,
             diagram=diagram,
             markdown_content=md_text,
             json_content=json_text,

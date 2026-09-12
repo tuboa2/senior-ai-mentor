@@ -1,8 +1,13 @@
-"""Excalidraw Visual Diagram Engine for Senior AI Engineering Mentor.
+"""Excalidraw Visual Mind Map & Architecture Tree Engine for Senior AI Mentor.
 
-Produces harmonious, serene Excalidraw diagrams with generous whitespace,
-soft pastel palettes, clean typographic hierarchy, and full Obsidian/Markdown
-KaTeX mathematical interoperability.
+Generates crisp, elegant, hierarchical mind map and architectural flow diagrams
+modeled after production Obsidian-Excalidraw technical mind maps:
+- Root Concept Node
+- Libraries & Dependencies
+- Methods & Alternative Approaches (Code Operations -> Technical Explanations -> Mathematical Callouts)
+- End-to-End Operational Pipeline
+- Full LaTeX / KaTeX mathematical foundations in Markdown
+- Dark canvas, monochromatic clean styling, container-bound text, zero text truncation.
 """
 
 from dataclasses import dataclass, field
@@ -14,565 +19,436 @@ from typing import Any, Dict, List, Optional, Tuple
 import uuid
 
 
-class ZenPalette:
-    """A calming, harmonious, non-overwhelming color palette for technical architecture."""
-    CANVAS_BG = "#fafbfc"
-    CANVAS_CONTAINER_BG = "#f8fafd"
-    CANVAS_CONTAINER_BORDER = "#cfd8dc"
-
-    # Soft Theme Cards
-    AZURE = {
-        "name": "azure",
-        "bg": "#e8f0fe",
-        "stroke": "#1a73e8",
-        "text": "#174ea6",
-        "label": "Input / Representation"
-    }
-    SAGE = {
-        "name": "sage",
-        "bg": "#e6f4ea",
-        "stroke": "#1e8e3e",
-        "text": "#137333",
-        "label": "Computation / Transformation"
-    }
-    AMBER = {
-        "name": "amber",
-        "bg": "#fef7e0",
-        "stroke": "#f9ab00",
-        "text": "#b06000",
-        "label": "Weight / Attention / Latent"
-    }
-    LAVENDER = {
-        "name": "lavender",
-        "bg": "#f3e8fd",
-        "stroke": "#9334e6",
-        "text": "#7627bb",
-        "label": "Projection / Multi-Head / State"
-    }
-    CORAL = {
-        "name": "coral",
-        "bg": "#fce8e6",
-        "stroke": "#ea4335",
-        "text": "#c5221f",
-        "label": "Loss / Gradient / Error"
-    }
-    SLATE = {
-        "name": "slate",
-        "bg": "#f1f3f4",
-        "stroke": "#80868b",
-        "text": "#202124",
-        "label": "Memory / Registry / Infrastructure"
-    }
-    WHITE = {
-        "name": "white",
-        "bg": "#ffffff",
-        "stroke": "#dadce0",
-        "text": "#3c4043",
-        "label": "Neutral / Container"
-    }
-
-    THEMES = {
-        "azure": AZURE,
-        "blue": AZURE,
-        "sage": SAGE,
-        "green": SAGE,
-        "amber": AMBER,
-        "yellow": AMBER,
-        "lavender": LAVENDER,
-        "purple": LAVENDER,
-        "coral": CORAL,
-        "red": CORAL,
-        "slate": SLATE,
-        "gray": SLATE,
-        "white": WHITE
-    }
-
-    ARROW_FLOW = "#5f6368"
-    ARROW_REVERSE = "#ea4335"
-    ARROW_ACCENT = "#1a73e8"
-
-
-class ExcalidrawTheme:
-    DEFAULT = "azure"
+def gen_excalidraw_id(length: int = 8) -> str:
+    """Generates an Excalidraw-compliant alphanumeric unique element ID."""
+    chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    return "".join(random.choice(chars) for _ in range(length))
 
 
 @dataclass
-class ExcalidrawElement:
-    """Internal representation of a single Excalidraw scene element."""
-    id: str
-    element_type: str
-    x: float
-    y: float
-    width: float
-    height: float
-    stroke_color: str = "#1e1e1e"
-    background_color: str = "transparent"
-    fill_style: str = "solid"
-    stroke_width: float = 1.5
-    stroke_style: str = "solid"
-    roughness: int = 1
-    opacity: int = 100
-    roundness: Optional[Dict[str, int]] = field(default_factory=lambda: {"type": 3})
-    seed: int = field(default_factory=lambda: random.randint(100000, 999999))
-    text: Optional[str] = None
-    font_size: int = 18
-    font_family: int = 1  # 1 = Virgil (hand-drawn), 2 = Helvetica, 3 = Cascadia (code)
-    text_align: str = "center"
-    vertical_align: str = "middle"
-    points: Optional[List[List[float]]] = None
-    start_binding: Optional[Dict[str, Any]] = None
-    end_binding: Optional[Dict[str, Any]] = None
-    end_arrowhead: Optional[str] = None
-    container_id: Optional[str] = None
+class MindmapOperation:
+    code: str
+    explanation: str
 
-    def to_dict(self) -> Dict[str, Any]:
+
+@dataclass
+class MindmapMethod:
+    name: str
+    operations: List[MindmapOperation]
+    synthesis_callout: Optional[str] = None
+
+
+@dataclass
+class MindmapTreeData:
+    root_title: str
+    libraries: List[str]
+    methods: List[MindmapMethod]
+    pipeline_steps: List[str]
+    pipeline_branch: Optional[Tuple[str, str]] = None  # (from_step, branch_step)
+    intuition_markdown: str = ""
+    math_katex_markdown: str = ""
+    engineering_insights_markdown: str = ""
+
+
+class MindmapExcalidrawBuilder:
+    """Builds an Excalidraw scene matching the Obsidian Mind Map standard."""
+
+    def __init__(self, data: MindmapTreeData):
+        self.data = data
+        self.elements: List[Dict[str, Any]] = []
+        self.text_elements_markdown: List[str] = []
+        self._rect_map: Dict[str, Dict[str, Any]] = {}
+        self._arrows: List[Dict[str, Any]] = []
+
+    def _add_box_with_text(
+        self,
+        x: float,
+        y: float,
+        width: float,
+        height: float,
+        text: str,
+        is_callout: bool = False
+    ) -> str:
+        """Creates a rectangle and container-bound text element."""
+        rect_id = gen_excalidraw_id(16)
+        text_id = gen_excalidraw_id(8)
+
+        # Store for Obsidian markdown reference
+        clean_text_single_line = text.replace("\n", " ")
+        self.text_elements_markdown.append(f"{clean_text_single_line} ^{text_id}")
+
         now_ms = int(time.time() * 1000)
-        base: Dict[str, Any] = {
-            "id": self.id,
-            "type": self.element_type,
-            "x": self.x,
-            "y": self.y,
-            "width": self.width,
-            "height": self.height,
+
+        # Create Rectangle
+        rect_elem: Dict[str, Any] = {
+            "id": rect_id,
+            "type": "rectangle",
+            "x": x,
+            "y": y,
+            "width": width,
+            "height": height,
             "angle": 0,
-            "strokeColor": self.stroke_color,
-            "backgroundColor": self.background_color,
-            "fillStyle": self.fill_style,
-            "strokeWidth": self.stroke_width,
-            "strokeStyle": self.stroke_style,
-            "roughness": self.roughness,
-            "opacity": self.opacity,
+            "strokeColor": "#1e1e1e",
+            "backgroundColor": "transparent",
+            "fillStyle": "solid",
+            "strokeWidth": 2,
+            "strokeStyle": "solid",
+            "roughness": 0,
+            "opacity": 100,
             "groupIds": [],
             "frameId": None,
-            "roundness": self.roundness,
-            "seed": self.seed,
+            "roundness": None,  # Crisp sharp corners like the reference
+            "seed": random.randint(100000, 9999999),
+            "version": 1,
+            "versionNonce": 1,
+            "isDeleted": False,
+            "boundElements": [
+                {"type": "text", "id": text_id}
+            ],
+            "updated": now_ms,
+            "link": None,
+            "locked": False
+        }
+
+        # Calculate text position inside container
+        text_w = max(width - 20, 20)
+        text_h = max(height - 18, 18)
+
+        text_elem: Dict[str, Any] = {
+            "id": text_id,
+            "type": "text",
+            "x": x + 10,
+            "y": y + 9,
+            "width": text_w,
+            "height": text_h,
+            "angle": 0,
+            "strokeColor": "#1e1e1e",
+            "backgroundColor": "transparent",
+            "fillStyle": "solid",
+            "strokeWidth": 2,
+            "strokeStyle": "solid",
+            "roughness": 0,
+            "opacity": 100,
+            "groupIds": [],
+            "frameId": None,
+            "roundness": None,
+            "seed": random.randint(100000, 9999999),
             "version": 1,
             "versionNonce": 1,
             "isDeleted": False,
             "boundElements": None,
             "updated": now_ms,
             "link": None,
-            "locked": False
+            "locked": False,
+            "text": text,
+            "fontSize": 20 if not is_callout else 18,
+            "fontFamily": 7,  # Clean monospace / technical sans font
+            "textAlign": "center" if not is_callout else "left",
+            "verticalAlign": "middle",
+            "containerId": rect_id,
+            "originalText": text,
+            "autoResize": True,
+            "lineHeight": 1.15
         }
 
-        if self.element_type == "text":
-            content = self.text or ""
-            base.update({
-                "text": content,
-                "fontSize": self.font_size,
-                "fontFamily": self.font_family,
-                "textAlign": self.text_align,
-                "verticalAlign": self.vertical_align,
-                "baseline": int(self.font_size * 0.8),
-                "containerId": self.container_id,
-                "originalText": content,
-                "lineHeight": 1.25
-            })
+        self.elements.append(rect_elem)
+        self.elements.append(text_elem)
 
-        if self.element_type in ("arrow", "line"):
-            base.update({
-                "points": self.points or [[0, 0], [self.width, self.height]],
-                "lastCommittedPoint": None,
-                "startBinding": self.start_binding,
-                "endBinding": self.end_binding,
-                "startArrowhead": None,
-                "endArrowhead": self.end_arrowhead or "arrow"
-            })
-
-        return base
-
-
-class ExcalidrawDiagram:
-    """Encapsulates a full Excalidraw scene with Markdown and KaTeX math derivations."""
-
-    def __init__(
-        self,
-        title: str,
-        concept: str,
-        subtitle: str = "Architectural & Mathematical Intuition",
-        intuition: str = "",
-        math_katex: str = "",
-        walkthrough_steps: Optional[List[str]] = None,
-        engineering_insights: Optional[List[str]] = None
-    ):
-        self.title = title
-        self.concept = concept
-        self.subtitle = subtitle
-        self.intuition = intuition
-        self.math_katex = math_katex
-        self.walkthrough_steps = walkthrough_steps or []
-        self.engineering_insights = engineering_insights or []
-        self.elements: List[ExcalidrawElement] = []
-        self._card_registry: Dict[str, Dict[str, Any]] = {}
-
-    def _gen_id(self, prefix: str = "el") -> str:
-        return f"{prefix}_{uuid.uuid4().hex[:8]}"
-
-    def add_element(self, element: ExcalidrawElement) -> None:
-        self.elements.append(element)
-
-    def add_zen_card(
-        self,
-        x: float,
-        y: float,
-        width: float,
-        height: float,
-        title: str,
-        subtitle: Optional[str] = None,
-        latex_formula: Optional[str] = None,
-        step_badge: Optional[str] = None,
-        theme: str = "azure"
-    ) -> str:
-        """Adds a soothing, curved aesthetic card with title, formula, and step badge."""
-        card_id = self._gen_id("card")
-        palette = ZenPalette.THEMES.get(theme.lower(), ZenPalette.AZURE)
-
-        # 1. Main Background Rectangle
-        card_elem = ExcalidrawElement(
-            id=card_id,
-            element_type="rectangle",
-            x=x,
-            y=y,
-            width=width,
-            height=height,
-            stroke_color=palette["stroke"],
-            background_color=palette["bg"],
-            fill_style="solid",
-            stroke_width=1.5,
-            stroke_style="solid",
-            roughness=1,
-            roundness={"type": 3}
-        )
-        self.elements.append(card_elem)
-
-        # 2. Step Badge (e.g. [1], [Input], [Attention])
-        if step_badge:
-            badge_id = self._gen_id("badge")
-            badge_w = 40 + len(step_badge) * 8
-            badge_rect = ExcalidrawElement(
-                id=f"{badge_id}_bg",
-                element_type="rectangle",
-                x=x + 12,
-                y=y + 10,
-                width=badge_w,
-                height=22,
-                stroke_color=palette["stroke"],
-                background_color="#ffffff",
-                fill_style="solid",
-                stroke_width=1.0,
-                roundness={"type": 3}
-            )
-            self.elements.append(badge_rect)
-
-            badge_txt = ExcalidrawElement(
-                id=f"{badge_id}_txt",
-                element_type="text",
-                x=x + 16,
-                y=y + 12,
-                width=badge_w - 8,
-                height=18,
-                stroke_color=palette["text"],
-                text=step_badge,
-                font_size=13,
-                font_family=3,  # Code font
-                text_align="center",
-                vertical_align="middle"
-            )
-            self.elements.append(badge_txt)
-
-        # 3. Card Title
-        title_y = y + (36 if step_badge else 16)
-        title_elem = ExcalidrawElement(
-            id=self._gen_id("title"),
-            element_type="text",
-            x=x + 12,
-            y=title_y,
-            width=width - 24,
-            height=26,
-            stroke_color=palette["text"],
-            text=title,
-            font_size=18,
-            font_family=1,
-            text_align="center",
-            vertical_align="middle"
-        )
-        self.elements.append(title_elem)
-
-        # 4. Optional Subtitle
-        curr_y = title_y + 28
-        if subtitle:
-            sub_elem = ExcalidrawElement(
-                id=self._gen_id("sub"),
-                element_type="text",
-                x=x + 12,
-                y=curr_y,
-                width=width - 24,
-                height=20,
-                stroke_color="#5f6368",
-                text=subtitle,
-                font_size=14,
-                font_family=1,
-                text_align="center",
-                vertical_align="middle"
-            )
-            self.elements.append(sub_elem)
-            curr_y += 24
-
-        # 5. Optional Mathematical / LaTeX Formula Pill
-        if latex_formula:
-            pill_w = width - 28
-            pill_h = 32
-            pill_x = x + 14
-            pill_y = y + height - pill_h - 12
-
-            pill_bg = ExcalidrawElement(
-                id=self._gen_id("formula_bg"),
-                element_type="rectangle",
-                x=pill_x,
-                y=pill_y,
-                width=pill_w,
-                height=pill_h,
-                stroke_color="#dadce0",
-                background_color="#ffffff",
-                fill_style="solid",
-                stroke_width=1.0,
-                roundness={"type": 3}
-            )
-            self.elements.append(pill_bg)
-
-            # KaTeX / LaTeX format representation in Excalidraw text
-            formula_elem = ExcalidrawElement(
-                id=self._gen_id("formula_txt"),
-                element_type="text",
-                x=pill_x + 6,
-                y=pill_y + 6,
-                width=pill_w - 12,
-                height=20,
-                stroke_color="#202124",
-                text=latex_formula,
-                font_size=13,
-                font_family=3,  # Code font
-                text_align="center",
-                vertical_align="middle"
-            )
-            self.elements.append(formula_elem)
-
-        self._card_registry[card_id] = {
+        self._rect_map[rect_id] = {
+            "id": rect_id,
+            "text_id": text_id,
             "x": x,
             "y": y,
             "width": width,
             "height": height,
             "center_x": x + width / 2,
             "center_y": y + height / 2,
-            "theme": theme
+            "elem": rect_elem
         }
-        return card_id
+        return rect_id
 
-    def add_flow_arrow(
-        self,
-        from_card_id: str,
-        to_card_id: str,
-        label: Optional[str] = None,
-        style: str = "solid",
-        color: Optional[str] = None
-    ) -> str:
-        """Connects two cards with a smooth, perfectly routed arrow and optional label."""
-        arrow_id = self._gen_id("arrow")
-        card_from = self._card_registry.get(from_card_id)
-        card_to = self._card_registry.get(to_card_id)
+    def _add_arrow(self, start_id: str, end_id: str) -> None:
+        """Creates a direct branching arrow between two boxes."""
+        start_box = self._rect_map.get(start_id)
+        end_box = self._rect_map.get(end_id)
+        if not start_box or not end_box:
+            return
 
-        if not card_from or not card_to:
-            return ""
+        arrow_id = gen_excalidraw_id(8)
+        now_ms = int(time.time() * 1000)
 
-        # Determine relative orientation (horizontal or vertical)
-        dx = card_to["center_x"] - card_from["center_x"]
-        dy = card_to["center_y"] - card_from["center_y"]
+        # Check relative horizontal vs vertical orientation
+        dx = end_box["center_x"] - start_box["center_x"]
+        dy = end_box["center_y"] - start_box["center_y"]
 
-        if abs(dx) >= abs(dy):
-            # Horizontal flow
-            if dx > 0:
-                start_x = card_from["x"] + card_from["width"]
-                start_y = card_from["center_y"]
-                end_x = card_to["x"]
-                end_y = card_to["center_y"]
-            else:
-                start_x = card_from["x"]
-                start_y = card_from["center_y"]
-                end_x = card_to["x"] + card_to["width"]
-                end_y = card_to["center_y"]
+        if abs(dx) >= abs(dy) * 0.5:
+            # Horizontal connection: right edge of start to left edge of end
+            start_x = start_box["x"] + start_box["width"]
+            start_y = start_box["center_y"]
+            end_x = end_box["x"]
+            end_y = end_box["center_y"]
         else:
-            # Vertical flow
-            if dy > 0:
-                start_x = card_from["center_x"]
-                start_y = card_from["y"] + card_from["height"]
-                end_x = card_to["center_x"]
-                end_y = card_to["y"]
+            # Vertical connection (e.g. pipeline branch going up)
+            if dy < 0:
+                start_x = start_box["center_x"]
+                start_y = start_box["y"]
+                end_x = end_box["center_x"]
+                end_y = end_box["y"] + end_box["height"]
             else:
-                start_x = card_from["center_x"]
-                start_y = card_from["y"]
-                end_x = card_to["center_x"]
-                end_y = card_to["y"] + card_to["height"]
+                start_x = start_box["center_x"]
+                start_y = start_box["y"] + start_box["height"]
+                end_x = end_box["center_x"]
+                end_y = end_box["y"]
 
-        arrow_color = color or (ZenPalette.ARROW_REVERSE if style == "dashed" else ZenPalette.ARROW_FLOW)
+        diff_x = end_x - start_x
+        diff_y = end_y - start_y
 
-        arrow_elem = ExcalidrawElement(
-            id=arrow_id,
-            element_type="arrow",
-            x=start_x,
-            y=start_y,
-            width=end_x - start_x,
-            height=end_y - start_y,
-            stroke_color=arrow_color,
-            stroke_width=1.5,
-            stroke_style=style,
-            roughness=1,
-            points=[[0.0, 0.0], [end_x - start_x, end_y - start_y]],
-            start_binding={"elementId": from_card_id, "focus": 0, "gap": 6},
-            end_binding={"elementId": to_card_id, "focus": 0, "gap": 6},
-            end_arrowhead="arrow"
-        )
+        arrow_elem: Dict[str, Any] = {
+            "id": arrow_id,
+            "type": "arrow",
+            "x": start_x,
+            "y": start_y,
+            "width": abs(diff_x),
+            "height": abs(diff_y),
+            "angle": 0,
+            "strokeColor": "#1e1e1e",
+            "backgroundColor": "transparent",
+            "fillStyle": "solid",
+            "strokeWidth": 2,
+            "strokeStyle": "solid",
+            "roughness": 0,
+            "opacity": 100,
+            "groupIds": [],
+            "frameId": None,
+            "roundness": {"type": 2},
+            "seed": random.randint(100000, 9999999),
+            "version": 1,
+            "versionNonce": 1,
+            "isDeleted": False,
+            "boundElements": None,
+            "updated": now_ms,
+            "link": None,
+            "locked": False,
+            "points": [
+                [0.0, 0.0],
+                [diff_x, diff_y]
+            ],
+            "lastCommittedPoint": None,
+            "startBinding": {
+                "elementId": start_id,
+                "focus": 0,
+                "gap": 1
+            },
+            "endBinding": {
+                "elementId": end_id,
+                "focus": 0,
+                "gap": 1
+            },
+            "startArrowhead": None,
+            "endArrowhead": "arrow"
+        }
+
+        # Add arrow to boundElements of both start and end boxes
+        start_box["elem"]["boundElements"].append({"type": "arrow", "id": arrow_id})
+        end_box["elem"]["boundElements"].append({"type": "arrow", "id": arrow_id})
+
         self.elements.append(arrow_elem)
 
-        # Arrow text label
-        if label:
-            mid_x = (start_x + end_x) / 2
-            mid_y = (start_y + end_y) / 2 - 16
-            lbl_w = max(60, len(label) * 8)
-            lbl_elem = ExcalidrawElement(
-                id=self._gen_id("arrow_lbl"),
-                element_type="text",
-                x=mid_x - (lbl_w / 2),
-                y=mid_y,
-                width=lbl_w,
-                height=20,
-                stroke_color="#5f6368",
-                text=label,
-                font_size=13,
-                font_family=1,
-                text_align="center",
-                vertical_align="middle"
-            )
-            self.elements.append(lbl_elem)
+    def build_scene(self) -> None:
+        """Lays out the mindmap tree across 6 clean columns."""
+        # 1. Column Coordinates
+        col1_x = 168.0
+        col2_x = 590.0
+        col3_x = 900.0
+        col4_x = 1170.0
+        col5_x = 1425.0
+        col6_x = 1895.0
 
-        return arrow_id
+        std_w = 181.0
+        std_h = 64.0
+        callout_w = 347.0
 
-    def add_canvas_container(
-        self,
-        x: float,
-        y: float,
-        width: float,
-        height: float,
-        title: str
-    ) -> None:
-        """Adds a calming outer boundary container grouping related subsystems."""
-        cont_id = self._gen_id("container")
-        box = ExcalidrawElement(
-            id=cont_id,
-            element_type="rectangle",
-            x=x,
-            y=y,
-            width=width,
-            height=height,
-            stroke_color=ZenPalette.CANVAS_CONTAINER_BORDER,
-            background_color=ZenPalette.CANVAS_CONTAINER_BG,
-            fill_style="solid",
-            stroke_width=1.0,
-            stroke_style="dashed",
-            roughness=0,
-            roundness={"type": 3}
-        )
-        self.elements.insert(0, box)  # Place at background layer
+        # Calculate Y layout
+        # Libraries branch (top)
+        lib_start_y = 37.0
+        # Methods branch (middle)
+        method_base_y = 220.0
+        # Architecture branch (bottom)
+        arch_y = 1000.0
 
-        title_lbl = ExcalidrawElement(
-            id=self._gen_id("container_title"),
-            element_type="text",
-            x=x + 18,
-            y=y + 14,
-            width=width - 36,
-            height=24,
-            stroke_color="#5f6368",
-            text=f"📂 {title}",
-            font_size=16,
-            font_family=1,
-            text_align="left",
-            vertical_align="middle"
-        )
-        self.elements.append(title_lbl)
+        # Root Node in Column 1
+        root_y = 490.0
+        root_id = self._add_box_with_text(col1_x, root_y, std_w, std_h, self.data.root_title)
+
+        # -------------------------------------------------------------
+        # BRANCH 1: Libraries
+        # -------------------------------------------------------------
+        lib_box_id = self._add_box_with_text(col2_x, lib_start_y, std_w, std_h, "Libraries")
+        self._add_arrow(root_id, lib_box_id)
+
+        lib_y = lib_start_y - 60.0
+        for lib_name in self.data.libraries:
+            l_id = self._add_box_with_text(col3_x, lib_y, std_w, std_h, lib_name)
+            self._add_arrow(lib_box_id, l_id)
+            lib_y += 105.0
+
+        # -------------------------------------------------------------
+        # BRANCH 2: Methods
+        # -------------------------------------------------------------
+        methods_root_id = self._add_box_with_text(col2_x, 488.0, std_w, std_h, "Methods")
+        self._add_arrow(root_id, methods_root_id)
+
+        curr_method_y = method_base_y
+        for method in self.data.methods:
+            # Sub-method header in Col 3
+            sub_method_y = curr_method_y + 60.0
+            sub_m_id = self._add_box_with_text(col3_x, sub_method_y, std_w, std_h, method.name)
+            self._add_arrow(methods_root_id, sub_m_id)
+
+            op_y = curr_method_y
+            desc_ids: List[str] = []
+
+            for op in method.operations:
+                # Code function in Col 4
+                op_id = self._add_box_with_text(col4_x, op_y, std_w, std_h, op.code)
+                self._add_arrow(sub_m_id, op_id)
+
+                # Explanation in Col 5 (taller box)
+                desc_h = 75.0 if len(op.explanation) < 70 else 88.0
+                desc_id = self._add_box_with_text(col5_x, op_y, callout_w, desc_h, op.explanation, is_callout=True)
+                self._add_arrow(op_id, desc_id)
+                desc_ids.append(desc_id)
+
+                op_y += 112.0
+
+            # Synthesis callout in Col 6 (if provided)
+            if method.synthesis_callout:
+                callout_y = curr_method_y + 40.0
+                callout_h = 105.0 if len(method.synthesis_callout) < 140 else 135.0
+                synth_id = self._add_box_with_text(
+                    col6_x, callout_y, callout_w, callout_h, method.synthesis_callout, is_callout=True
+                )
+                # Connect all operation descriptions in this method to the synthesis callout
+                for d_id in desc_ids:
+                    self._add_arrow(d_id, synth_id)
+
+            curr_method_y = op_y + 20.0
+
+        # -------------------------------------------------------------
+        # BRANCH 3: Architecture Pipeline
+        # -------------------------------------------------------------
+        arch_box_id = self._add_box_with_text(col2_x, arch_y, std_w, std_h, "Architecture")
+        self._add_arrow(root_id, arch_box_id)
+
+        pipe_x = col3_x
+        prev_pipe_id = arch_box_id
+        step_id_map: Dict[str, str] = {}
+
+        for step in self.data.pipeline_steps:
+            p_id = self._add_box_with_text(pipe_x, arch_y, std_w, std_h, step)
+            self._add_arrow(prev_pipe_id, p_id)
+            prev_pipe_id = p_id
+            step_id_map[step] = p_id
+            pipe_x += 256.0
+
+        # Optional vertical branch off pipeline
+        if self.data.pipeline_branch:
+            from_step_name, branch_text = self.data.pipeline_branch
+            from_pipe_id = step_id_map.get(from_step_name)
+            if from_pipe_id:
+                branch_box = self._rect_map[from_pipe_id]
+                branch_y = arch_y - 124.0
+                branch_id = self._add_box_with_text(
+                    branch_box["x"], branch_y, std_w, std_h, branch_text
+                )
+                self._add_arrow(from_pipe_id, branch_id)
 
     def to_dict(self) -> Dict[str, Any]:
-        """Converts scene into standard Excalidraw JSON document format."""
+        """Returns valid Excalidraw JSON document with dark theme."""
         return {
             "type": "excalidraw",
             "version": 2,
-            "source": "https://senior-ai-mentor.antigravity",
-            "elements": [elem.to_dict() for elem in self.elements],
+            "source": "https://excalidraw.com",
+            "elements": self.elements,
             "appState": {
-                "gridSize": None,
-                "viewBackgroundColor": ZenPalette.CANVAS_BG
+                "theme": "dark",
+                "viewBackgroundColor": "#ffffff",
+                "currentItemStrokeColor": "#1e1e1e",
+                "currentItemBackgroundColor": "transparent",
+                "currentItemFillStyle": "solid",
+                "currentItemStrokeWidthKey": "bold",
+                "currentItemStrokeStyle": "solid",
+                "currentItemRoughness": 0,
+                "currentItemOpacity": 100,
+                "currentItemFontFamily": 7,
+                "currentItemFontSize": 20,
+                "currentItemTextAlign": "left",
+                "currentItemEndArrowhead": "arrow",
+                "gridSize": 20,
+                "zoom": {"value": 0.4}
             },
             "files": {}
         }
 
     def to_json(self, indent: int = 2) -> str:
-        """Outputs pure Excalidraw JSON string."""
         return json.dumps(self.to_dict(), indent=indent)
 
-    def to_markdown(self) -> str:
-        """Generates an Obsidian-compatible Excalidraw Markdown file with KaTeX math."""
+    def to_obsidian_markdown(self) -> str:
+        """Formats the file strictly according to Obsidian Excalidraw specification with KaTeX math."""
         json_payload = self.to_json(indent=2)
-        walkthrough_md = "\n".join(f"{i+1}. {step}" for i, step in enumerate(self.walkthrough_steps))
-        insights_md = "\n".join(f"- {tip}" for tip in self.engineering_insights)
+        text_elements_block = "\n\n".join(self.text_elements_markdown)
 
-        md_content = f"""---
+        md = f"""---
+
 excalidraw-plugin: parsed
-tags: [excalidraw, senior-ai-mentor, architecture]
----
-# 🎨 {self.title}
-*{self.subtitle}*
+tags: [excalidraw, senior-ai-mentor]
 
 ---
+==⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠== You can decompress Drawing data with the command palette: 'Decompress current Excalidraw file'. For more info check in plugin settings under 'Saving'
 
-## 🌿 1. Intuition & Mental Model
-{self.intuition}
+# {self.data.root_title}
+
+## 🌿 1. Concept Intuition & Mental Model
+{self.data.intuition_markdown.strip()}
 
 ---
 
 ## 📐 2. Mathematical Foundations (KaTeX / LaTeX)
-{self.math_katex}
+{self.data.math_katex_markdown.strip()}
 
 ---
 
-## 🗺️ 3. Visual Architecture Walkthrough
-{walkthrough_md if walkthrough_md else "Examine the flow of transformations illustrated in the Excalidraw diagram below."}
+## 💡 3. Senior Engineering & Performance Notes
+{self.data.engineering_insights_markdown.strip()}
 
 ---
 
-## 💡 4. Senior Engineering Insights & Production Traps
-{insights_md if insights_md else "- Verify tensor shapes and memory footprint during forward and backward passes."}
+# Excalidraw Data
 
----
-
-## 🖼️ 5. Excalidraw Visual Scene
-==To interactively view or edit: open this file in Obsidian with the Excalidraw plugin, or paste the JSON below into [excalidraw.com](https://excalidraw.com)==
+## Text Elements
+{text_elements_block}
 
 %%
-# Drawing
+## Drawing
 ```json
 {json_payload}
 ```
 %%
 """
-        return md_content.strip() + "\n"
+        return md.strip() + "\n"
 
     def save(self, target_dir: Path, base_filename: str) -> Tuple[Path, Path]:
-        """Saves both the Obsidian-compatible `.excalidraw.md` and raw `.excalidraw` file."""
         target_dir = Path(target_dir).resolve()
         target_dir.mkdir(parents=True, exist_ok=True)
 
         md_path = target_dir / f"{base_filename}.excalidraw.md"
         raw_path = target_dir / f"{base_filename}.excalidraw"
 
-        md_path.write_text(self.to_markdown(), encoding="utf-8")
+        md_path.write_text(self.to_obsidian_markdown(), encoding="utf-8")
         raw_path.write_text(self.to_json(), encoding="utf-8")
 
         return md_path, raw_path
+
+
+# Compatibility aliases
+ExcalidrawDiagram = MindmapExcalidrawBuilder
