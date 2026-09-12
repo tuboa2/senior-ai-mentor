@@ -168,6 +168,66 @@ class TestExcalidrawVisuals(unittest.TestCase):
         self.assertFalse(res_food.is_in_scope)
         self.assertIn("Culinary", res_food.rejection_message)
 
+    def test_centering_and_text_based_math_in_canvas_boxes(self):
+        """Verifies mathematical centering, text-based math, and collision-free clearance across all templates."""
+        templates = [
+            get_log_return_transformation_diagram(),
+            get_diffusion_model_diagram(),
+            get_transformer_attention_diagram(),
+            get_backpropagation_diagram(),
+            get_rag_architecture_diagram(),
+        ]
+
+        for builder in templates:
+            rects = {e["id"]: e for e in builder.elements if e["type"] == "rectangle"}
+            texts = [e for e in builder.elements if e["type"] == "text"]
+
+            for t in texts:
+                cid = t.get("containerId")
+                self.assertIsNotNone(cid)
+                r = rects[cid]
+
+                # 1. Text element properties
+                self.assertEqual(t.get("textAlign"), "center")
+                self.assertEqual(t.get("verticalAlign"), "middle")
+                self.assertTrue(t.get("autoResize"))
+
+                # 2. Centering math
+                rx, ry, rw, rh = r["x"], r["y"], r["width"], r["height"]
+                tx, ty, tw, th = t["x"], t["y"], t["width"], t["height"]
+                expected_tx = round(rx + (rw - tw) / 2.0, 1)
+                expected_ty = round(ry + (rh - th) / 2.0, 1)
+                self.assertAlmostEqual(tx, expected_tx, places=1)
+                self.assertAlmostEqual(ty, expected_ty, places=1)
+
+                # 3. Canvas text must NOT contain unrendered LaTeX display commands
+                raw = t.get("text", "")
+                self.assertNotIn("\\nabla", raw)
+                self.assertNotIn("\\mathcal", raw)
+                self.assertNotIn("\\frac", raw)
+                self.assertNotIn("$$", raw)
+
+            # 4. Architecture clearance
+            arch_rect = next(r for r in rects.values() if any(
+                t.get("containerId") == r["id"] and "Architecture" in t.get("text", "")
+                for t in texts
+            ))
+            branch_text = builder.data.pipeline_branch[1] if builder.data.pipeline_branch else ""
+            method_rects = [
+                r for r in rects.values()
+                if r["y"] < arch_rect["y"] and r != arch_rect and not any(
+                    t.get("containerId") == r["id"] and "Libraries" in t.get("text", "") for t in texts
+                ) and not any(
+                    t.get("containerId") == r["id"] and builder.data.root_title in t.get("text", "") for t in texts
+                ) and not any(
+                    t.get("containerId") == r["id"] and branch_text in t.get("text", "").replace("\n", " ") for t in texts
+                )
+            ]
+            if method_rects:
+                max_method_bottom = max(r["y"] + r["height"] for r in method_rects)
+                # Ensure minimum 140px clearance between methods and architecture
+                self.assertGreaterEqual(arch_rect["y"] - max_method_bottom, 140.0)
+
 
 if __name__ == "__main__":
     unittest.main()

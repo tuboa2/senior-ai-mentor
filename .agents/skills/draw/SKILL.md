@@ -8,26 +8,29 @@ description: >-
 
 When invoked via `/draw <concept>` or `/diagram <concept>`, activate the Visual Architecture Engine to render high-fidelity, aesthetically calming diagrams for machine learning, data engineering, and system design concepts.
 
-## 1. Aesthetic Directives ("Serene & Non-Overwhelming")
+## 1. Aesthetic Directives ("Serene, Monochromatic & Non-Overwhelming")
 
-- **Harmonious Pastel Palette (Zen Palette):**
-  - **Azure (`#e8f0fe`):** Input tensors, queries, initial representations.
-  - **Amber (`#fef7e0`):** Weights, attention scores, latent distributions.
-  - **Sage (`#e6f4ea`):** Transformations, activations, normalized states, verified outputs.
-  - **Lavender (`#f3e8fd`):** Projections, multi-head subspaces, non-linear mappings.
-  - **Coral (`#fce8e6`):** Losses, reverse gradients, residual error signals.
-  - **Slate (`#f1f3f4`):** Memory caches, vector stores, registries, infrastructure.
-- **Generous Breathing Room:** Spacing of 80–120px between sequential components. No cramped or overlapping nodes.
-- **Gentle Rounded Corners:** Container and card elements use smooth curved radii (`roundness: {"type": 3}`).
-- **Organic Hand-Drawn Warmth:** Low roughness (`roughness: 1`) provides an organic, approachable feel that reduces learner anxiety.
-- **Cognitive Chunking:** Deconstruct complex systems into 4–5 digestible visual stages with clear step badges (`[1]`, `[2]`, `[3]`).
+- **Benchmark Reference Standard:** Modeled directly after production Obsidian-Excalidraw technical mind maps (e.g. `Log-Return Transformation.excalidraw.md`).
+- **Dark Monochromatic Canvas:** Dark canvas (`theme: "dark"`, `#121212` background, `#1e1e1e` borders rendering crisp white in dark mode, `backgroundColor: "transparent"`). No distracting rainbow card fills.
+- **Flawlessly Centered Text:** All container text is mathematically centered horizontally and vertically:
+  - `containerId` binding between container rectangles and text elements.
+  - `textAlign: "center"` and `verticalAlign: "middle"`.
+  - `autoResize: true` with strict line-wrapping (`\n`) matching column character budgets (14–16 for nodes, 22 for code, 34–36 for explanations/callouts).
+  - Punctuation-aware word splitting (`.`, `-`, `:`, `_`, `=`, `/`, `(`, `)`) ensuring zero text clipping or border overflow.
+- **Symmetrical 6-Column Hierarchical Mind Map Tree:**
+  - Col 1: Root Concept Node (220×75px).
+  - Col 2: Major Branches (`Libraries`, `Methods`, `Architecture` - 181×64px).
+  - Col 3: Sub-Sections & Library Items (200×64px).
+  - Col 4: Code Operations (240×64px+).
+  - Col 5: Technical Explanations (360×75px+).
+  - Col 6: Synthesis Callouts (380×102px+).
+- **Collision-Free Architecture Pipeline:** Guaranteed 140px+ vertical clearance separating methods from the architecture pipeline and vertical branches.
+- **Bold Hierarchical Connection Lines:** Symmetrical routing with `strokeWidth: 4` arrows and rounded corners (`roundness: {"type": 2}`).
 
-## 2. Mathematical Rigor (KaTeX / LaTeX Integration)
+## 2. Mathematical Rigor & Text-Based Canvas Math
 
-Every diagram document must feature complete mathematical foundations:
-- **Block Formulations:** Use standard `$$ ... $$` syntax for derivations, loss functions, and tensor transitions.
-- **Variable Clarity:** Explicitly document tensor dimensions ($n \times d_k$, $B \times L \times D$) and scalar invariants.
-- **Visual Canvas Labels:** The Excalidraw drawing embeds mathematical notation in card labels (e.g. `softmax(QK^T / \sqrt{d_k}) V`), natively renderable by Obsidian Excalidraw.
+- **Text-Based Canvas Math:** Inside the Excalidraw drawing boxes, all mathematical formulas and identities are written in clean, legible, text-based notation (e.g. `x_t = sqrt(alpha)*x_0 + sqrt(1-alpha)*eps`, `Score = -eps_pred / sqrt(1 - alpha)`). Never embed unrendered raw LaTeX tokens like `\nabla_{x_t}` or `\mathcal{L}` inside canvas boxes.
+- **Full KaTeX / LaTeX Markdown Rigor:** In the Markdown section of `.excalidraw.md` (`## 2. Mathematical Foundations (KaTeX / LaTeX)`), provide complete, publication-grade LaTeX equations (`$$ ... $$`) with full derivations, tensor shapes, and boundary conditions.
 
 ## 3. Dual-Format Artifact Generation
 

@@ -6,8 +6,7 @@ tags: [excalidraw, senior-ai-mentor]
 ---
 ==⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠== You can decompress Drawing data with the command palette: 'Decompress current Excalidraw file'. For more info check in plugin settings under 'Saving'
 
-# Log-Returns
-Transformation
+# Log-Returns Transformation
 
 ## 🌿 1. Concept Intuition & Mental Model
 Log returns (continuously compounded returns) offer several decisive mathematical advantages over simple percentage changes:
@@ -41,61 +40,61 @@ For small daily returns ($|R_t| < 0.05$), simple and log returns are almost indi
 # Excalidraw Data
 
 ## Text Elements
-Log-Returns Transformation ^KoUWoXVi
+Libraries ^fIpfYxhM
 
-Libraries ^M42V22WN
+pandas ^I07S6XBK
 
-pandas ^UhN4PTH6
+numpy ^5vpicJxo
 
-numpy ^qC0I8eC2
+Methods ^BCnbsHMi
 
-Methods ^Zlb4m7s3
+Architecture ^eH08H6y3
 
-Natural Log Differencing ^CxpbxqHZ
+Log-Returns Transformation ^zTkcN7qa
 
-np.log(df) ^yZ1vaLLk
+Natural Log Differencing ^85W0NteB
 
-Computes the natural logarithm of every price value. ^5gHO9VXX
+np.log(df) ^frzNAej1
 
-df.diff(1) ^seTFwZEr
+Computes the natural logarithm of every price value. ^fSOg8WNw
 
-Computes the difference between the current row and the previous row (row[t] - row[t-1]) ^muff6IHL
+df.diff(1) ^JXWsNgNT
 
-Since log(A / B) = log(A) - log(B), you can take the natural log of all prices first, then take the first difference:   log_returns = np.log(prices_df).diff() ^SJLufNpv
+Computes the difference between the current row and the previous row (row[t] - row[t-1]) ^TbBwadJd
 
-Ratio with Lag Shift ^JlWDG8HO
+Since log(A / B) = log(A) - log(B), you can take the natural log of all prices first, then take the first difference: log_returns = np.log(prices_df).diff() ^Dll0LUBI
 
-df.shift(1) ^Fj2gDtSb
+Ratio with Lag Shift ^uXFQEmmr
 
-Moves every row down by 1 position (bringing yesterday's price into today's row). ^qZ9k5vhM
+df.shift(1) ^5r3QfUrY
 
-np.log(df / df.shift(1)) ^QuNNev56
+Moves every row down by 1 position (bringing yesterday's price into today's row). ^lQapUlLv
 
-Divides today's price by yesterday's price, then takes the natural log. ^49VTJ1HG
+np.log(df / df.shift(1)) ^JVNFdvJC
 
-Both Option A and Option B yield identical mathematical results. Option A (np.log(df).diff()) is typically preferred because .diff() is optimized in Cython. ^JsUdbxhs
+Divides today's price by yesterday's price, then takes the natural log. ^FTUAyUDj
 
-From Percentage Change ^YQ9J4Nkc
+Both Option A and Option B yield identical mathematical results. Option A (np.log(df).diff()) is typically preferred because .diff() is optimized in Cython. ^iWxtUZcD
 
-df.pct_change() ^ES0RvBad
+From Percentage Change ^BV9OUS60
 
-Calculates simple return R = (Price_today - Price_yesterday) / Price_yesterday. ^T2iDFjKV
+df.pct_change() ^eq66aTig
 
-np.log1p(simple_returns) ^qqrhgjxf
+Calculates simple return R = (Price_today - Price_yesterday) / Price_yesterday. ^bPTPLpAJ
 
-Computes log(1 + R) with extra precision for numbers very close to zero. ^mh1YuZuP
+np.log1p(simple_ returns) ^knbaswFU
 
-Architecture ^2B16c5rR
+Computes log(1 + R) with extra precision for numbers very close to zero. ^aBs1zQ6I
 
-Extract Close Prices ^vrtDMCG9
+Extract Close Prices ^qnOwJqgt
 
-Assemble Price Matrix ^R5WCkWko
+Assemble Price Matrix ^3VHX0L43
 
-Apply Log Transformation ^olLl4H8c
+Apply Log Transformation ^40pkQ3H9
 
-Clean the Boundary Row ^oCvyjJlE
+Clean the Boundary Row ^FIYyZeZj
 
-Combine into a single DataFrame ^HkVTMxhF
+Combine into a single DataFrame ^lgOeJ5Ei
 
 %%
 ## Drawing
@@ -106,89 +105,9 @@ Combine into a single DataFrame ^HkVTMxhF
   "source": "https://excalidraw.com",
   "elements": [
     {
-      "id": "NTotTICaO6fv0xn4",
+      "id": "ookZ1FSuDrDfB8Ae",
       "type": "rectangle",
-      "x": 168.0,
-      "y": 490.0,
-      "width": 181.0,
-      "height": 64.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2606467,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "KoUWoXVi"
-        },
-        {
-          "type": "arrow",
-          "id": "7uQQdxcE"
-        },
-        {
-          "type": "arrow",
-          "id": "ohS9GBlK"
-        },
-        {
-          "type": "arrow",
-          "id": "hujqfGvH"
-        }
-      ],
-      "updated": 1789187288006,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "KoUWoXVi",
-      "type": "text",
-      "x": 178.0,
-      "y": 499.0,
-      "width": 161.0,
-      "height": 46.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 5270342,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288006,
-      "link": null,
-      "locked": false,
-      "text": "Log-Returns\nTransformation",
-      "fontSize": 20,
-      "fontFamily": 7,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "NTotTICaO6fv0xn4",
-      "originalText": "Log-Returns\nTransformation",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "ElqzI8dcKHBvBCDS",
-      "type": "rectangle",
-      "x": 590.0,
+      "x": 560.0,
       "y": 37.0,
       "width": 181.0,
       "height": 64.0,
@@ -198,130 +117,80 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 5140876,
+      "seed": 2236855,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "M42V22WN"
+          "id": "fIpfYxhM"
         },
         {
           "type": "arrow",
-          "id": "7uQQdxcE"
+          "id": "Gx19k1nw"
         },
         {
           "type": "arrow",
-          "id": "d6pVCIBE"
+          "id": "cd7B26rp"
         },
         {
           "type": "arrow",
-          "id": "8lOXpZNV"
+          "id": "WkJRT4s0"
         }
       ],
-      "updated": 1789187288006,
+      "updated": 1789190075496,
       "link": null,
       "locked": false
     },
     {
-      "id": "M42V22WN",
+      "id": "fIpfYxhM",
       "type": "text",
-      "x": 600.0,
-      "y": 46.0,
-      "width": 161.0,
-      "height": 46.0,
+      "x": 610.0,
+      "y": 57.5,
+      "width": 81.0,
+      "height": 23.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 687728,
+      "seed": 2222108,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288006,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
       "text": "Libraries",
+      "rawText": "Libraries",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "ElqzI8dcKHBvBCDS",
+      "containerId": "ookZ1FSuDrDfB8Ae",
       "originalText": "Libraries",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "7uQQdxcE",
-      "type": "arrow",
-      "x": 349.0,
-      "y": 522.0,
-      "width": 241.0,
-      "height": 453.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 1766593,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288006,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          241.0,
-          -453.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "NTotTICaO6fv0xn4",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "ElqzI8dcKHBvBCDS",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "yYVIASJlVUhlZSEO",
+      "id": "kF0ow7sl31vlk72Z",
       "type": "rectangle",
-      "x": 900.0,
-      "y": -23.0,
+      "x": 880.0,
+      "y": -5.5,
       "width": 181.0,
       "height": 64.0,
       "angle": 0,
@@ -330,77 +199,79 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 9240293,
+      "seed": 8427480,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "UhN4PTH6"
+          "id": "I07S6XBK"
         },
         {
           "type": "arrow",
-          "id": "d6pVCIBE"
+          "id": "Gx19k1nw"
         }
       ],
-      "updated": 1789187288006,
+      "updated": 1789190075496,
       "link": null,
       "locked": false
     },
     {
-      "id": "UhN4PTH6",
+      "id": "I07S6XBK",
       "type": "text",
-      "x": 910.0,
-      "y": -14.0,
-      "width": 161.0,
-      "height": 46.0,
+      "x": 943.5,
+      "y": 15.0,
+      "width": 54.0,
+      "height": 23.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 4942691,
+      "seed": 2501387,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288006,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
       "text": "pandas",
+      "rawText": "pandas",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "yYVIASJlVUhlZSEO",
+      "containerId": "kF0ow7sl31vlk72Z",
       "originalText": "pandas",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "d6pVCIBE",
+      "id": "Gx19k1nw",
       "type": "arrow",
-      "x": 771.0,
+      "x": 741.0,
       "y": 69.0,
-      "width": 129.0,
-      "height": 60.0,
+      "width": 139.0,
+      "height": 42.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -409,12 +280,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 3465382,
+      "seed": 8928562,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288006,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
       "points": [
@@ -423,18 +294,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          129.0,
-          -60.0
+          139.0,
+          -42.5
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "ElqzI8dcKHBvBCDS",
+        "elementId": "ookZ1FSuDrDfB8Ae",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "yYVIASJlVUhlZSEO",
+        "elementId": "kF0ow7sl31vlk72Z",
         "focus": 0,
         "gap": 1
       },
@@ -442,10 +313,10 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "31uwQTg2nvQ4YBm1",
+      "id": "R52l3mdlPEfLubj1",
       "type": "rectangle",
-      "x": 900.0,
-      "y": 82.0,
+      "x": 880.0,
+      "y": 79.5,
       "width": 181.0,
       "height": 64.0,
       "angle": 0,
@@ -454,77 +325,79 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 6870957,
+      "seed": 449027,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "qC0I8eC2"
+          "id": "5vpicJxo"
         },
         {
           "type": "arrow",
-          "id": "8lOXpZNV"
+          "id": "cd7B26rp"
         }
       ],
-      "updated": 1789187288018,
+      "updated": 1789190075496,
       "link": null,
       "locked": false
     },
     {
-      "id": "qC0I8eC2",
+      "id": "5vpicJxo",
       "type": "text",
-      "x": 910.0,
-      "y": 91.0,
-      "width": 161.0,
-      "height": 46.0,
+      "x": 948.0,
+      "y": 100.0,
+      "width": 45.0,
+      "height": 23.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2697294,
+      "seed": 6402178,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288018,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
       "text": "numpy",
+      "rawText": "numpy",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "31uwQTg2nvQ4YBm1",
+      "containerId": "R52l3mdlPEfLubj1",
       "originalText": "numpy",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "8lOXpZNV",
+      "id": "cd7B26rp",
       "type": "arrow",
-      "x": 771.0,
+      "x": 741.0,
       "y": 69.0,
-      "width": 129.0,
-      "height": 45.0,
+      "width": 139.0,
+      "height": 42.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -533,12 +406,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 7538302,
+      "seed": 437739,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288018,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
       "points": [
@@ -547,18 +420,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          129.0,
-          45.0
+          139.0,
+          42.5
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "ElqzI8dcKHBvBCDS",
+        "elementId": "ookZ1FSuDrDfB8Ae",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "31uwQTg2nvQ4YBm1",
+        "elementId": "R52l3mdlPEfLubj1",
         "focus": 0,
         "gap": 1
       },
@@ -566,10 +439,10 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "SqMXhT8elZY8iS3H",
+      "id": "9iINRm3d3rjM3Xbf",
       "type": "rectangle",
-      "x": 590.0,
-      "y": 488.0,
+      "x": 560.0,
+      "y": 526.875,
       "width": 181.0,
       "height": 64.0,
       "angle": 0,
@@ -578,134 +451,84 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 3433587,
+      "seed": 1678597,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "Zlb4m7s3"
+          "id": "BCnbsHMi"
         },
         {
           "type": "arrow",
-          "id": "ohS9GBlK"
+          "id": "lRRUhWUk"
         },
         {
           "type": "arrow",
-          "id": "A7IFpupt"
+          "id": "CVZLmgUJ"
         },
         {
           "type": "arrow",
-          "id": "a5cMJF63"
+          "id": "w5noiD2o"
         },
         {
           "type": "arrow",
-          "id": "NpjpcOEs"
+          "id": "TV682pn1"
         }
       ],
-      "updated": 1789187288018,
+      "updated": 1789190075496,
       "link": null,
       "locked": false
     },
     {
-      "id": "Zlb4m7s3",
+      "id": "BCnbsHMi",
       "type": "text",
-      "x": 600.0,
-      "y": 497.0,
-      "width": 161.0,
-      "height": 46.0,
+      "x": 619.0,
+      "y": 547.4,
+      "width": 63.0,
+      "height": 23.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 8224650,
+      "seed": 2050017,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288018,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
       "text": "Methods",
+      "rawText": "Methods",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "SqMXhT8elZY8iS3H",
+      "containerId": "9iINRm3d3rjM3Xbf",
       "originalText": "Methods",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "ohS9GBlK",
-      "type": "arrow",
-      "x": 349.0,
-      "y": 522.0,
-      "width": 241.0,
-      "height": 2.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 8561239,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288018,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          241.0,
-          -2.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "NTotTICaO6fv0xn4",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "SqMXhT8elZY8iS3H",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "oER84kbd7mVrUUZI",
+      "id": "5Iru8VkOg2bW1O22",
       "type": "rectangle",
-      "x": 900.0,
-      "y": 280.0,
+      "x": 560.0,
+      "y": 1179.0,
       "width": 181.0,
       "height": 64.0,
       "angle": 0,
@@ -714,259 +537,77 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 3955526,
+      "seed": 8589443,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "CxpbxqHZ"
+          "id": "eH08H6y3"
         },
         {
           "type": "arrow",
-          "id": "A7IFpupt"
+          "id": "lpm7ZAQB"
         },
         {
           "type": "arrow",
-          "id": "9UBiPAVY"
-        },
-        {
-          "type": "arrow",
-          "id": "iOE28Lfo"
+          "id": "64Y479bD"
         }
       ],
-      "updated": 1789187288018,
+      "updated": 1789190075496,
       "link": null,
       "locked": false
     },
     {
-      "id": "CxpbxqHZ",
+      "id": "eH08H6y3",
       "type": "text",
-      "x": 910.0,
-      "y": 289.0,
-      "width": 161.0,
-      "height": 46.0,
+      "x": 596.5,
+      "y": 1199.5,
+      "width": 108.0,
+      "height": 23.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 8234891,
+      "seed": 9377245,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288018,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
-      "text": "Natural Log Differencing",
+      "text": "Architecture",
+      "rawText": "Architecture",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "oER84kbd7mVrUUZI",
-      "originalText": "Natural Log Differencing",
+      "containerId": "5Iru8VkOg2bW1O22",
+      "originalText": "Architecture",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "A7IFpupt",
-      "type": "arrow",
-      "x": 771.0,
-      "y": 520.0,
-      "width": 129.0,
-      "height": 208.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 2486769,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          129.0,
-          -208.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "SqMXhT8elZY8iS3H",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "oER84kbd7mVrUUZI",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "ygvDQgjmq1aKohwm",
+      "id": "KW8zPqYxbaH46uBN",
       "type": "rectangle",
-      "x": 1170.0,
-      "y": 220.0,
-      "width": 181.0,
-      "height": 64.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 5141855,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "yZ1vaLLk"
-        },
-        {
-          "type": "arrow",
-          "id": "9UBiPAVY"
-        },
-        {
-          "type": "arrow",
-          "id": "ba5qnlY3"
-        }
-      ],
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "yZ1vaLLk",
-      "type": "text",
-      "x": 1180.0,
-      "y": 229.0,
-      "width": 161.0,
-      "height": 46.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 5216142,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "text": "np.log(df)",
-      "fontSize": 20,
-      "fontFamily": 7,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "ygvDQgjmq1aKohwm",
-      "originalText": "np.log(df)",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "9UBiPAVY",
-      "type": "arrow",
-      "x": 1081.0,
-      "y": 312.0,
-      "width": 89.0,
-      "height": 60.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 2349391,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          89.0,
-          -60.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "oER84kbd7mVrUUZI",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "ygvDQgjmq1aKohwm",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "zXalRUaXsOsQcBs3",
-      "type": "rectangle",
-      "x": 1425.0,
-      "y": 220.0,
-      "width": 347.0,
+      "x": 140.0,
+      "y": 602.5,
+      "width": 220.0,
       "height": 75.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -974,81 +615,87 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 8865299,
+      "seed": 718644,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "5gHO9VXX"
+          "id": "zTkcN7qa"
         },
         {
           "type": "arrow",
-          "id": "ba5qnlY3"
+          "id": "WkJRT4s0"
         },
         {
           "type": "arrow",
-          "id": "5LDgoT5K"
+          "id": "lRRUhWUk"
+        },
+        {
+          "type": "arrow",
+          "id": "lpm7ZAQB"
         }
       ],
-      "updated": 1789187288019,
+      "updated": 1789190075496,
       "link": null,
       "locked": false
     },
     {
-      "id": "5gHO9VXX",
+      "id": "zTkcN7qa",
       "type": "text",
-      "x": 1435.0,
-      "y": 229.0,
-      "width": 327.0,
-      "height": 57.0,
+      "x": 187.0,
+      "y": 617.0,
+      "width": 126.0,
+      "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 3868337,
+      "seed": 4456031,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
-      "text": "Computes the natural logarithm of every price value.",
-      "fontSize": 18,
+      "text": "Log-Returns\nTransformation",
+      "rawText": "Log-Returns Transformation",
+      "fontSize": 20,
       "fontFamily": 7,
-      "textAlign": "left",
+      "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "zXalRUaXsOsQcBs3",
-      "originalText": "Computes the natural logarithm of every price value.",
+      "containerId": "KW8zPqYxbaH46uBN",
+      "originalText": "Log-Returns\nTransformation",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "ba5qnlY3",
+      "id": "WkJRT4s0",
       "type": "arrow",
-      "x": 1351.0,
-      "y": 252.0,
-      "width": 74.0,
-      "height": 5.5,
+      "x": 360.0,
+      "y": 640.0,
+      "width": 200.0,
+      "height": 571.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -1057,12 +704,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 2984461,
+      "seed": 5707250,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075496,
       "link": null,
       "locked": false,
       "points": [
@@ -1071,18 +718,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          74.0,
-          5.5
+          200.0,
+          -571.0
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "ygvDQgjmq1aKohwm",
+        "elementId": "KW8zPqYxbaH46uBN",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "zXalRUaXsOsQcBs3",
+        "elementId": "ookZ1FSuDrDfB8Ae",
         "focus": 0,
         "gap": 1
       },
@@ -1090,11 +737,115 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "W3Vo6ORSoR4B4gZH",
+      "id": "lRRUhWUk",
+      "type": "arrow",
+      "x": 360.0,
+      "y": 640.0,
+      "width": 200.0,
+      "height": 81.125,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 3702021,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075496,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          200.0,
+          -81.125
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "KW8zPqYxbaH46uBN",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "9iINRm3d3rjM3Xbf",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "lpm7ZAQB",
+      "type": "arrow",
+      "x": 360.0,
+      "y": 640.0,
+      "width": 200.0,
+      "height": 571.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 5245072,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075496,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          200.0,
+          571.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "KW8zPqYxbaH46uBN",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "5Iru8VkOg2bW1O22",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "PtQ7ZTa0lDI3kL24",
       "type": "rectangle",
-      "x": 1170.0,
-      "y": 332.0,
-      "width": 181.0,
+      "x": 880.0,
+      "y": 270.75,
+      "width": 200.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1102,39 +853,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 5052396,
+      "seed": 397208,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "seTFwZEr"
+          "id": "85W0NteB"
         },
         {
           "type": "arrow",
-          "id": "iOE28Lfo"
+          "id": "CVZLmgUJ"
         },
         {
           "type": "arrow",
-          "id": "UfJ87HUf"
+          "id": "qgL0sIOK"
+        },
+        {
+          "type": "arrow",
+          "id": "LpMrDYll"
         }
       ],
-      "updated": 1789187288019,
+      "updated": 1789190075496,
       "link": null,
       "locked": false
     },
     {
-      "id": "seTFwZEr",
+      "id": "85W0NteB",
       "type": "text",
-      "x": 1180.0,
-      "y": 341.0,
-      "width": 161.0,
+      "x": 926.0,
+      "y": 279.8,
+      "width": 108.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1142,41 +897,433 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 6278858,
+      "seed": 1155453,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075496,
+      "link": null,
+      "locked": false,
+      "text": "Natural Log\nDifferencing",
+      "rawText": "Natural Log Differencing",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "PtQ7ZTa0lDI3kL24",
+      "originalText": "Natural Log\nDifferencing",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "CVZLmgUJ",
+      "type": "arrow",
+      "x": 741.0,
+      "y": 558.875,
+      "width": 139.0,
+      "height": 256.125,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 1826085,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075496,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          139.0,
+          -256.125
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "9iINRm3d3rjM3Xbf",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "PtQ7ZTa0lDI3kL24",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "hUh3mJgn7khdWM5S",
+      "type": "rectangle",
+      "x": 1200.0,
+      "y": 220.0,
+      "width": 240.0,
+      "height": 64.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1489699,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "frzNAej1"
+        },
+        {
+          "type": "arrow",
+          "id": "qgL0sIOK"
+        },
+        {
+          "type": "arrow",
+          "id": "2t8k24W7"
+        }
+      ],
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "frzNAej1",
+      "type": "text",
+      "x": 1275.0,
+      "y": 240.5,
+      "width": 90.0,
+      "height": 23.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 5138223,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "text": "np.log(df)",
+      "rawText": "np.log(df)",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "hUh3mJgn7khdWM5S",
+      "originalText": "np.log(df)",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "qgL0sIOK",
+      "type": "arrow",
+      "x": 1080.0,
+      "y": 302.75,
+      "width": 120.0,
+      "height": 50.75,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 2813598,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          120.0,
+          -50.75
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "PtQ7ZTa0lDI3kL24",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "hUh3mJgn7khdWM5S",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "axT8q3gSxTM2NBZm",
+      "type": "rectangle",
+      "x": 1560.0,
+      "y": 220.0,
+      "width": 360.0,
+      "height": 64.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 7873713,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "fSOg8WNw"
+        },
+        {
+          "type": "arrow",
+          "id": "2t8k24W7"
+        },
+        {
+          "type": "arrow",
+          "id": "xqsmWage"
+        }
+      ],
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "fSOg8WNw",
+      "type": "text",
+      "x": 1591.5,
+      "y": 229.0,
+      "width": 297.0,
+      "height": 46.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 6863511,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "text": "Computes the natural logarithm of\nevery price value.",
+      "rawText": "Computes the natural logarithm of every price value.",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "axT8q3gSxTM2NBZm",
+      "originalText": "Computes the natural logarithm of\nevery price value.",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "2t8k24W7",
+      "type": "arrow",
+      "x": 1440.0,
+      "y": 252.0,
+      "width": 120.0,
+      "height": 0.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 9248803,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          120.0,
+          0.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "hUh3mJgn7khdWM5S",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "axT8q3gSxTM2NBZm",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "VBgGr5KD5mcyK3gp",
+      "type": "rectangle",
+      "x": 1200.0,
+      "y": 321.5,
+      "width": 240.0,
+      "height": 64.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 336300,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "JXWsNgNT"
+        },
+        {
+          "type": "arrow",
+          "id": "LpMrDYll"
+        },
+        {
+          "type": "arrow",
+          "id": "wD8SWbXe"
+        }
+      ],
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "JXWsNgNT",
+      "type": "text",
+      "x": 1275.0,
+      "y": 342.0,
+      "width": 90.0,
+      "height": 23.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2425651,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
       "link": null,
       "locked": false,
       "text": "df.diff(1)",
+      "rawText": "df.diff(1)",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "W3Vo6ORSoR4B4gZH",
+      "containerId": "VBgGr5KD5mcyK3gp",
       "originalText": "df.diff(1)",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "iOE28Lfo",
+      "id": "LpMrDYll",
       "type": "arrow",
-      "x": 1081.0,
-      "y": 312.0,
-      "width": 89.0,
-      "height": 52.0,
+      "x": 1080.0,
+      "y": 302.75,
+      "width": 120.0,
+      "height": 50.75,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -1185,12 +1332,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 6898704,
+      "seed": 4772657,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075504,
       "link": null,
       "locked": false,
       "points": [
@@ -1199,18 +1346,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          89.0,
-          52.0
+          120.0,
+          50.75
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "oER84kbd7mVrUUZI",
+        "elementId": "PtQ7ZTa0lDI3kL24",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "W3Vo6ORSoR4B4gZH",
+        "elementId": "VBgGr5KD5mcyK3gp",
         "focus": 0,
         "gap": 1
       },
@@ -1218,405 +1365,95 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "bH7izjgu75QgewvQ",
+      "id": "yWZlivUCn1eZNAY5",
       "type": "rectangle",
-      "x": 1425.0,
-      "y": 332.0,
-      "width": 347.0,
-      "height": 88.0,
+      "x": 1560.0,
+      "y": 314.0,
+      "width": 360.0,
+      "height": 79.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2994652,
+      "seed": 235138,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "muff6IHL"
+          "id": "TbBwadJd"
         },
         {
           "type": "arrow",
-          "id": "UfJ87HUf"
+          "id": "wD8SWbXe"
         },
         {
           "type": "arrow",
-          "id": "SGeDQkBd"
+          "id": "Szvuyr6v"
         }
       ],
-      "updated": 1789187288019,
+      "updated": 1789190075504,
       "link": null,
       "locked": false
     },
     {
-      "id": "muff6IHL",
+      "id": "TbBwadJd",
       "type": "text",
-      "x": 1435.0,
-      "y": 341.0,
-      "width": 327.0,
-      "height": 70.0,
+      "x": 1596.0,
+      "y": 319.0,
+      "width": 288.0,
+      "height": 69.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 1955527,
+      "seed": 149183,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075504,
       "link": null,
       "locked": false,
-      "text": "Computes the difference between the current row and the previous row (row[t] - row[t-1])",
-      "fontSize": 18,
-      "fontFamily": 7,
-      "textAlign": "left",
-      "verticalAlign": "middle",
-      "containerId": "bH7izjgu75QgewvQ",
-      "originalText": "Computes the difference between the current row and the previous row (row[t] - row[t-1])",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "UfJ87HUf",
-      "type": "arrow",
-      "x": 1351.0,
-      "y": 364.0,
-      "width": 74.0,
-      "height": 12.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 9029363,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          74.0,
-          12.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "W3Vo6ORSoR4B4gZH",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "bH7izjgu75QgewvQ",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "sKkRUfT4uGwbZ9T1",
-      "type": "rectangle",
-      "x": 1895.0,
-      "y": 260.0,
-      "width": 347.0,
-      "height": 135.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 8892240,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "SJLufNpv"
-        },
-        {
-          "type": "arrow",
-          "id": "5LDgoT5K"
-        },
-        {
-          "type": "arrow",
-          "id": "SGeDQkBd"
-        }
-      ],
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "SJLufNpv",
-      "type": "text",
-      "x": 1905.0,
-      "y": 269.0,
-      "width": 327.0,
-      "height": 117.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 1319029,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "text": "Since log(A / B) = log(A) - log(B), you can take the natural log of all prices first, then take the first difference:\n  log_returns = np.log(prices_df).diff()",
-      "fontSize": 18,
-      "fontFamily": 7,
-      "textAlign": "left",
-      "verticalAlign": "middle",
-      "containerId": "sKkRUfT4uGwbZ9T1",
-      "originalText": "Since log(A / B) = log(A) - log(B), you can take the natural log of all prices first, then take the first difference:\n  log_returns = np.log(prices_df).diff()",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "5LDgoT5K",
-      "type": "arrow",
-      "x": 1772.0,
-      "y": 257.5,
-      "width": 123.0,
-      "height": 70.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 2085624,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          123.0,
-          70.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "zXalRUaXsOsQcBs3",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "sKkRUfT4uGwbZ9T1",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "SGeDQkBd",
-      "type": "arrow",
-      "x": 1772.0,
-      "y": 376.0,
-      "width": 123.0,
-      "height": 48.5,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 3796964,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          123.0,
-          -48.5
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "bH7izjgu75QgewvQ",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "sKkRUfT4uGwbZ9T1",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "7T6Ctw2jbUkIJ2SZ",
-      "type": "rectangle",
-      "x": 900.0,
-      "y": 524.0,
-      "width": 181.0,
-      "height": 64.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 1111527,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "JlWDG8HO"
-        },
-        {
-          "type": "arrow",
-          "id": "a5cMJF63"
-        },
-        {
-          "type": "arrow",
-          "id": "grZPdQiQ"
-        },
-        {
-          "type": "arrow",
-          "id": "luas0Jgt"
-        }
-      ],
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "JlWDG8HO",
-      "type": "text",
-      "x": 910.0,
-      "y": 533.0,
-      "width": 161.0,
-      "height": 46.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 4649269,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "text": "Ratio with Lag Shift",
+      "text": "Computes the difference between\nthe current row and the previous\nrow (row[t] - row[t-1])",
+      "rawText": "Computes the difference between the current row and the previous row (row[t] - row[t-1])",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "7T6Ctw2jbUkIJ2SZ",
-      "originalText": "Ratio with Lag Shift",
+      "containerId": "yWZlivUCn1eZNAY5",
+      "originalText": "Computes the difference between\nthe current row and the previous\nrow (row[t] - row[t-1])",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "a5cMJF63",
+      "id": "wD8SWbXe",
       "type": "arrow",
-      "x": 771.0,
-      "y": 520.0,
-      "width": 129.0,
-      "height": 36.0,
+      "x": 1440.0,
+      "y": 353.5,
+      "width": 120.0,
+      "height": 0.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -1625,12 +1462,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 1566389,
+      "seed": 3152060,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075504,
       "link": null,
       "locked": false,
       "points": [
@@ -1639,18 +1476,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          129.0,
-          36.0
+          120.0,
+          0.0
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "SqMXhT8elZY8iS3H",
+        "elementId": "VBgGr5KD5mcyK3gp",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "7T6Ctw2jbUkIJ2SZ",
+        "elementId": "yWZlivUCn1eZNAY5",
         "focus": 0,
         "gap": 1
       },
@@ -1658,11 +1495,193 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "QECBFvbEtKNLsaBR",
+      "id": "wx0Y29qkWZk2FxeU",
       "type": "rectangle",
-      "x": 1170.0,
-      "y": 464.0,
-      "width": 181.0,
+      "x": 2060.0,
+      "y": 228.75,
+      "width": 380.0,
+      "height": 148.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 9369708,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "Dll0LUBI"
+        },
+        {
+          "type": "arrow",
+          "id": "xqsmWage"
+        },
+        {
+          "type": "arrow",
+          "id": "Szvuyr6v"
+        }
+      ],
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "Dll0LUBI",
+      "type": "text",
+      "x": 2092.5,
+      "y": 233.8,
+      "width": 315.0,
+      "height": 138.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 4179204,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "text": "Since log(A / B) = log(A) - log(B),\nyou can take the natural log of all\nprices first, then take the first\ndifference:\nlog_returns =\nnp.log(prices_df).diff()",
+      "rawText": "Since log(A / B) = log(A) - log(B), you can take the natural log of all prices first, then take the first difference: log_returns = np.log(prices_df).diff()",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "wx0Y29qkWZk2FxeU",
+      "originalText": "Since log(A / B) = log(A) - log(B),\nyou can take the natural log of all\nprices first, then take the first\ndifference:\nlog_returns =\nnp.log(prices_df).diff()",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "xqsmWage",
+      "type": "arrow",
+      "x": 1920.0,
+      "y": 252.0,
+      "width": 140.0,
+      "height": 50.75,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 7578905,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          140.0,
+          50.75
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "axT8q3gSxTM2NBZm",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "wx0Y29qkWZk2FxeU",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "Szvuyr6v",
+      "type": "arrow",
+      "x": 1920.0,
+      "y": 353.5,
+      "width": 140.0,
+      "height": 50.75,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 1885718,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          140.0,
+          -50.75
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "yWZlivUCn1eZNAY5",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "wx0Y29qkWZk2FxeU",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "Cl4QOj65QPuVfNhI",
+      "type": "rectangle",
+      "x": 880.0,
+      "y": 525.0,
+      "width": 200.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1670,39 +1689,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 7867757,
+      "seed": 2010155,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "Fj2gDtSb"
+          "id": "uXFQEmmr"
         },
         {
           "type": "arrow",
-          "id": "grZPdQiQ"
+          "id": "w5noiD2o"
         },
         {
           "type": "arrow",
-          "id": "8e2oWsyO"
+          "id": "9IyXPNjS"
+        },
+        {
+          "type": "arrow",
+          "id": "73pkzyMt"
         }
       ],
-      "updated": 1789187288019,
+      "updated": 1789190075504,
       "link": null,
       "locked": false
     },
     {
-      "id": "Fj2gDtSb",
+      "id": "uXFQEmmr",
       "type": "text",
-      "x": 1180.0,
-      "y": 473.0,
-      "width": 161.0,
+      "x": 917.0,
+      "y": 534.0,
+      "width": 126.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1710,41 +1733,173 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 5023465,
+      "seed": 4379580,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075504,
+      "link": null,
+      "locked": false,
+      "text": "Ratio with Lag\nShift",
+      "rawText": "Ratio with Lag Shift",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "Cl4QOj65QPuVfNhI",
+      "originalText": "Ratio with Lag\nShift",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "w5noiD2o",
+      "type": "arrow",
+      "x": 741.0,
+      "y": 558.875,
+      "width": 139.0,
+      "height": 1.875,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 8913557,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          139.0,
+          -1.875
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "9iINRm3d3rjM3Xbf",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "Cl4QOj65QPuVfNhI",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "4r5HbRTr32Sos9nX",
+      "type": "rectangle",
+      "x": 1200.0,
+      "y": 470.5,
+      "width": 240.0,
+      "height": 64.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 8803328,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "5r3QfUrY"
+        },
+        {
+          "type": "arrow",
+          "id": "9IyXPNjS"
+        },
+        {
+          "type": "arrow",
+          "id": "oKKPOLFJ"
+        }
+      ],
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "5r3QfUrY",
+      "type": "text",
+      "x": 1270.5,
+      "y": 491.0,
+      "width": 99.0,
+      "height": 23.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 4445767,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
       "text": "df.shift(1)",
+      "rawText": "df.shift(1)",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "QECBFvbEtKNLsaBR",
+      "containerId": "4r5HbRTr32Sos9nX",
       "originalText": "df.shift(1)",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "grZPdQiQ",
+      "id": "9IyXPNjS",
       "type": "arrow",
-      "x": 1081.0,
-      "y": 556.0,
-      "width": 89.0,
-      "height": 60.0,
+      "x": 1080.0,
+      "y": 557.0,
+      "width": 120.0,
+      "height": 54.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -1753,12 +1908,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 8327155,
+      "seed": 5820296,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
       "points": [
@@ -1767,18 +1922,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          89.0,
-          -60.0
+          120.0,
+          -54.5
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "7T6Ctw2jbUkIJ2SZ",
+        "elementId": "Cl4QOj65QPuVfNhI",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "QECBFvbEtKNLsaBR",
+        "elementId": "4r5HbRTr32Sos9nX",
         "focus": 0,
         "gap": 1
       },
@@ -1786,221 +1941,95 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "RJRnzyPexugiP4yP",
+      "id": "sJhvlMC2mt3nNwKK",
       "type": "rectangle",
-      "x": 1425.0,
-      "y": 464.0,
-      "width": 347.0,
-      "height": 88.0,
+      "x": 1560.0,
+      "y": 463.0,
+      "width": 360.0,
+      "height": 79.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2204172,
+      "seed": 2550888,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "qZ9k5vhM"
+          "id": "lQapUlLv"
         },
         {
           "type": "arrow",
-          "id": "8e2oWsyO"
+          "id": "oKKPOLFJ"
         },
         {
           "type": "arrow",
-          "id": "tMioVED1"
+          "id": "tLxWniYe"
         }
       ],
-      "updated": 1789187288019,
+      "updated": 1789190075505,
       "link": null,
       "locked": false
     },
     {
-      "id": "qZ9k5vhM",
+      "id": "lQapUlLv",
       "type": "text",
-      "x": 1435.0,
-      "y": 473.0,
-      "width": 327.0,
-      "height": 70.0,
+      "x": 1587.0,
+      "y": 468.0,
+      "width": 306.0,
+      "height": 69.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 168928,
+      "seed": 2271814,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
-      "text": "Moves every row down by 1 position (bringing yesterday's price into today's row).",
-      "fontSize": 18,
-      "fontFamily": 7,
-      "textAlign": "left",
-      "verticalAlign": "middle",
-      "containerId": "RJRnzyPexugiP4yP",
-      "originalText": "Moves every row down by 1 position (bringing yesterday's price into today's row).",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "8e2oWsyO",
-      "type": "arrow",
-      "x": 1351.0,
-      "y": 496.0,
-      "width": 74.0,
-      "height": 12.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 5823593,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          74.0,
-          12.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "QECBFvbEtKNLsaBR",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "RJRnzyPexugiP4yP",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "jtaU75XWgfS0nFpj",
-      "type": "rectangle",
-      "x": 1170.0,
-      "y": 576.0,
-      "width": 181.0,
-      "height": 64.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 7595256,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "QuNNev56"
-        },
-        {
-          "type": "arrow",
-          "id": "luas0Jgt"
-        },
-        {
-          "type": "arrow",
-          "id": "cZZj2T40"
-        }
-      ],
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "QuNNev56",
-      "type": "text",
-      "x": 1180.0,
-      "y": 585.0,
-      "width": 161.0,
-      "height": 46.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 7418135,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "text": "np.log(df / df.shift(1))",
+      "text": "Moves every row down by 1 position\n(bringing yesterday's price into\ntoday's row).",
+      "rawText": "Moves every row down by 1 position (bringing yesterday's price into today's row).",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "jtaU75XWgfS0nFpj",
-      "originalText": "np.log(df / df.shift(1))",
+      "containerId": "sJhvlMC2mt3nNwKK",
+      "originalText": "Moves every row down by 1 position\n(bringing yesterday's price into\ntoday's row).",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "luas0Jgt",
+      "id": "oKKPOLFJ",
       "type": "arrow",
-      "x": 1081.0,
-      "y": 556.0,
-      "width": 89.0,
-      "height": 52.0,
+      "x": 1440.0,
+      "y": 502.5,
+      "width": 120.0,
+      "height": 0.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -2009,12 +2038,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 1060413,
+      "seed": 9417037,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288019,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
       "points": [
@@ -2023,18 +2052,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          89.0,
-          52.0
+          120.0,
+          0.0
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "7T6Ctw2jbUkIJ2SZ",
+        "elementId": "4r5HbRTr32Sos9nX",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "jtaU75XWgfS0nFpj",
+        "elementId": "sJhvlMC2mt3nNwKK",
         "focus": 0,
         "gap": 1
       },
@@ -2042,319 +2071,11 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "QPrb9nwxUulbgKR9",
+      "id": "pHGmQOi2J9y0yrCE",
       "type": "rectangle",
-      "x": 1425.0,
-      "y": 576.0,
-      "width": 347.0,
-      "height": 88.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 802964,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "49VTJ1HG"
-        },
-        {
-          "type": "arrow",
-          "id": "cZZj2T40"
-        },
-        {
-          "type": "arrow",
-          "id": "51MzRjK8"
-        }
-      ],
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "49VTJ1HG",
-      "type": "text",
-      "x": 1435.0,
-      "y": 585.0,
-      "width": 327.0,
-      "height": 70.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 9220645,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "text": "Divides today's price by yesterday's price, then takes the natural log.",
-      "fontSize": 18,
-      "fontFamily": 7,
-      "textAlign": "left",
-      "verticalAlign": "middle",
-      "containerId": "QPrb9nwxUulbgKR9",
-      "originalText": "Divides today's price by yesterday's price, then takes the natural log.",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "cZZj2T40",
-      "type": "arrow",
-      "x": 1351.0,
-      "y": 608.0,
-      "width": 74.0,
-      "height": 12.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 8723787,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          74.0,
-          12.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "jtaU75XWgfS0nFpj",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "QPrb9nwxUulbgKR9",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "XSyQZKO0OIfAwxqE",
-      "type": "rectangle",
-      "x": 1895.0,
-      "y": 504.0,
-      "width": 347.0,
-      "height": 135.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 141408,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "JsUdbxhs"
-        },
-        {
-          "type": "arrow",
-          "id": "tMioVED1"
-        },
-        {
-          "type": "arrow",
-          "id": "51MzRjK8"
-        }
-      ],
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "JsUdbxhs",
-      "type": "text",
-      "x": 1905.0,
-      "y": 513.0,
-      "width": 327.0,
-      "height": 117.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2057708,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288019,
-      "link": null,
-      "locked": false,
-      "text": "Both Option A and Option B yield identical mathematical results. Option A (np.log(df).diff()) is typically preferred because .diff() is optimized in Cython.",
-      "fontSize": 18,
-      "fontFamily": 7,
-      "textAlign": "left",
-      "verticalAlign": "middle",
-      "containerId": "XSyQZKO0OIfAwxqE",
-      "originalText": "Both Option A and Option B yield identical mathematical results. Option A (np.log(df).diff()) is typically preferred because .diff() is optimized in Cython.",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "tMioVED1",
-      "type": "arrow",
-      "x": 1772.0,
-      "y": 508.0,
-      "width": 123.0,
-      "height": 63.5,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 4269679,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          123.0,
-          63.5
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "RJRnzyPexugiP4yP",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "XSyQZKO0OIfAwxqE",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "51MzRjK8",
-      "type": "arrow",
-      "x": 1772.0,
-      "y": 620.0,
-      "width": 123.0,
-      "height": 48.5,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 9335725,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          123.0,
-          -48.5
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "QPrb9nwxUulbgKR9",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "XSyQZKO0OIfAwxqE",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "O5lSfgRXSgmUVdtX",
-      "type": "rectangle",
-      "x": 900.0,
-      "y": 768.0,
-      "width": 181.0,
+      "x": 1200.0,
+      "y": 579.5,
+      "width": 240.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -2362,43 +2083,39 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 3327257,
+      "seed": 4669792,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "YQ9J4Nkc"
+          "id": "JVNFdvJC"
         },
         {
           "type": "arrow",
-          "id": "NpjpcOEs"
+          "id": "73pkzyMt"
         },
         {
           "type": "arrow",
-          "id": "EC1nk54H"
-        },
-        {
-          "type": "arrow",
-          "id": "kfC9TDnj"
+          "id": "YUcpE48v"
         }
       ],
-      "updated": 1789187288020,
+      "updated": 1789190075505,
       "link": null,
       "locked": false
     },
     {
-      "id": "YQ9J4Nkc",
+      "id": "JVNFdvJC",
       "type": "text",
-      "x": 910.0,
-      "y": 777.0,
-      "width": 161.0,
+      "x": 1266.0,
+      "y": 588.5,
+      "width": 108.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -2406,41 +2123,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 443567,
+      "seed": 9948559,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288020,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
-      "text": "From Percentage Change",
+      "text": "np.log(df /\ndf.shift(1))",
+      "rawText": "np.log(df / df.shift(1))",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "O5lSfgRXSgmUVdtX",
-      "originalText": "From Percentage Change",
+      "containerId": "pHGmQOi2J9y0yrCE",
+      "originalText": "np.log(df /\ndf.shift(1))",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "NpjpcOEs",
+      "id": "73pkzyMt",
       "type": "arrow",
-      "x": 771.0,
-      "y": 520.0,
-      "width": 129.0,
-      "height": 280.0,
+      "x": 1080.0,
+      "y": 557.0,
+      "width": 120.0,
+      "height": 54.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -2449,12 +2168,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 3475485,
+      "seed": 7257177,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288020,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
       "points": [
@@ -2463,18 +2182,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          129.0,
-          280.0
+          120.0,
+          54.5
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "SqMXhT8elZY8iS3H",
+        "elementId": "Cl4QOj65QPuVfNhI",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "O5lSfgRXSgmUVdtX",
+        "elementId": "pHGmQOi2J9y0yrCE",
         "focus": 0,
         "gap": 1
       },
@@ -2482,11 +2201,323 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "VlLg5kS0xwAsZif9",
+      "id": "yIGnv0cdA1Ie9vaG",
       "type": "rectangle",
-      "x": 1170.0,
-      "y": 708.0,
-      "width": 181.0,
+      "x": 1560.0,
+      "y": 572.0,
+      "width": 360.0,
+      "height": 79.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 6222421,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "FTUAyUDj"
+        },
+        {
+          "type": "arrow",
+          "id": "YUcpE48v"
+        },
+        {
+          "type": "arrow",
+          "id": "CQ05hWw6"
+        }
+      ],
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "FTUAyUDj",
+      "type": "text",
+      "x": 1591.5,
+      "y": 577.0,
+      "width": 297.0,
+      "height": 69.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 9670927,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "text": "Divides today's price by\nyesterday's price, then takes the\nnatural log.",
+      "rawText": "Divides today's price by yesterday's price, then takes the natural log.",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "yIGnv0cdA1Ie9vaG",
+      "originalText": "Divides today's price by\nyesterday's price, then takes the\nnatural log.",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "YUcpE48v",
+      "type": "arrow",
+      "x": 1440.0,
+      "y": 611.5,
+      "width": 120.0,
+      "height": 0.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 8016320,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          120.0,
+          0.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "pHGmQOi2J9y0yrCE",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "yIGnv0cdA1Ie9vaG",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "cmN3NLKr7jIxzubg",
+      "type": "rectangle",
+      "x": 2060.0,
+      "y": 494.5,
+      "width": 380.0,
+      "height": 125.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2763309,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "iWxtUZcD"
+        },
+        {
+          "type": "arrow",
+          "id": "tLxWniYe"
+        },
+        {
+          "type": "arrow",
+          "id": "CQ05hWw6"
+        }
+      ],
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "iWxtUZcD",
+      "type": "text",
+      "x": 2092.5,
+      "y": 499.5,
+      "width": 315.0,
+      "height": 115.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1955365,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "text": "Both Option A and Option B yield\nidentical mathematical results.\nOption A (np.log(df).diff()) is\ntypically preferred because .diff()\nis optimized in Cython.",
+      "rawText": "Both Option A and Option B yield identical mathematical results. Option A (np.log(df).diff()) is typically preferred because .diff() is optimized in Cython.",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "cmN3NLKr7jIxzubg",
+      "originalText": "Both Option A and Option B yield\nidentical mathematical results.\nOption A (np.log(df).diff()) is\ntypically preferred because .diff()\nis optimized in Cython.",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "tLxWniYe",
+      "type": "arrow",
+      "x": 1920.0,
+      "y": 502.5,
+      "width": 140.0,
+      "height": 54.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 7398504,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          140.0,
+          54.5
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "sJhvlMC2mt3nNwKK",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "cmN3NLKr7jIxzubg",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "CQ05hWw6",
+      "type": "arrow",
+      "x": 1920.0,
+      "y": 611.5,
+      "width": 140.0,
+      "height": 54.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 4687682,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          140.0,
+          -54.5
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "yIGnv0cdA1Ie9vaG",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "cmN3NLKr7jIxzubg",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "mMoJ5E30605nhGT3",
+      "type": "rectangle",
+      "x": 880.0,
+      "y": 783.0,
+      "width": 200.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -2494,39 +2525,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 6010088,
+      "seed": 5869702,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "ES0RvBad"
+          "id": "BV9OUS60"
         },
         {
           "type": "arrow",
-          "id": "EC1nk54H"
+          "id": "TV682pn1"
         },
         {
           "type": "arrow",
-          "id": "sAHM7fQ7"
+          "id": "BRYDg9CD"
+        },
+        {
+          "type": "arrow",
+          "id": "nOLF1Wig"
         }
       ],
-      "updated": 1789187288020,
+      "updated": 1789190075505,
       "link": null,
       "locked": false
     },
     {
-      "id": "ES0RvBad",
+      "id": "BV9OUS60",
       "type": "text",
-      "x": 1180.0,
-      "y": 717.0,
-      "width": 161.0,
+      "x": 912.5,
+      "y": 792.0,
+      "width": 135.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -2534,41 +2569,173 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 852565,
+      "seed": 8828772,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288020,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "text": "From Percentage\nChange",
+      "rawText": "From Percentage Change",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "mMoJ5E30605nhGT3",
+      "originalText": "From Percentage\nChange",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "TV682pn1",
+      "type": "arrow",
+      "x": 741.0,
+      "y": 558.875,
+      "width": 139.0,
+      "height": 256.125,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 5161637,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          139.0,
+          256.125
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "9iINRm3d3rjM3Xbf",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "mMoJ5E30605nhGT3",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "TL400vJCAqSTvzjd",
+      "type": "rectangle",
+      "x": 1200.0,
+      "y": 728.5,
+      "width": 240.0,
+      "height": 64.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 7806775,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "eq66aTig"
+        },
+        {
+          "type": "arrow",
+          "id": "BRYDg9CD"
+        },
+        {
+          "type": "arrow",
+          "id": "ph3OWLB4"
+        }
+      ],
+      "updated": 1789190075505,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "eq66aTig",
+      "type": "text",
+      "x": 1252.5,
+      "y": 749.0,
+      "width": 135.0,
+      "height": 23.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2816143,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
       "text": "df.pct_change()",
+      "rawText": "df.pct_change()",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "VlLg5kS0xwAsZif9",
+      "containerId": "TL400vJCAqSTvzjd",
       "originalText": "df.pct_change()",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "EC1nk54H",
+      "id": "BRYDg9CD",
       "type": "arrow",
-      "x": 1081.0,
-      "y": 800.0,
-      "width": 89.0,
-      "height": 60.0,
+      "x": 1080.0,
+      "y": 815.0,
+      "width": 120.0,
+      "height": 54.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -2577,12 +2744,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 3823567,
+      "seed": 6906168,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288020,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
       "points": [
@@ -2591,18 +2758,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          89.0,
-          -60.0
+          120.0,
+          -54.5
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "O5lSfgRXSgmUVdtX",
+        "elementId": "mMoJ5E30605nhGT3",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "VlLg5kS0xwAsZif9",
+        "elementId": "TL400vJCAqSTvzjd",
         "focus": 0,
         "gap": 1
       },
@@ -2610,597 +2777,91 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "DBffNJJWN7HikZGU",
+      "id": "RnGCx5cua3Iym9CC",
       "type": "rectangle",
-      "x": 1425.0,
-      "y": 708.0,
-      "width": 347.0,
-      "height": 88.0,
+      "x": 1560.0,
+      "y": 721.0,
+      "width": 360.0,
+      "height": 79.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2638650,
+      "seed": 4763423,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "T2iDFjKV"
+          "id": "bPTPLpAJ"
         },
         {
           "type": "arrow",
-          "id": "sAHM7fQ7"
+          "id": "ph3OWLB4"
         }
       ],
-      "updated": 1789187288020,
+      "updated": 1789190075505,
       "link": null,
       "locked": false
     },
     {
-      "id": "T2iDFjKV",
+      "id": "bPTPLpAJ",
       "type": "text",
-      "x": 1435.0,
-      "y": 717.0,
-      "width": 327.0,
-      "height": 70.0,
+      "x": 1591.5,
+      "y": 726.0,
+      "width": 297.0,
+      "height": 69.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 9320663,
+      "seed": 9912365,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288020,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
-      "text": "Calculates simple return R = (Price_today - Price_yesterday) / Price_yesterday.",
-      "fontSize": 18,
-      "fontFamily": 7,
-      "textAlign": "left",
-      "verticalAlign": "middle",
-      "containerId": "DBffNJJWN7HikZGU",
-      "originalText": "Calculates simple return R = (Price_today - Price_yesterday) / Price_yesterday.",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "sAHM7fQ7",
-      "type": "arrow",
-      "x": 1351.0,
-      "y": 740.0,
-      "width": 74.0,
-      "height": 12.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 2842783,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          74.0,
-          12.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "VlLg5kS0xwAsZif9",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "DBffNJJWN7HikZGU",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "zJHVrmuegWXNLq0N",
-      "type": "rectangle",
-      "x": 1170.0,
-      "y": 820.0,
-      "width": 181.0,
-      "height": 64.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 8120004,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "qqrhgjxf"
-        },
-        {
-          "type": "arrow",
-          "id": "kfC9TDnj"
-        },
-        {
-          "type": "arrow",
-          "id": "NQIofqFP"
-        }
-      ],
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "qqrhgjxf",
-      "type": "text",
-      "x": 1180.0,
-      "y": 829.0,
-      "width": 161.0,
-      "height": 46.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2488366,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "text": "np.log1p(simple_returns)",
+      "text": "Calculates simple return R =\n(Price_today - Price_yesterday) /\nPrice_yesterday.",
+      "rawText": "Calculates simple return R = (Price_today - Price_yesterday) / Price_yesterday.",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "zJHVrmuegWXNLq0N",
-      "originalText": "np.log1p(simple_returns)",
+      "containerId": "RnGCx5cua3Iym9CC",
+      "originalText": "Calculates simple return R =\n(Price_today - Price_yesterday) /\nPrice_yesterday.",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "kfC9TDnj",
+      "id": "ph3OWLB4",
       "type": "arrow",
-      "x": 1081.0,
-      "y": 800.0,
-      "width": 89.0,
-      "height": 52.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 2911462,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          89.0,
-          52.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "O5lSfgRXSgmUVdtX",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "zJHVrmuegWXNLq0N",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "L0sQ2unKVSjkf3sX",
-      "type": "rectangle",
-      "x": 1425.0,
-      "y": 820.0,
-      "width": 347.0,
-      "height": 88.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 3765413,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "mh1YuZuP"
-        },
-        {
-          "type": "arrow",
-          "id": "NQIofqFP"
-        }
-      ],
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "mh1YuZuP",
-      "type": "text",
-      "x": 1435.0,
-      "y": 829.0,
-      "width": 327.0,
-      "height": 70.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 5525396,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "text": "Computes log(1 + R) with extra precision for numbers very close to zero.",
-      "fontSize": 18,
-      "fontFamily": 7,
-      "textAlign": "left",
-      "verticalAlign": "middle",
-      "containerId": "L0sQ2unKVSjkf3sX",
-      "originalText": "Computes log(1 + R) with extra precision for numbers very close to zero.",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "NQIofqFP",
-      "type": "arrow",
-      "x": 1351.0,
-      "y": 852.0,
-      "width": 74.0,
-      "height": 12.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 591452,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          74.0,
-          12.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "zJHVrmuegWXNLq0N",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "L0sQ2unKVSjkf3sX",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "mI3LvLkW63JJTssr",
-      "type": "rectangle",
-      "x": 590.0,
-      "y": 1000.0,
-      "width": 181.0,
-      "height": 64.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 918748,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "2B16c5rR"
-        },
-        {
-          "type": "arrow",
-          "id": "hujqfGvH"
-        },
-        {
-          "type": "arrow",
-          "id": "OClky2BH"
-        }
-      ],
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "2B16c5rR",
-      "type": "text",
-      "x": 600.0,
-      "y": 1009.0,
-      "width": 161.0,
-      "height": 46.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 4318095,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288020,
-      "link": null,
-      "locked": false,
-      "text": "Architecture",
-      "fontSize": 20,
-      "fontFamily": 7,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "mI3LvLkW63JJTssr",
-      "originalText": "Architecture",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "hujqfGvH",
-      "type": "arrow",
-      "x": 349.0,
-      "y": 522.0,
-      "width": 241.0,
-      "height": 510.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": {
-        "type": 2
-      },
-      "seed": 3401262,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288021,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0.0
-        ],
-        [
-          241.0,
-          510.0
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "NTotTICaO6fv0xn4",
-        "focus": 0,
-        "gap": 1
-      },
-      "endBinding": {
-        "elementId": "mI3LvLkW63JJTssr",
-        "focus": 0,
-        "gap": 1
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "tsVOx3TGLqxW03aO",
-      "type": "rectangle",
-      "x": 900.0,
-      "y": 1000.0,
-      "width": 181.0,
-      "height": 64.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2401653,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "vrtDMCG9"
-        },
-        {
-          "type": "arrow",
-          "id": "OClky2BH"
-        },
-        {
-          "type": "arrow",
-          "id": "Xofjmbip"
-        }
-      ],
-      "updated": 1789187288021,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "vrtDMCG9",
-      "type": "text",
-      "x": 910.0,
-      "y": 1009.0,
-      "width": 161.0,
-      "height": 46.0,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 7190399,
-      "version": 1,
-      "versionNonce": 1,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1789187288021,
-      "link": null,
-      "locked": false,
-      "text": "Extract Close Prices",
-      "fontSize": 20,
-      "fontFamily": 7,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "tsVOx3TGLqxW03aO",
-      "originalText": "Extract Close Prices",
-      "autoResize": true,
-      "lineHeight": 1.15
-    },
-    {
-      "id": "OClky2BH",
-      "type": "arrow",
-      "x": 771.0,
-      "y": 1032.0,
-      "width": 129.0,
+      "x": 1440.0,
+      "y": 760.5,
+      "width": 120.0,
       "height": 0.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -3209,12 +2870,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 5921023,
+      "seed": 7316593,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075505,
       "link": null,
       "locked": false,
       "points": [
@@ -3223,18 +2884,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          129.0,
+          120.0,
           0.0
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "mI3LvLkW63JJTssr",
+        "elementId": "TL400vJCAqSTvzjd",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "tsVOx3TGLqxW03aO",
+        "elementId": "RnGCx5cua3Iym9CC",
         "focus": 0,
         "gap": 1
       },
@@ -3242,11 +2903,11 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "4vqOM9o6Bdh6TXSe",
+      "id": "hgjoxL3qlQ7iGUuK",
       "type": "rectangle",
-      "x": 1156.0,
-      "y": 1000.0,
-      "width": 181.0,
+      "x": 1200.0,
+      "y": 837.5,
+      "width": 240.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3254,43 +2915,39 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 299669,
+      "seed": 4066668,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "R5WCkWko"
+          "id": "knbaswFU"
         },
         {
           "type": "arrow",
-          "id": "Xofjmbip"
+          "id": "nOLF1Wig"
         },
         {
           "type": "arrow",
-          "id": "Z4kSgcFi"
-        },
-        {
-          "type": "arrow",
-          "id": "lh1SlhU8"
+          "id": "xoDKMw2Q"
         }
       ],
-      "updated": 1789187288021,
+      "updated": 1789190075506,
       "link": null,
       "locked": false
     },
     {
-      "id": "R5WCkWko",
+      "id": "knbaswFU",
       "type": "text",
-      "x": 1166.0,
-      "y": 1009.0,
-      "width": 161.0,
+      "x": 1248.0,
+      "y": 846.5,
+      "width": 144.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3298,41 +2955,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 1571039,
+      "seed": 7296107,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075506,
       "link": null,
       "locked": false,
-      "text": "Assemble Price Matrix",
+      "text": "np.log1p(simple_\nreturns)",
+      "rawText": "np.log1p(simple_ returns)",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "4vqOM9o6Bdh6TXSe",
-      "originalText": "Assemble Price Matrix",
+      "containerId": "hgjoxL3qlQ7iGUuK",
+      "originalText": "np.log1p(simple_\nreturns)",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "Xofjmbip",
+      "id": "nOLF1Wig",
       "type": "arrow",
-      "x": 1081.0,
-      "y": 1032.0,
-      "width": 75.0,
-      "height": 0.0,
+      "x": 1080.0,
+      "y": 815.0,
+      "width": 120.0,
+      "height": 54.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -3341,12 +3000,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 9042006,
+      "seed": 1769815,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075506,
       "link": null,
       "locked": false,
       "points": [
@@ -3355,18 +3014,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          75.0,
-          0.0
+          120.0,
+          54.5
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "tsVOx3TGLqxW03aO",
+        "elementId": "mMoJ5E30605nhGT3",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "4vqOM9o6Bdh6TXSe",
+        "elementId": "hgjoxL3qlQ7iGUuK",
         "focus": 0,
         "gap": 1
       },
@@ -3374,11 +3033,137 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "GUx5SnAZx3LEV0Ao",
+      "id": "2Tvcrd90kcb3VKNb",
       "type": "rectangle",
-      "x": 1412.0,
-      "y": 1000.0,
-      "width": 181.0,
+      "x": 1560.0,
+      "y": 830.0,
+      "width": 360.0,
+      "height": 79.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 9014135,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "aBs1zQ6I"
+        },
+        {
+          "type": "arrow",
+          "id": "xoDKMw2Q"
+        }
+      ],
+      "updated": 1789190075506,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "aBs1zQ6I",
+      "type": "text",
+      "x": 1596.0,
+      "y": 835.0,
+      "width": 288.0,
+      "height": 69.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2524848,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075506,
+      "link": null,
+      "locked": false,
+      "text": "Computes log(1 + R) with extra\nprecision for numbers very close\nto zero.",
+      "rawText": "Computes log(1 + R) with extra precision for numbers very close to zero.",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "2Tvcrd90kcb3VKNb",
+      "originalText": "Computes log(1 + R) with extra\nprecision for numbers very close\nto zero.",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "xoDKMw2Q",
+      "type": "arrow",
+      "x": 1440.0,
+      "y": 869.5,
+      "width": 120.0,
+      "height": 0.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 3788964,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075506,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          120.0,
+          0.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "hgjoxL3qlQ7iGUuK",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "2Tvcrd90kcb3VKNb",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "livMubkSvQAA8R6p",
+      "type": "rectangle",
+      "x": 880.0,
+      "y": 1179.0,
+      "width": 190.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3386,39 +3171,303 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 8742193,
+      "seed": 4518033,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "olLl4H8c"
+          "id": "qnOwJqgt"
         },
         {
           "type": "arrow",
-          "id": "Z4kSgcFi"
+          "id": "64Y479bD"
         },
         {
           "type": "arrow",
-          "id": "RjXDL2j4"
+          "id": "4oOdTXqq"
         }
       ],
-      "updated": 1789187288021,
+      "updated": 1789190075506,
       "link": null,
       "locked": false
     },
     {
-      "id": "olLl4H8c",
+      "id": "qnOwJqgt",
+      "type": "text",
+      "x": 916.5,
+      "y": 1188.0,
+      "width": 117.0,
+      "height": 46.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 5362748,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075506,
+      "link": null,
+      "locked": false,
+      "text": "Extract Close\nPrices",
+      "rawText": "Extract Close Prices",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "livMubkSvQAA8R6p",
+      "originalText": "Extract Close\nPrices",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "64Y479bD",
+      "type": "arrow",
+      "x": 741.0,
+      "y": 1211.0,
+      "width": 139.0,
+      "height": 0.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 8653040,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075506,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          139.0,
+          0.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "5Iru8VkOg2bW1O22",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "livMubkSvQAA8R6p",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "4hKwQ8sFUYSOjhSv",
+      "type": "rectangle",
+      "x": 1135.0,
+      "y": 1179.0,
+      "width": 190.0,
+      "height": 64.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 9573116,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "3VHX0L43"
+        },
+        {
+          "type": "arrow",
+          "id": "4oOdTXqq"
+        },
+        {
+          "type": "arrow",
+          "id": "6avagHC7"
+        },
+        {
+          "type": "arrow",
+          "id": "LQWgKXUy"
+        }
+      ],
+      "updated": 1789190075508,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "3VHX0L43",
+      "type": "text",
+      "x": 1167.0,
+      "y": 1188.0,
+      "width": 126.0,
+      "height": 46.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 4405386,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075508,
+      "link": null,
+      "locked": false,
+      "text": "Assemble Price\nMatrix",
+      "rawText": "Assemble Price Matrix",
+      "fontSize": 20,
+      "fontFamily": 7,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "4hKwQ8sFUYSOjhSv",
+      "originalText": "Assemble Price\nMatrix",
+      "hasTextLink": false,
+      "autoResize": true,
+      "lineHeight": 1.15
+    },
+    {
+      "id": "4oOdTXqq",
+      "type": "arrow",
+      "x": 1070.0,
+      "y": 1211.0,
+      "width": 65.0,
+      "height": 0.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 4,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 6023640,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1789190075508,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          65.0,
+          0.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "livMubkSvQAA8R6p",
+        "focus": 0,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "4hKwQ8sFUYSOjhSv",
+        "focus": 0,
+        "gap": 1
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "hwiJzejX4o5SiKJC",
+      "type": "rectangle",
+      "x": 1390.0,
+      "y": 1179.0,
+      "width": 190.0,
+      "height": 64.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 5520147,
+      "version": 1,
+      "versionNonce": 1,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "40pkQ3H9"
+        },
+        {
+          "type": "arrow",
+          "id": "6avagHC7"
+        },
+        {
+          "type": "arrow",
+          "id": "FffVvF0T"
+        }
+      ],
+      "updated": 1789190075508,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "40pkQ3H9",
       "type": "text",
       "x": 1422.0,
-      "y": 1009.0,
-      "width": 161.0,
+      "y": 1188.0,
+      "width": 126.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3426,41 +3475,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2950777,
+      "seed": 7060622,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075508,
       "link": null,
       "locked": false,
-      "text": "Apply Log Transformation",
+      "text": "Apply Log\nTransformation",
+      "rawText": "Apply Log Transformation",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "GUx5SnAZx3LEV0Ao",
-      "originalText": "Apply Log Transformation",
+      "containerId": "hwiJzejX4o5SiKJC",
+      "originalText": "Apply Log\nTransformation",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "Z4kSgcFi",
+      "id": "6avagHC7",
       "type": "arrow",
-      "x": 1337.0,
-      "y": 1032.0,
-      "width": 75.0,
+      "x": 1325.0,
+      "y": 1211.0,
+      "width": 65.0,
       "height": 0.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -3469,12 +3520,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 3614096,
+      "seed": 9548706,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075510,
       "link": null,
       "locked": false,
       "points": [
@@ -3483,18 +3534,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          75.0,
+          65.0,
           0.0
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "4vqOM9o6Bdh6TXSe",
+        "elementId": "4hKwQ8sFUYSOjhSv",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "GUx5SnAZx3LEV0Ao",
+        "elementId": "hwiJzejX4o5SiKJC",
         "focus": 0,
         "gap": 1
       },
@@ -3502,11 +3553,11 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "kYKrQTew9E91Aly7",
+      "id": "qvSo4DE2gE6przA3",
       "type": "rectangle",
-      "x": 1668.0,
-      "y": 1000.0,
-      "width": 181.0,
+      "x": 1645.0,
+      "y": 1179.0,
+      "width": 190.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3514,35 +3565,35 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 6590502,
+      "seed": 2301750,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "oCvyjJlE"
+          "id": "FIYyZeZj"
         },
         {
           "type": "arrow",
-          "id": "RjXDL2j4"
+          "id": "FffVvF0T"
         }
       ],
-      "updated": 1789187288021,
+      "updated": 1789190075511,
       "link": null,
       "locked": false
     },
     {
-      "id": "oCvyjJlE",
+      "id": "FIYyZeZj",
       "type": "text",
-      "x": 1678.0,
-      "y": 1009.0,
-      "width": 161.0,
+      "x": 1686.0,
+      "y": 1188.0,
+      "width": 108.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3550,41 +3601,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 4676931,
+      "seed": 7966409,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075511,
       "link": null,
       "locked": false,
-      "text": "Clean the Boundary Row",
+      "text": "Clean the\nBoundary Row",
+      "rawText": "Clean the Boundary Row",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "kYKrQTew9E91Aly7",
-      "originalText": "Clean the Boundary Row",
+      "containerId": "qvSo4DE2gE6przA3",
+      "originalText": "Clean the\nBoundary Row",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "RjXDL2j4",
+      "id": "FffVvF0T",
       "type": "arrow",
-      "x": 1593.0,
-      "y": 1032.0,
-      "width": 75.0,
+      "x": 1580.0,
+      "y": 1211.0,
+      "width": 65.0,
       "height": 0.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -3593,12 +3646,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 9508881,
+      "seed": 7398648,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075511,
       "link": null,
       "locked": false,
       "points": [
@@ -3607,18 +3660,18 @@ Combine into a single DataFrame ^HkVTMxhF
           0.0
         ],
         [
-          75.0,
+          65.0,
           0.0
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "GUx5SnAZx3LEV0Ao",
+        "elementId": "hwiJzejX4o5SiKJC",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "kYKrQTew9E91Aly7",
+        "elementId": "qvSo4DE2gE6przA3",
         "focus": 0,
         "gap": 1
       },
@@ -3626,11 +3679,11 @@ Combine into a single DataFrame ^HkVTMxhF
       "endArrowhead": "arrow"
     },
     {
-      "id": "R7bLWD41GP9ol8v5",
+      "id": "8qcM88Lz3gjwAXGt",
       "type": "rectangle",
-      "x": 1156.0,
-      "y": 876.0,
-      "width": 181.0,
+      "x": 1135.0,
+      "y": 1059.0,
+      "width": 190.0,
       "height": 64.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3638,35 +3691,35 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 5569020,
+      "seed": 4354470,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
-          "id": "HkVTMxhF"
+          "id": "lgOeJ5Ei"
         },
         {
           "type": "arrow",
-          "id": "lh1SlhU8"
+          "id": "LQWgKXUy"
         }
       ],
-      "updated": 1789187288021,
+      "updated": 1789190075511,
       "link": null,
       "locked": false
     },
     {
-      "id": "HkVTMxhF",
+      "id": "lgOeJ5Ei",
       "type": "text",
-      "x": 1166.0,
-      "y": 885.0,
-      "width": 161.0,
+      "x": 1158.0,
+      "y": 1068.0,
+      "width": 144.0,
       "height": 46.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3674,41 +3727,43 @@ Combine into a single DataFrame ^HkVTMxhF
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "roughness": 0,
+      "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 7324013,
+      "seed": 3561697,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075511,
       "link": null,
       "locked": false,
-      "text": "Combine into a single DataFrame",
+      "text": "Combine into a\nsingle DataFrame",
+      "rawText": "Combine into a single DataFrame",
       "fontSize": 20,
       "fontFamily": 7,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "R7bLWD41GP9ol8v5",
-      "originalText": "Combine into a single DataFrame",
+      "containerId": "8qcM88Lz3gjwAXGt",
+      "originalText": "Combine into a\nsingle DataFrame",
+      "hasTextLink": false,
       "autoResize": true,
       "lineHeight": 1.15
     },
     {
-      "id": "lh1SlhU8",
+      "id": "LQWgKXUy",
       "type": "arrow",
-      "x": 1246.5,
-      "y": 1000.0,
+      "x": 1230.0,
+      "y": 1179.0,
       "width": 0.0,
-      "height": 60.0,
+      "height": 56.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 4,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -3717,12 +3772,12 @@ Combine into a single DataFrame ^HkVTMxhF
       "roundness": {
         "type": 2
       },
-      "seed": 8109581,
+      "seed": 5900939,
       "version": 1,
       "versionNonce": 1,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1789187288021,
+      "updated": 1789190075511,
       "link": null,
       "locked": false,
       "points": [
@@ -3732,17 +3787,17 @@ Combine into a single DataFrame ^HkVTMxhF
         ],
         [
           0.0,
-          -60.0
+          -56.0
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "4vqOM9o6Bdh6TXSe",
+        "elementId": "4hKwQ8sFUYSOjhSv",
         "focus": 0,
         "gap": 1
       },
       "endBinding": {
-        "elementId": "R7bLWD41GP9ol8v5",
+        "elementId": "8qcM88Lz3gjwAXGt",
         "focus": 0,
         "gap": 1
       },
@@ -3762,7 +3817,7 @@ Combine into a single DataFrame ^HkVTMxhF
     "currentItemOpacity": 100,
     "currentItemFontFamily": 7,
     "currentItemFontSize": 20,
-    "currentItemTextAlign": "left",
+    "currentItemTextAlign": "center",
     "currentItemEndArrowhead": "arrow",
     "gridSize": 20,
     "zoom": {

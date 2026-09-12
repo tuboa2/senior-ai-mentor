@@ -114,16 +114,17 @@ def get_diffusion_model_diagram() -> MindmapExcalidrawBuilder:
                 operations=[
                     MindmapOperation(
                         code="torch.randn_like(x_0)",
-                        explanation="Samples standard normal isotropic Gaussian noise vector epsilon ~ N(0, I)."
+                        explanation="Samples isotropic Gaussian noise vector: eps ~ N(0, I)"
                     ),
                     MindmapOperation(
-                        code="x_t = sqrt(alpha_bar)*x_0 + sqrt(1-alpha_bar)*eps",
-                        explanation="Computes marginal noisy state directly at arbitrary timestep t in O(1)."
+                        code="x_t = q_sample(x_0, t, eps)",
+                        explanation="Computes marginal noisy state at arbitrary timestep t in O(1)."
                     )
                 ],
                 synthesis_callout=(
-                    "Reparameterization property: q(x_t | x_0) = N(x_t; sqrt(alpha_bar_t)*x_0, (1-alpha_bar_t)*I). "
-                    "This eliminates sequential Markov simulation during training, allowing parallel loss evaluation at random timesteps."
+                    "Closed-Form Marginal Property:\n"
+                    "x_t = sqrt(alpha_bar)*x_0 + sqrt(1-alpha_bar)*eps\n"
+                    "Eliminates sequential Markov simulation during training for fast parallel sampling."
                 )
             ),
             MindmapMethod(
@@ -131,17 +132,18 @@ def get_diffusion_model_diagram() -> MindmapExcalidrawBuilder:
                 operations=[
                     MindmapOperation(
                         code="eps_pred = unet(x_t, t)",
-                        explanation="U-Net with cross-attention predicts the exact injected noise vector epsilon."
+                        explanation="U-Net with cross-attention predicts the exact injected noise vector."
                     ),
                     MindmapOperation(
                         code="loss = F.mse_loss(eps_pred, eps)",
-                        explanation="Calculates simplified variational bound loss ||eps - eps_pred||^2."
+                        explanation="Calculates MSE loss between predicted and true injected noise."
                     )
                 ],
                 synthesis_callout=(
-                    "Optimizing MSE on predicted noise matches denoising score matching: "
-                    "nabla_{x_t} log q(x_t) = -eps_theta(x_t, t) / sqrt(1 - alpha_bar_t). "
-                    "The neural network directly learns the score function of data distribution."
+                    "Score-Matching Equivalence:\n"
+                    "Network predicts injected noise vector eps:\n"
+                    "Score = -eps_pred / sqrt(1 - alpha_bar)\n"
+                    "Directly matches gradient of data log-density without tractability bottlenecks."
                 )
             ),
             MindmapMethod(
@@ -149,16 +151,16 @@ def get_diffusion_model_diagram() -> MindmapExcalidrawBuilder:
                 operations=[
                     MindmapOperation(
                         code="scheduler.step(eps_pred, t, x_t)",
-                        explanation="Subtracts estimated noise and injects scaled variance sigma_t * z."
+                        explanation="Subtracts estimated noise and injects scaled Langevin variance."
                     ),
                     MindmapOperation(
                         code="torch.clamp(x_pred, -1.0, 1.0)",
-                        explanation="Restricts reconstructed latent coordinates to valid physical tensor range."
+                        explanation="Restricts reconstructed latent tensors to valid physical bounds."
                     )
                 ],
                 synthesis_callout=(
-                    "DDIM (Denoising Diffusion Implicit Models) enables non-Markovian deterministic sampling trajectories, "
-                    "reducing inference latency from 1,000 steps to 20-50 steps without retraining."
+                    "Fast Deterministic Sampling (DDIM):\n"
+                    "Non-Markovian reverse trajectories reduce sampling from 1,000 steps down to 20-50 steps without any retraining."
                 )
             )
         ],
@@ -208,17 +210,18 @@ def get_transformer_attention_diagram() -> MindmapExcalidrawBuilder:
                 name="Scaled Dot-Product",
                 operations=[
                     MindmapOperation(
-                        code="scores = (Q @ K.mT) / math.sqrt(d_k)",
+                        code="scores = (Q @ K.T) / sqrt(d_k)",
                         explanation="Computes pairwise alignment energy between all query-key token pairs."
                     ),
                     MindmapOperation(
                         code="attn = F.softmax(scores, dim=-1)",
-                        explanation="Normalizes raw compatibility logits across context dimension into probability simplex."
+                        explanation="Normalizes compatibility logits across context tokens into probabilities."
                     )
                 ],
                 synthesis_callout=(
-                    "Since Var(Q·K) = d_k, dividing by sqrt(d_k) preserves unit variance Var(scores) = 1. "
-                    "Without scaling, large dot-product magnitudes push softmax into vanishing gradient saturation regions."
+                    "Variance Normalization Insight:\n"
+                    "Var(Q.K) = d_k grows with dimension.\n"
+                    "Dividing by sqrt(d_k) preserves unit variance, preventing softmax gradient saturation."
                 )
             ),
             MindmapMethod(
@@ -234,8 +237,9 @@ def get_transformer_attention_diagram() -> MindmapExcalidrawBuilder:
                     )
                 ],
                 synthesis_callout=(
-                    "FlashAttention reduces memory complexity from O(N^2) to O(N) by tiling inputs in GPU SRAM "
-                    "and computing softmax running normalizers online without materializing the N x N matrix in HBM."
+                    "FlashAttention Memory Tiling:\n"
+                    "Tiles inputs into fast on-chip SRAM.\n"
+                    "Computes running softmax normalizers online, reducing memory traffic from O(N^2) to O(N)."
                 )
             ),
             MindmapMethod(
@@ -243,13 +247,17 @@ def get_transformer_attention_diagram() -> MindmapExcalidrawBuilder:
                 operations=[
                     MindmapOperation(
                         code="scores.masked_fill_(mask == 0, -1e9)",
-                        explanation="Masks upper-triangular future token positions with negative infinity before softmax."
+                        explanation="Masks future token positions with negative infinity before softmax."
                     ),
                     MindmapOperation(
                         code="out = torch.matmul(attn, V)",
-                        explanation="Computes contextual representations as weighted combinations of Value feature vectors."
+                        explanation="Computes contextual representations as weighted combinations of Values."
                     )
-                ]
+                ],
+                synthesis_callout=(
+                    "Causal Autoregressive Mask:\n"
+                    "Lower-triangular mask ensures position i attends only to past positions j <= i, enabling parallelized training."
+                )
             )
         ],
         pipeline_steps=[
@@ -300,33 +308,35 @@ def get_backpropagation_diagram() -> MindmapExcalidrawBuilder:
                 operations=[
                     MindmapOperation(
                         code="z = torch.matmul(W, a_prev) + b",
-                        explanation="Computes affine linear weighted combination of upstream layer activations."
+                        explanation="Computes affine linear weighted sum of upstream layer activations."
                     ),
                     MindmapOperation(
                         code="a = torch.relu(z)",
-                        explanation="Applies non-linear activation gate producing layer output representations."
+                        explanation="Applies non-linear activation gate producing layer representations."
                     )
                 ],
                 synthesis_callout=(
-                    "In the forward pass, intermediate tensors a_prev and z must be retained in memory (activation caching) "
-                    "because they are required to compute parameter gradients during the backward pass."
+                    "Activation Caching Requirement:\n"
+                    "Intermediate tensors a_prev and z must be retained in memory during forward pass "
+                    "to compute gradients during backward pass."
                 )
             ),
             MindmapMethod(
                 name="Reverse Adjoint Chain Rule",
                 operations=[
                     MindmapOperation(
-                        code="delta = torch.matmul(W_next.T, delta_next) * relu_prime(z)",
-                        explanation="Computes upstream error vector delta via transposed downstream weights and local derivative."
+                        code="delta = W_next.T @ delta_next * relu'(z)",
+                        explanation="Propagates adjoint error vector delta upstream via transposed weights and local derivative."
                     ),
                     MindmapOperation(
                         code="grad_W = torch.outer(delta, a_prev)",
-                        explanation="Calculates exact parameter gradient as outer product of error and activations."
+                        explanation="Calculates exact weight gradient as outer product of error and activations."
                     )
                 ],
                 synthesis_callout=(
-                    "Multivariable chain rule: partial L / partial W^[l] = delta^[l] (a^[l-1])^T. "
-                    "Adjoint error vectors propagate perturbation signals backward in reverse topological order in O(1) pass."
+                    "Reverse-Mode Auto-Differentiation:\n"
+                    "Chain Rule: dL/dW = delta * (a_prev)^T\n"
+                    "Adjoint error vectors propagate perturbation backward in reverse topological order in O(1) pass."
                 )
             ),
             MindmapMethod(
@@ -338,9 +348,14 @@ def get_backpropagation_diagram() -> MindmapExcalidrawBuilder:
                     ),
                     MindmapOperation(
                         code="optimizer.zero_grad(set_to_none=True)",
-                        explanation="Frees accumulated gradient buffers to prevent gradient leakage across training iterations."
+                        explanation="Frees accumulated gradient buffers to prevent gradient leakage across training steps."
                     )
-                ]
+                ],
+                synthesis_callout=(
+                    "Numerical Stability in Deep Nets:\n"
+                    "Gradient clipping bounds parameter updates.\n"
+                    "AMP dynamic loss scaling avoids FP16 underflow to zero on subtle weight adjustments."
+                )
             )
         ],
         pipeline_steps=[
@@ -395,8 +410,9 @@ def get_rag_architecture_diagram() -> MindmapExcalidrawBuilder:
                     )
                 ],
                 synthesis_callout=(
-                    "Dense cosine similarity captures semantic intent and synonymy that lexical keyword matching misses: "
-                    "sim(q, d) = (e_q · e_d) / (||e_q|| ||e_d||)."
+                    "Dense Cosine Metric:\n"
+                    "sim(q, d) = (e_q . e_d) / (|e_q| * |e_d|)\n"
+                    "Captures latent semantic concepts and synonyms that literal keyword matching misses."
                 )
             ),
             MindmapMethod(
@@ -412,8 +428,9 @@ def get_rag_architecture_diagram() -> MindmapExcalidrawBuilder:
                     )
                 ],
                 synthesis_callout=(
-                    "Hybrid Retrieval combines dense cosine similarity with BM25 keyword matching via Reciprocal Rank Fusion (RRF), "
-                    "preventing hallucinations on acronyms, IDs, and domain-specific terminology."
+                    "Hybrid Retrieval via RRF:\n"
+                    "Combines dense semantic vectors with BM25 keyword matching via Reciprocal Rank Fusion, "
+                    "preventing hallucination on acronyms and IDs."
                 )
             ),
             MindmapMethod(
@@ -427,7 +444,12 @@ def get_rag_architecture_diagram() -> MindmapExcalidrawBuilder:
                         code="assemble_prompt(top_k_docs, query)",
                         explanation="Constructs structured context window with citation bounds for generation."
                     )
-                ]
+                ],
+                synthesis_callout=(
+                    "Two-Stage Retrieval Pipeline:\n"
+                    "Stage 1: Bi-encoder + HNSW vector index retrieves candidates in under 10ms.\n"
+                    "Stage 2: Cross-encoder reranks top results for maximum factual precision."
+                )
             )
         ],
         pipeline_steps=[
